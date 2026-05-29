@@ -15,14 +15,14 @@ import { getNotebookLaunchLinks } from '../config.js'
 function extractToc(html) {
   const temp = document.createElement('div')
   temp.innerHTML = html
-  const headings = temp.querySelectorAll('h2, h3')
+  const headings = temp.querySelectorAll('h2')
   const toc = []
   headings.forEach((h) => {
     const clone = h.cloneNode(true)
     clone.querySelectorAll('.anchor-link').forEach((link) => link.remove())
     const text = clone.textContent.trim()
     if (!text) return
-    toc.push({ id: h.id, text, level: h.tagName === 'H2' ? 2 : 3 })
+    toc.push({ id: h.id, text, level: 2 })
   })
   return toc
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { flushSync } from 'react-dom'
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { PanelLeftOpen } from 'lucide-react'
 import Sidebar from './components/Sidebar.jsx'
 import NotebookViewer from './components/NotebookViewer.jsx'
 import NotesPanel from './components/NotesPanel.jsx'
@@ -451,18 +451,16 @@ function AppContent() {
 
   return (
     <div className="h-screen flex overflow-hidden bg-[var(--bg-app)] text-[var(--text-body)] font-sans antialiased">
-      <button
-        onClick={() => setSidebarOpen((open) => !open)}
-        className="sidebar-toggle-btn"
-        aria-label={sidebarOpen
-          ? (lang === 'zh' ? '收起左侧栏' : 'Collapse sidebar')
-          : (lang === 'zh' ? '展开左侧栏' : 'Expand sidebar')}
-        title={sidebarOpen
-          ? (lang === 'zh' ? '收起左侧栏' : 'Collapse sidebar')
-          : (lang === 'zh' ? '展开左侧栏' : 'Expand sidebar')}
-      >
-        {sidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
-      </button>
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="sidebar-toggle-btn"
+          aria-label={lang === 'zh' ? '展开左侧栏' : 'Expand sidebar'}
+          title={lang === 'zh' ? '展开左侧栏' : 'Expand sidebar'}
+        >
+          <PanelLeftOpen className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Sidebar overlay for mobile */}
       {sidebarOpen && (

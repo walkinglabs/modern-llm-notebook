@@ -1064,6 +1064,8 @@
 .toc-sticky {
   position: sticky;
   top: 32px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
   padding: 18px 0;
 }
 
