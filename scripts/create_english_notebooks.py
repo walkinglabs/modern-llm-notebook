@@ -356,7 +356,7 @@ LESSONS = {
         ],
         "checklist": ["Decoder-only GPT predicts the next token.", "Causal masking prevents future-token leakage.", "The lm_head maps hidden states to vocabulary logits."],
     },
-    "06-gpt2-to-modern-models": {
+    "09-gpt2-to-modern-models": {
         "title": "From GPT-2 to Modern Models: RMSNorm, SwiGLU, RoPE, Pre-Norm",
         "previous": "Mini-GPT gave us a working decoder. Modern models refine the same skeleton for stability and efficiency.",
         "goal": "Implement common LLaMA-style refinements and see what problem each one solves.",
@@ -368,7 +368,7 @@ LESSONS = {
         ],
         "checklist": ["RMSNorm controls scale.", "SwiGLU adds a gate to the feed-forward path.", "RoPE injects position into attention through rotations."],
     },
-    "07-moe": {
+    "10-moe": {
         "title": "Mixture of Experts: Routing Tokens to Specialists",
         "previous": "Part 06 improved the dense Transformer block. MoE changes the feed-forward part so not every token uses the same expert.",
         "goal": "Implement a small MoE layer, top-k routing, and load-balancing intuition.",
@@ -392,7 +392,7 @@ LESSONS = {
         ],
         "checklist": ["BERT uses bidirectional attention.", "MLM trains the model to recover masked tokens.", "Encoder outputs are useful for understanding and classification tasks."],
     },
-    "09-training-loss": {
+    "11-training-loss": {
         "title": "Training and Loss: How Prediction Becomes Learning",
         "previous": "Earlier parts built model components. Now we need to make parameters improve from data.",
         "goal": "Hand-calculate Cross-Entropy, build a training loop, and inspect loss, gradients, batching, and accumulation.",
@@ -404,7 +404,7 @@ LESSONS = {
         ],
         "checklist": ["Cross-Entropy rewards high probability on the correct next token.", "Backpropagation computes gradients.", "The optimizer updates parameters to reduce loss over many batches."],
     },
-    "10-scaling-laws": {
+    "12-scaling-laws": {
         "title": "Scaling Laws: Parameters, Data, and Compute",
         "previous": "Part 09 showed how a model learns from loss. Scaling laws ask how model size, data size, and compute interact.",
         "goal": "Estimate compute, compare Kaplan and Chinchilla intuitions, and understand why more parameters are not always the best use of budget.",
@@ -416,7 +416,7 @@ LESSONS = {
         ],
         "checklist": ["Training compute depends heavily on parameters and token count.", "Compute-optimal training balances model size and data.", "Scaling laws guide planning but do not replace experiments."],
     },
-    "11-data-engineering": {
+    "13-data-engineering": {
         "title": "Data Engineering: Cleaning the Fuel for Training",
         "previous": "Scaling laws showed data volume matters. This part asks what makes data usable.",
         "goal": "Understand extraction, language filtering, quality filtering, deduplication, and data mixing.",
@@ -428,7 +428,7 @@ LESSONS = {
         ],
         "checklist": ["Data quality affects model behavior.", "Filtering and deduplication are core training infrastructure.", "Data mixing controls what the model sees often."],
     },
-    "12-lora": {
+    "14-lora": {
         "title": "LoRA: Low-Rank Adaptation",
         "previous": "We have a trainable model, but full fine-tuning can be expensive.",
         "goal": "Implement LoRA, understand low-rank updates, and see how adapters can be merged for inference.",
@@ -440,7 +440,7 @@ LESSONS = {
         ],
         "checklist": ["LoRA freezes the base weight and learns a low-rank update.", "A and B are much smaller than a full update matrix.", "LoRA can often be merged into the base model for inference."],
     },
-    "13-midtraining-cpt": {
+    "15-midtraining-cpt": {
         "title": "Mid-Training and Continued Pretraining",
         "previous": "LoRA adapts a model with small trainable modules. Continued pretraining adapts by training on more domain text.",
         "goal": "Understand CPT, domain adaptation, data mixing, and how loss curves reveal learning or forgetting.",
@@ -452,7 +452,7 @@ LESSONS = {
         ],
         "checklist": ["CPT adapts a pretrained model to a domain.", "Data mixing controls specialization versus forgetting.", "Loss curves are diagnostic signals, not just scores."],
     },
-    "14-rlhf-alignment": {
+    "16-rlhf-alignment": {
         "title": "RLHF Alignment: Turning Preferences Into Objectives",
         "previous": "Training predicts tokens, but useful assistants must optimize for helpful behavior.",
         "goal": "Understand Reward Models, Bradley-Terry preference loss, PPO clipping, KL penalty, and DPO intuition.",
@@ -464,7 +464,7 @@ LESSONS = {
         ],
         "checklist": ["RLHF uses preference data.", "Reward models score responses.", "PPO and DPO are two ways to move a model toward preferred behavior."],
     },
-    "15-generation": {
+    "17-generation": {
         "title": "Generation: From Logits to Text",
         "previous": "Mini-GPT outputs logits. Generation decides how to choose the next token from those logits.",
         "goal": "Compare greedy decoding, temperature sampling, top-k, top-p, and beam search.",
@@ -476,7 +476,7 @@ LESSONS = {
         ],
         "checklist": ["Decoding turns logits into token choices.", "Temperature controls randomness.", "Top-k, top-p, and beam search trade diversity, quality, and compute."],
     },
-    "16-inference-acceleration": {
+    "18-inference-acceleration": {
         "title": "Inference Acceleration: KV Cache and Serving Constraints",
         "previous": "Generation chooses tokens one by one. Now we ask why that loop is slow and how systems speed it up.",
         "goal": "Understand KV Cache, attention cost, batching, quantization, FlashAttention, and PagedAttention intuition.",
@@ -488,7 +488,7 @@ LESSONS = {
         ],
         "checklist": ["KV Cache avoids recomputing past keys and values.", "Inference speed is limited by both compute and memory.", "Serving systems optimize batching, memory layout, and attention kernels."],
     },
-    "17-speculative-decoding": {
+    "19-speculative-decoding": {
         "title": "Speculative Decoding: Let a Small Model Help a Large Model",
         "previous": "KV Cache speeds a single model. Speculative decoding uses a second model to reduce expensive target-model steps.",
         "goal": "Implement draft-then-verify acceptance and understand why the output distribution can remain correct.",
@@ -500,7 +500,7 @@ LESSONS = {
         ],
         "checklist": ["Draft model proposes tokens.", "Target model verifies them.", "Accepted drafts reduce the number of expensive target-model steps."],
     },
-    "18-long-context": {
+    "20-long-context": {
         "title": "Long Context: Extending the Window",
         "previous": "Basic inference assumes a limited context window. Modern applications often need much longer inputs.",
         "goal": "Study RoPE frequency behavior, position interpolation, NTK-aware scaling, YaRN intuition, and needle-in-haystack tests.",
@@ -512,7 +512,7 @@ LESSONS = {
         ],
         "checklist": ["Long context stresses both compute and position encoding.", "RoPE scaling changes how positions are represented.", "Retrieval tests reveal whether long context is actually usable."],
     },
-    "19-cot-thinking": {
+    "21-cot-thinking": {
         "title": "CoT and Thinking: Reasoning Traces as Training Signals",
         "previous": "The model can generate text. Now we look at why intermediate reasoning traces can change answers.",
         "goal": "Understand Chain-of-Thought, Self-Consistency, thinking tags, cold-start data, and reward design.",
@@ -524,7 +524,7 @@ LESSONS = {
         ],
         "checklist": ["CoT gives the model intermediate reasoning space.", "Self-Consistency uses multiple sampled paths.", "Thinking behavior depends on data, rewards, and formatting."],
     },
-    "20-vlm": {
+    "22-vlm": {
         "title": "Vision-Language Models: Connecting Images to Text",
         "previous": "Text-only models read token sequences. VLMs add visual information to the same language-model pipeline.",
         "goal": "Understand patch embeddings, vision encoders, projectors, Cross-Attention, and Flamingo-style gated fusion.",
@@ -536,7 +536,7 @@ LESSONS = {
         ],
         "checklist": ["Images become patch or vision features.", "A projector aligns visual features with the LLM hidden size.", "Cross-Attention lets language tokens read visual information."],
     },
-    "21-evaluation": {
+    "23-evaluation": {
         "title": "Evaluation: Measuring Model Behavior",
         "previous": "Once a model can train and generate, we need evidence that it is actually better.",
         "goal": "Build small evaluation examples and understand accuracy, LLM-as-Judge, win rates, radar charts, and RAGAS-style metrics.",
@@ -548,7 +548,7 @@ LESSONS = {
         ],
         "checklist": ["Evaluation must match the behavior you care about.", "LLM-as-Judge needs careful prompts and calibration.", "Pairwise and composite metrics reveal different model trade-offs."],
     },
-    "22-distillation": {
+    "24-distillation": {
         "title": "Distillation: Moving Knowledge Into a Smaller Model",
         "previous": "Evaluation tells us what a model can do. Distillation asks how to transfer ability into a cheaper model.",
         "goal": "Understand hard labels, soft labels, temperature, logit distillation, data distillation, and feature distillation.",
@@ -560,7 +560,7 @@ LESSONS = {
         ],
         "checklist": ["Distillation trains a student from a teacher.", "Soft labels carry dark knowledge.", "Temperature changes how much distribution detail the student sees."],
     },
-    "23-opd": {
+    "25-opd": {
         "title": "On-Policy Distillation",
         "previous": "Standard distillation often trains on teacher or dataset distributions. OPD focuses on the student's own generated distribution.",
         "goal": "Understand exposure bias, Forward/Reverse KL, k1/k2/k3 estimators, OPSD, and the paper taxonomy.",

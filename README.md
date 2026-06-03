@@ -243,12 +243,12 @@ Modern LLM Notebook
 │   ├── BPE tokenizer
 │   ├── Embedding and position encoding
 │   ├── Attention and Transformer block
-│   └── Mini-GPT
+│   ├── Mini-GPT
+│   └── BERT encoder
 │
 ├── Part 2: Training
 │   ├── From GPT-2 to modern models
 │   ├── Mixture of Experts
-│   ├── BERT encoder
 │   ├── Training and loss
 │   ├── Scaling laws
 │   ├── Data engineering
@@ -287,44 +287,44 @@ topic without depending on hidden runtime state from earlier notebooks.
 | 04 | [Position Encoding](notebooks-en/part1-foundation/04-position-encoding.ipynb) | How does the model know word order? | Sinusoidal encoding, input assembly |
 | 05 | [Attention & Transformer Block](notebooks-en/part1-foundation/05-transformer-block.ipynb) | How does attention move information? | MHA, residuals, normalization |
 | 06 | [Mini-GPT](notebooks-en/part1-foundation/06-mini-gpt.ipynb) | How does a GPT-style model fit together? | Decoder-only model, LM head |
+| 08 | [BERT Encoder](notebooks-en/part1-foundation/08-bert-encoder.ipynb) | Why can encoder-only models read bidirectionally? | MiniBERT, MLM head |
 
 ### Part 2: Training
 
 | # | Notebook | Primary question | Implementation focus |
 |:---:|:---|:---|:---|
-| 06 | [From GPT-2 to Modern Models](notebooks-en/part2-training/06-gpt2-to-modern-models.ipynb) | What changed architecturally after GPT-2? | RMSNorm, SwiGLU, RoPE, GQA, QK-Norm, MLA |
-| 07 | [Mixture of Experts](notebooks-en/part2-training/07-moe.ipynb) | How does sparse expert routing work? | Router gate, top-k experts, aux-free load balancing |
-| 08 | [BERT Encoder](notebooks-en/part2-training/08-bert-encoder.ipynb) | Why can encoder-only models read bidirectionally? | MiniBERT, MLM head |
-| 09 | [Training & Loss](notebooks-en/part2-training/09-training-loss.ipynb) | How does a language model learn from prediction errors? | Training loop, loss, gradients, Multi-Token Prediction |
-| 10 | [Scaling Laws](notebooks-en/part2-training/10-scaling-laws.ipynb) | How do model size, data, and compute trade off? | FLOPs estimates, Chinchilla intuition |
-| 11 | [Data Engineering](notebooks-en/part2-training/11-data-engineering.ipynb) | Why does data quality dominate model behavior? | Cleaning, filtering, MinHash, FIM |
-| 12 | [LoRA](notebooks-en/part2-training/12-lora.ipynb) | Why does low-rank adaptation work? | `LoraLinear`, merge for inference |
-| 13 | [Mid-Training & CPT](notebooks-en/part2-training/13-midtraining-cpt.ipynb) | How does continued pretraining adapt a model? | Data mixing, loss observation |
-| 14 | [RLHF Alignment](notebooks-en/part2-training/14-rlhf-alignment.ipynb) | How do preference signals become objectives? | Reward model, PPO, DPO |
+| 09 | [From GPT-2 to Modern Models](notebooks-en/part2-training/09-gpt2-to-modern-models.ipynb) | What changed architecturally after GPT-2? | RMSNorm, SwiGLU, RoPE, GQA, QK-Norm, MLA |
+| 10 | [Mixture of Experts](notebooks-en/part2-training/10-moe.ipynb) | How does sparse expert routing work? | Router gate, top-k experts, aux-free load balancing |
+| 11 | [Training & Loss](notebooks-en/part2-training/11-training-loss.ipynb) | How does a language model learn from prediction errors? | Training loop, loss, gradients, Multi-Token Prediction |
+| 12 | [Scaling Laws](notebooks-en/part2-training/12-scaling-laws.ipynb) | How do model size, data, and compute trade off? | FLOPs estimates, Chinchilla intuition |
+| 13 | [Data Engineering](notebooks-en/part2-training/13-data-engineering.ipynb) | Why does data quality dominate model behavior? | Cleaning, filtering, MinHash, FIM |
+| 14 | [LoRA](notebooks-en/part2-training/14-lora.ipynb) | Why does low-rank adaptation work? | `LoraLinear`, merge for inference |
+| 15 | [Mid-Training & CPT](notebooks-en/part2-training/15-midtraining-cpt.ipynb) | How does continued pretraining adapt a model? | Data mixing, loss observation |
+| 16 | [RLHF Alignment](notebooks-en/part2-training/16-rlhf-alignment.ipynb) | How do preference signals become objectives? | Reward model, PPO, DPO |
 
 ### Part 3: Inference
 
 | # | Notebook | Primary question | Implementation focus |
 |:---:|:---|:---|:---|
-| 15 | [Generation](notebooks-en/part3-inference/15-generation.ipynb) | How do decoding strategies change model behavior? | Greedy, top-k, top-p, beam search |
-| 16 | [Inference Acceleration](notebooks-en/part3-inference/16-inference-acceleration.ipynb) | Why is generation memory-bound? | KV Cache, FlashAttention, PagedAttention |
-| 17 | [Speculative Decoding](notebooks-en/part3-inference/17-speculative-decoding.ipynb) | How can a small model accelerate a large one? | Draft-then-verify acceptance |
+| 17 | [Generation](notebooks-en/part3-inference/17-generation.ipynb) | How do decoding strategies change model behavior? | Greedy, top-k, top-p, beam search |
+| 18 | [Inference Acceleration](notebooks-en/part3-inference/18-inference-acceleration.ipynb) | Why is generation memory-bound? | KV Cache, FlashAttention, PagedAttention |
+| 19 | [Speculative Decoding](notebooks-en/part3-inference/19-speculative-decoding.ipynb) | How can a small model accelerate a large one? | Draft-then-verify acceptance |
 
 ### Part 4: Frontiers
 
 | # | Notebook | Primary question | Implementation focus |
 |:---:|:---|:---|:---|
-| 18 | [Long Context](notebooks-en/part4-frontiers/18-long-context.ipynb) | How do models extend beyond their training context length? | RoPE extrapolation, YaRN, Sliding Window Attention |
-| 19 | [CoT & Thinking](notebooks-en/part4-frontiers/19-cot-thinking.ipynb) | Why can reasoning traces improve answers? | Self-Consistency, reward design |
-| 20 | [Vision-Language Models](notebooks-en/part4-frontiers/20-vlm.ipynb) | How does visual information enter a language model? | Patch embedding, cross-attention |
+| 20 | [Long Context](notebooks-en/part4-frontiers/20-long-context.ipynb) | How do models extend beyond their training context length? | RoPE extrapolation, YaRN, Sliding Window Attention |
+| 21 | [CoT & Thinking](notebooks-en/part4-frontiers/21-cot-thinking.ipynb) | Why can reasoning traces improve answers? | Self-Consistency, reward design |
+| 22 | [Vision-Language Models](notebooks-en/part4-frontiers/22-vlm.ipynb) | How does visual information enter a language model? | Patch embedding, cross-attention |
 
 ### Part 5: Production
 
 | # | Notebook | Primary question | Implementation focus |
 |:---:|:---|:---|:---|
-| 21 | [Evaluation](notebooks-en/part5-production/21-evaluation.ipynb) | How do we tell whether a model is better? | Win-rate matrices, RAGAS, judge metrics |
-| 22 | [Distillation](notebooks-en/part5-production/22-distillation.ipynb) | How does a small model learn from a large one? | Soft labels, temperature, logit distillation |
-| 23 | [On-Policy Distillation](notebooks-en/part5-production/23-opd.ipynb) | How can distillation reduce exposure bias? | OPSD, KL estimator taxonomy |
+| 23 | [Evaluation](notebooks-en/part5-production/23-evaluation.ipynb) | How do we tell whether a model is better? | Win-rate matrices, RAGAS, judge metrics |
+| 24 | [Distillation](notebooks-en/part5-production/24-distillation.ipynb) | How does a small model learn from a large one? | Soft labels, temperature, logit distillation |
+| 25 | [On-Policy Distillation](notebooks-en/part5-production/25-opd.ipynb) | How can distillation reduce exposure bias? | OPSD, KL estimator taxonomy |
 
 ## Quality Bar
 

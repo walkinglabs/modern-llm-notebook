@@ -10,7 +10,7 @@ This script:
 
 Usage:
   python scripts/execute_notebooks_en.py
-  python scripts/execute_notebooks_en.py --only part2-training/09-training-loss.ipynb
+  python scripts/execute_notebooks_en.py --only part2-training/11-training-loss.ipynb
   python scripts/execute_notebooks_en.py --timeout 1200
 """
 

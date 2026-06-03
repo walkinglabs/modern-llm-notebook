@@ -24,7 +24,7 @@ Limitations:
 
 Usage:
   python scripts/execute_notebooks_en_no_kernel.py
-  python scripts/execute_notebooks_en_no_kernel.py --only part4-frontiers/20-vlm.ipynb
+  python scripts/execute_notebooks_en_no_kernel.py --only part4-frontiers/22-vlm.ipynb
 """
 
 from __future__ import annotations
