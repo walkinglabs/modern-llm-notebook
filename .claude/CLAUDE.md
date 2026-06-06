@@ -12,9 +12,10 @@ You are an AI assistant embedded in this project. When asked to create or edit a
 ### Structure
 1. Start with `# 中文标题`
 2. Opening blockquote: natural prose, not labeled headers. First paragraph connects to previous content ("我们已经知道..."), second paragraph states what this section covers ("这一节，我们从零开始实现...")
-3. Follow the **intuition -> hand calculation -> code -> experiment** loop
-4. End with `## 小结` checklist (use `- [ ]` markdown checklist format)
-5. End with `## 作业`
+3. **Body paragraph(s) after blockquote**: do NOT repeat what the blockquote already said. Define core concepts, give concrete examples, introduce different approaches — move forward, don't echo. This cell comes BEFORE imports.
+4. Follow the **intuition -> hand calculation -> code -> experiment** loop
+5. End with `## 小结` checklist (use `- [ ]` markdown checklist format)
+6. End with `## 作业`
 
 ### Section Titles
 - Use conceptual descriptions, NOT task instructions: "字符级 Tokenizer" not "实现字符级切分"
@@ -23,7 +24,7 @@ You are an AI assistant embedded in this project. When asked to create or edit a
 - Supplementary content uses bold intro (**附录：special token**), not a section header
 
 ### Code
-- First cell: imports only (`import torch`, etc.) + seed
+- Imports and seed setup appear near where they're actually used, not all at the top
 - Use small concrete examples (vocab_size=20, not 50000)
 - Every code cell produces visible output
 - Keep code cells short and focused — no bloated demo functions
@@ -67,12 +68,12 @@ Write like the Japanese textbook "从零开始制作深度学习" (斎藤康毅)
 ## Notebook Template
 
 ```
-Cell 0 (markdown): Title + blockquote opening (natural prose)
-Cell 1 (code): imports + seed
-Cell 2 (code): brief real-world demo (optional)
+Cell 0 (markdown): Title + blockquote opening (natural prose, preview only)
+Cell 1 (markdown): Body intro — define concepts, give examples, build motivation. Do NOT repeat the blockquote.
+Cell 2 (code): first concept demo — imports appear near where needed
 Cell 3 (markdown): ## 本节要点 (questions only, no answers)
 Cell 4 (markdown): ## 1. Concept Title
-Cell 5 (code): implementation
+Cell 5 (code): implementation with imports as needed
 Cell 6 (markdown): ### Problems / Next step
 ...
 Cell N (markdown): ## 小结 (checklist)
