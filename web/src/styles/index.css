@@ -657,10 +657,13 @@
 .code-copy-button.copied .code-copy-icon-check { opacity: 1; transform: scale(1); }
 
 .code_cell .input_area {
+  max-width: 100%;
   margin: 0 !important;
   padding: 22px 24px 24px 38px !important;
   border: 0 !important;
   border-radius: 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
   background:
     linear-gradient(90deg, #252526 0 28px, #32363f 28px, #32363f 29px, transparent 29px),
     #1e1e1e !important;
@@ -680,7 +683,19 @@
   line-height: 1.72 !important;
 }
 
-.code_cell .input_area.code-preview { max-height: calc(28 * 1.72 * 13.4px + 46px); overflow: hidden; }
+.code_cell .input_area .highlight,
+.code_cell .input_area pre {
+  width: max-content;
+  min-width: 100%;
+}
+
+.code_cell .input_area pre {
+  white-space: pre;
+}
+
+.code_cell .input_area.code-preview {
+  max-height: calc(28 * 1.72 * 13.4px + 46px);
+}
 
 .code-expand-toggle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .code-expand-label {
