@@ -96,7 +96,6 @@
 - 不要在一个 cell 里塞太多逻辑
 - 不要在 markdown 里贴大段代码
 - 不要用英文写 markdown（本教程中文受众）
-- 不要引入不必要的依赖（所有实现只用 torch + numpy + matplotlib + 标准库）
 
 ## 目录结构
 
