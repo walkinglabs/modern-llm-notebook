@@ -1,7 +1,7 @@
 # Modern LLM Notebook
 
 <p align="center">
-  <strong>用 23 篇可运行 Jupyter Notebook，从零实现现代 LLM 系统。</strong>
+  <strong>用 26 篇可运行 Jupyter Notebook，从零实现现代 LLM 系统。</strong>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-23-orange">
+  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-26-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
@@ -50,7 +50,7 @@ Modern LLM Notebook 是一套以 Jupyter Notebook 为主线的现代大语言模
 黑盒调用，而是用 PyTorch 亲手实现核心组件：Tokenizer、Embedding、Attention、Transformer Block、
 训练循环、MoE、LoRA、RLHF、解码、KV Cache、长上下文、VLM、评测、蒸馏和 On-Policy Distillation。
 
-仓库现在同时维护中文与英文两套 Notebook。英文版位于 `notebooks-en/`，覆盖完整 23 章；
+仓库现在同时维护中文与英文两套 Notebook。英文版位于 `notebooks-en/`，覆盖完整 26 章；
 网页阅读器在首页和 Notebook 侧边栏都支持语言切换（也可以在 URL 里用 `?lang=en`），课程目录、Notebook 内容和运行输出都按语言展示。
 
 这个项目的定位是**教学型参考实现**。它不是模型权重仓库，不是生产推理框架，也不是托管 API
@@ -143,7 +143,7 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 语言说明：
 
 - 中文版 Notebook：`notebooks/`
-- 英文版 Notebook：`notebooks-en/`（23/23 全量覆盖）
+- 英文版 Notebook：`notebooks-en/`（26/26 全量覆盖）
 
 推荐环境：
 
@@ -185,8 +185,8 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 | 模块 | 状态 |
 |:---|:---|
-| 中文 Notebook | 23/23 完整覆盖 |
-| 英文 Notebook | 23/23 完整覆盖，并已写入运行输出 |
+| 中文 Notebook | 26/26 完整覆盖 |
+| 英文 Notebook | 26/26 完整覆盖，并已写入运行输出 |
 | 网页阅读器 | React / Vite，支持首页和侧边栏语言切换 |
 | 静态站点 | 通过 GitHub Pages 发布 |
 | 质量检查 | 英文覆盖、语法、输出语言、网页构建 |
@@ -201,7 +201,7 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 ## 课程路线
 
-课程分为 5 个部分，共 23 个自包含 Notebook。
+课程分为 5 个部分，共 26 个自包含 Notebook。
 
 ```text
 Modern LLM Notebook
@@ -216,6 +216,7 @@ Modern LLM Notebook
 │
 ├── Part 2: Training
 │   ├── 从 GPT-2 到现代模型
+│   ├── Model config
 │   ├── Mixture of Experts
 │   ├── Training and loss
 │   ├── Scaling laws
@@ -237,7 +238,8 @@ Modern LLM Notebook
 └── Part 5: Production
     ├── Evaluation
     ├── Distillation
-    └── On-policy distillation
+    ├── On-policy distillation
+    └── RAG
 ```
 
 每个 Notebook 都尽量自包含。你可以顺序学习，也可以直接跳到感兴趣的主题，不依赖前面 Notebook
@@ -255,14 +257,14 @@ Modern LLM Notebook
 | 04 | [Position Encoding](notebooks/part1-foundation/04-position-encoding.ipynb) | 模型如何感知词的顺序？ | 正弦位置编码、输入组装 |
 | 05 | [Attention & Transformer Block](notebooks/part1-foundation/05-transformer-block.ipynb) | Attention 如何搬运上下文信息？ | MHA、残差、归一化 |
 | 06 | [Mini-GPT](notebooks/part1-foundation/06-mini-gpt.ipynb) | GPT 风格模型如何组装起来？ | Decoder-only 模型、LM head |
-| 07 | [Model Config](notebooks/part1-foundation/07-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 08 | [BERT Encoder](notebooks/part1-foundation/08-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
+| 07 | [BERT Encoder](notebooks/part1-foundation/07-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
 
 ### Part 2: Training
 
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
-| 09 | [从 GPT-2 到现代模型](notebooks/part2-training/09-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
+| 08 | [从 GPT-2 到现代模型](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
+| 09 | [Model Config](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
 | 10 | [Mixture of Experts](notebooks/part2-training/10-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
 | 11 | [Training & Loss](notebooks/part2-training/11-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
 | 12 | [Scaling Laws](notebooks/part2-training/12-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | FLOPs 估算、Chinchilla 直觉 |
