@@ -117,7 +117,8 @@ function AppContent() {
   const [lang, setLang] = useState(() => getInitialLang())
   const [catalog, setCatalog] = useState(() => getCatalog(lang))
   const [currentId, setCurrentId] = useState(() => getInitialNotebookId())
-  const [loading] = useState(false)
+  const [notebook, setNotebook] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(() => getInitialSidebarOpen())
   const [tourActive, setTourActive] = useState(false)
   const [tourStepIndex, setTourStepIndex] = useState(0)
@@ -152,6 +153,43 @@ function AppContent() {
     window.localStorage.setItem('language', lang)
     writeLangToUrl(lang)
   }, [lang])
+
+  useEffect(() => {
+    let cancelled = false
+
+    if (!currentId || currentId === NOTES_SENTINEL) {
+      setNotebook(null)
+      setLoading(false)
+      return () => {
+        cancelled = true
+      }
+    }
+
+    setNotebook(null)
+    setLoading(true)
+
+    getNotebook(currentId, lang)
+      .then((nextNotebook) => {
+        if (!cancelled) {
+          setNotebook(nextNotebook)
+        }
+      })
+      .catch((error) => {
+        console.error(`Failed to load notebook ${currentId}`, error)
+        if (!cancelled) {
+          setNotebook(null)
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [currentId, lang])
 
   useEffect(() => {
     const syncFromHash = () => {
@@ -204,7 +242,6 @@ function AppContent() {
   }, [lang])
 
   const currentMeta = catalog.find(n => n.id === currentId)
-  const notebook = currentId ? getNotebook(currentId, lang) : null
   const tourNotebookId = catalog.find(n => n.id === '01-tokenizer-basics')?.id || catalog[0]?.id
   const tourCopy = {
     zh: [
