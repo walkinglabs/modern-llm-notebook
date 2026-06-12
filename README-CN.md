@@ -136,8 +136,30 @@ Modern LLM Notebook 选择中间路线：把现代 LLM 当成一个可以拆解�
 ```bash
 git clone https://github.com/walkinglabs/modern-llm-notebook.git
 cd modern-llm-notebook
-pip install -r requirements.txt
+
+# 创建独立 Python 环境，避免把依赖直接装进系统 Python。
+python3 -m venv .venv
+source .venv/bin/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m ipykernel install --user \
+  --name modern-llm-notebook \
+  --display-name "Python (modern-llm-notebook)"
+
 jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
+```
+
+如果出现 `jupyter: command not found`，通常是因为还没有激活虚拟环境。先运行：
+
+```bash
+source .venv/bin/activate
+```
+
+也可以直接调用虚拟环境里的 Jupyter：
+
+```bash
+.venv/bin/jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 ```
 
 语言说明：

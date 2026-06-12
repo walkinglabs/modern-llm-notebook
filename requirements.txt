@@ -8,3 +8,6 @@ transformers>=4.30.0
 datasets>=2.12.0
 accelerate>=0.20.0
 modelscope>=1.9.0
+tiktoken>=0.5.0
+jupyter>=1.0.0
+ipykernel>=6.0.0
