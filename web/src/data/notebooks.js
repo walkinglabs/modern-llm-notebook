@@ -1,15 +1,14 @@
 import katex from 'katex'
+import { NOTEBOOK_CATALOG } from 'virtual:notebook-catalog'
 
 const zhNotebookModules = import.meta.glob('../../../notebooks/**/*.ipynb', {
   query: '?raw',
   import: 'default',
-  eager: true,
 })
 
 const enNotebookModules = import.meta.glob('../../../notebooks-en/**/*.ipynb', {
   query: '?raw',
   import: 'default',
-  eager: true,
 })
 
 const PARTS = [
@@ -60,44 +59,27 @@ function normalizeLang(lang) {
   return lang === 'en' ? 'en' : 'zh'
 }
 
-function stripMarkdownInline(value) {
-  return String(value)
-    .replace(/^#+\s*/, '')
-    .replace(/\s+#+$/, '')
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\*([^*]+)\*/g, '$1')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .trim()
+function titleFromId(id) {
+  return id
+    .replace(/^\d+-/, '')
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
 }
 
-function getNotebookTitle(raw, fallback) {
-  try {
-    const nb = JSON.parse(raw)
-    for (const cell of nb.cells || []) {
-      if (cell.cell_type !== 'markdown') continue
-      const source = normalizeSource(cell.source)
-      const heading = source.match(/^#\s+(.+)$/m)
-      if (heading) return stripMarkdownInline(heading[1])
-    }
-  } catch {
-    // Invalid notebooks are ignored here; the viewer will fail visibly when opened.
-  }
-  return fallback
-}
-
-function buildNotebookEntries(modules, rootDir) {
+function buildNotebookEntries(modules, rootDir, lang) {
   return Object.entries(modules)
-  .map(([path, raw]) => {
+  .map(([path, load]) => {
     const match = path.match(new RegExp(`${rootDir}/([^/]+)/([^/]+)\\.ipynb$`))
     if (!match) return null
     const [, partDir, id] = match
     return {
       id,
       partDir,
-      raw,
+      load,
       order: PARTS.findIndex(([dir]) => dir === partDir),
-      title: getNotebookTitle(raw, id),
+      title: NOTEBOOK_CATALOG[lang]?.[id]?.title || titleFromId(id),
     }
   })
   .filter(Boolean)
@@ -108,8 +90,8 @@ function buildNotebookEntries(modules, rootDir) {
 }
 
 const NOTEBOOKS_BY_LANG = {
-  zh: buildNotebookEntries(zhNotebookModules, 'notebooks'),
-  en: buildNotebookEntries(enNotebookModules, 'notebooks-en'),
+  zh: buildNotebookEntries(zhNotebookModules, 'notebooks', 'zh'),
+  en: buildNotebookEntries(enNotebookModules, 'notebooks-en', 'en'),
 }
 
 function escapeHtml(value) {
@@ -652,9 +634,9 @@ function renderNotebook(nb, lang = 'zh') {
     .join('\n')
 }
 
-function parseNotebook(entry, lang = 'zh') {
+function parseNotebook(entry, raw, lang = 'zh') {
   const safeLang = normalizeLang(lang)
-  const nb = JSON.parse(entry.raw)
+  const nb = JSON.parse(raw)
   const part = PARTS.find(([dir]) => dir === entry.partDir)?.[1] || entry.partDir
   return {
     id: entry.id,
@@ -679,10 +661,12 @@ export function getCatalog(lang = 'zh') {
   })
 }
 
-export function getNotebook(id, lang = 'zh') {
+export async function getNotebook(id, lang = 'zh') {
   const safeLang = normalizeLang(lang)
   const entry = NOTEBOOKS_BY_LANG[safeLang].find(item => item.id === id)
-  return entry ? parseNotebook(entry, safeLang) : null
+  if (!entry) return null
+  const raw = await entry.load()
+  return parseNotebook(entry, raw, safeLang)
 }
 
 if (import.meta.hot) {
