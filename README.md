@@ -166,8 +166,30 @@ comparison or utility work, but the teaching path keeps the core algorithms expl
 ```bash
 git clone https://github.com/walkinglabs/modern-llm-notebook.git
 cd modern-llm-notebook
-pip install -r requirements.txt
+
+# Create an isolated Python environment instead of installing into the system Python.
+python3 -m venv .venv
+source .venv/bin/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m ipykernel install --user \
+  --name modern-llm-notebook \
+  --display-name "Python (modern-llm-notebook)"
+
 jupyter notebook notebooks-en/part1-foundation/01-tokenizer-basics.ipynb
+```
+
+If `jupyter: command not found` appears, the virtual environment is probably not active. Run:
+
+```bash
+source .venv/bin/activate
+```
+
+Or call Jupyter directly from the environment:
+
+```bash
+.venv/bin/jupyter notebook notebooks-en/part1-foundation/01-tokenizer-basics.ipynb
 ```
 
 Language note:
