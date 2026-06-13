@@ -1,7 +1,7 @@
 # Modern LLM Notebook
 
 <p align="center">
-  <strong>Build modern LLMs from scratch through 23 runnable Jupyter Notebooks.</strong>
+  <strong>Build modern LLMs from scratch through 26 runnable Jupyter Notebooks.</strong>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-23-orange">
+  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-26-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
@@ -173,7 +173,7 @@ jupyter notebook notebooks-en/part1-foundation/01-tokenizer-basics.ipynb
 Language note:
 
 - Chinese notebooks live in `notebooks/`
-- English notebooks live in `notebooks-en/` (complete 23/23 translation coverage)
+- English notebooks live in `notebooks-en/` (complete 26/26 translation coverage)
 
 Recommended environment:
 
@@ -217,8 +217,8 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 | Area | Status |
 |:---|:---|
-| Chinese notebooks | Complete 23/23 |
-| English notebooks | Complete 23/23 with executed outputs |
+| Chinese notebooks | Complete 26/26 |
+| English notebooks | Complete 26/26 with executed outputs |
 | Web reader | React / Vite app with language switching |
 | Static site | Published through GitHub Pages |
 | Quality checks | English coverage, syntax, output-language checks, and web build |
@@ -233,7 +233,7 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 ## Curriculum
 
-The curriculum is organized as five parts and 23 self-contained notebooks.
+The curriculum is organized as five parts and 26 self-contained notebooks.
 
 ```text
 Modern LLM Notebook
@@ -248,6 +248,7 @@ Modern LLM Notebook
 │
 ├── Part 2: Training
 │   ├── From GPT-2 to modern models
+│   ├── Model config
 │   ├── Mixture of Experts
 │   ├── Training and loss
 │   ├── Scaling laws
@@ -269,7 +270,8 @@ Modern LLM Notebook
 └── Part 5: Production
     ├── Evaluation
     ├── Distillation
-    └── On-policy distillation
+    ├── On-policy distillation
+    └── RAG
 ```
 
 Each notebook is designed to be runnable on its own. You can follow the full sequence or jump to a
@@ -287,13 +289,14 @@ topic without depending on hidden runtime state from earlier notebooks.
 | 04 | [Position Encoding](notebooks-en/part1-foundation/04-position-encoding.ipynb) | How does the model know word order? | Sinusoidal encoding, input assembly |
 | 05 | [Attention & Transformer Block](notebooks-en/part1-foundation/05-transformer-block.ipynb) | How does attention move information? | MHA, residuals, normalization |
 | 06 | [Mini-GPT](notebooks-en/part1-foundation/06-mini-gpt.ipynb) | How does a GPT-style model fit together? | Decoder-only model, LM head |
-| 08 | [BERT Encoder](notebooks-en/part1-foundation/08-bert-encoder.ipynb) | Why can encoder-only models read bidirectionally? | MiniBERT, MLM head |
+| 07 | [BERT Encoder](notebooks-en/part1-foundation/07-bert-encoder.ipynb) | Why can encoder-only models read bidirectionally? | MiniBERT, MLM head |
 
 ### Part 2: Training
 
 | # | Notebook | Primary question | Implementation focus |
 |:---:|:---|:---|:---|
-| 09 | [From GPT-2 to Modern Models](notebooks-en/part2-training/09-gpt2-to-modern-models.ipynb) | What changed architecturally after GPT-2? | RMSNorm, SwiGLU, RoPE, GQA, QK-Norm, MLA |
+| 08 | [From GPT-2 to Modern Models](notebooks-en/part2-training/08-gpt2-to-modern-models.ipynb) | What changed architecturally after GPT-2? | RMSNorm, SwiGLU, RoPE, GQA, QK-Norm, MLA |
+| 09 | [Model Config](notebooks-en/part2-training/09-model-config.ipynb) | What does each field in a real config.json mean? | vocab_size, hidden_size, layers, heads |
 | 10 | [Mixture of Experts](notebooks-en/part2-training/10-moe.ipynb) | How does sparse expert routing work? | Router gate, top-k experts, aux-free load balancing |
 | 11 | [Training & Loss](notebooks-en/part2-training/11-training-loss.ipynb) | How does a language model learn from prediction errors? | Training loop, loss, gradients, Multi-Token Prediction |
 | 12 | [Scaling Laws](notebooks-en/part2-training/12-scaling-laws.ipynb) | How do model size, data, and compute trade off? | FLOPs estimates, Chinchilla intuition |
@@ -325,6 +328,7 @@ topic without depending on hidden runtime state from earlier notebooks.
 | 23 | [Evaluation](notebooks-en/part5-production/23-evaluation.ipynb) | How do we tell whether a model is better? | Win-rate matrices, RAGAS, judge metrics |
 | 24 | [Distillation](notebooks-en/part5-production/24-distillation.ipynb) | How does a small model learn from a large one? | Soft labels, temperature, logit distillation |
 | 25 | [On-Policy Distillation](notebooks-en/part5-production/25-opd.ipynb) | How can distillation reduce exposure bias? | OPSD, KL estimator taxonomy |
+| 26 | [RAG](notebooks-en/part5-production/26-rag.ipynb) | How does retrieval-augmented generation connect external knowledge to a model? | Chunking, embedding retrieval, reranking, generation |
 
 ## Quality Bar
 

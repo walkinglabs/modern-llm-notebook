@@ -253,7 +253,7 @@ function AppContent() {
       {
         target: '.stats',
         title: '课程规模',
-        body: '23 篇可运行 Notebook，覆盖 5 大学习路径、20+ 核心模块。每篇都是可执行代码，读完马上能改代码观察结果。',
+        body: '26 篇可运行 Notebook，覆盖 5 大学习路径、20+ 核心模块。每篇都是可执行代码，读完马上能改代码观察结果。',
       },
       {
         target: '[data-tour="features"]',
@@ -348,7 +348,7 @@ function AppContent() {
       {
         target: '.stats',
         title: 'Course Overview',
-        body: '23 runnable notebooks across 5 learning paths and 20+ core modules. Every notebook is executable — read, modify, and observe results immediately.',
+        body: '26 runnable notebooks across 5 learning paths and 20+ core modules. Every notebook is executable — read, modify, and observe results immediately.',
       },
       {
         target: '[data-tour="features"]',
