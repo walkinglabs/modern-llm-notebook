@@ -12,6 +12,8 @@
   <a href="https://walkinglabs.github.io/modern-llm-notebook/"><strong>Read Online</strong></a>
   ·
   <a href="https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb"><strong>Start in Colab</strong></a>
+  ·
+  <a href="https://discord.gg/XU7DQmpqk"><strong>Join Discord</strong></a>
 </p>
 
 <p align="center">

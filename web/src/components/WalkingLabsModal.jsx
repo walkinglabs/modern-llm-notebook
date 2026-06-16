@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 
 const WECHAT_GROUP_QR_URL = 'https://github.com/walkinglabs/.github/raw/main/profile/wechat.png'
+const DISCORD_INVITE_URL = 'https://discord.gg/XU7DQmpqk'
 
 const COPY = {
   zh: {
@@ -17,6 +18,7 @@ const COPY = {
       '我们探索 Agent 框架、工具链和最佳实践，并把过程中积累的经验整理成开源教程和项目。',
     note: '如果你对 Agent 技术感兴趣，欢迎加入我们一起讨论。',
     github: '看看 GitHub',
+    discord: '加入 Discord',
     qrTitle: '加入社区',
     qrDesc: '扫码加入 WalkingLabs 微信群，一起探讨 Agent 技术。',
     loading: '加载二维码',
@@ -30,6 +32,7 @@ const COPY = {
       'We explore agent frameworks, toolchains, and best practices, sharing what we learn as open-source projects.',
     note: 'If you are interested in Agent technology, welcome to join the discussion.',
     github: 'View GitHub',
+    discord: 'Join Discord',
     qrTitle: 'Join the Community',
     qrDesc: 'Scan to join the WalkingLabs WeChat group.',
     loading: 'Loading QR',
@@ -90,6 +93,16 @@ export default function WalkingLabsModal({ isOpen, onClose, lang }) {
             >
               <Github className="w-4 h-4" />
               <span>{t.github}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href={DISCORD_INVITE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="walkinglabs-link walkinglabs-discord-link"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>{t.discord}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
