@@ -17,5 +17,5 @@ export const RUNNABLE_NOTEBOOKS = [
   { id: "nb-8", lessonId: "21-cot-thinking", title: "CoT 思维链", titleEn: "Chain-of-Thought", desc: "链式推理的机制", descEn: "Mechanics of chain reasoning", section: "frontiers", duration: 16 },
   { id: "nb-9", lessonId: "16-rlhf-alignment", title: "RLHF 对齐", titleEn: "RLHF Alignment", desc: "人类反馈强化学习", descEn: "Reinforcement learning from human feedback", section: "training", duration: 36 },
   { id: "nb-10", lessonId: "24-distillation", title: "知识蒸馏", titleEn: "Knowledge Distillation", desc: "模型压缩与传递", descEn: "Model compression and knowledge transfer", section: "production", duration: 20 },
-  { id: "nb-11", lessonId: "26-rag", title: "RAG 检索增强生成", titleEn: "Retrieval-Augmented Generation", desc: "从零实现检索增强生成", descEn: "Build RAG from scratch", section: "production", duration: 25 },
+  { id: "nb-11", lessonId: "26-llm-deployment", title: "vLLM 与 SGLang 部署", titleEn: "vLLM & SGLang Deployment", desc: "从现成模型到自训练模型的部署", descEn: "Deploy off-the-shelf and custom-trained models", section: "production", duration: 35 },
 ]

@@ -61,7 +61,6 @@ const LEGACY_NOTEBOOK_IDS = {
   '22-distillation': '24-distillation',
   '21-opd': '25-opd',
   '23-opd': '25-opd',
-  '24-rag': '26-rag',
 }
 
 // 从构建时注入的 git log 数据中读取

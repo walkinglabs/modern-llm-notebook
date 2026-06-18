@@ -540,6 +540,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const [toc, setToc] = useState([])
   const [activeHeading, setActiveHeading] = useState(null)
   const [tocOpen, setTocOpen] = useState(() => getInitialTocOpen())
+  const [tocHasMore, setTocHasMore] = useState(false)
+  const tocScrollRef = useRef(null)
   const [visibleNotebookId, setVisibleNotebookId] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
   const [noteEditor, setNoteEditor] = useState(null)
@@ -948,6 +950,28 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     setToc(items)
   }, [notebook?.html])
 
+  // Detect whether the TOC still has hidden content below the current scroll position.
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) { setTocHasMore(false); return }
+
+    const check = () => {
+      const remaining = el.scrollHeight - el.scrollTop - el.clientHeight
+      setTocHasMore(remaining > 2)
+    }
+
+    check()
+    el.addEventListener('scroll', check, { passive: true })
+    const observer = new ResizeObserver(check)
+    observer.observe(el)
+    if (el.firstElementChild) observer.observe(el.firstElementChild)
+
+    return () => {
+      el.removeEventListener('scroll', check)
+      observer.disconnect()
+    }
+  }, [toc, tocOpen])
+
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 1023px)')
     const syncTocForMobile = () => {
@@ -1190,6 +1214,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     }
 
     setActiveHeading(null)
+    setTocHasMore(false)
     scroller.scrollTop = 0
 
     if (shouldReduceMotion()) {
@@ -1793,28 +1818,30 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
 
         {toc.length > 0 && tocOpen && (
           <aside className={`toc${isVisible ? ' visible' : ''}`}>
-            <div className="toc-sticky">
-              <div className="toc-title">{lang === 'en' ? 'Outline' : '大纲'}</div>
-              <nav className="toc-nav">
-                {toc.map((item) => {
-                  const hasTocNote = currentNotebookNotes.some((n) => n.sectionId === item.id)
-                  return (
-                    <button
-                      key={item.id}
-                      data-toc-id={item.id}
-                      className={[
-                        'toc-item',
-                        activeHeading === item.id ? 'active' : '',
-                        `toc-level-${item.level}`,
-                      ].join(' ')}
-                      onClick={() => handleTocClick(item.id)}
-                    >
-                      <span className="toc-item-text">{item.text}</span>
-                      {hasTocNote && <span className="toc-item-note-dot" title={lang === 'en' ? 'Has note' : '有笔记'} />}
-                    </button>
-                  )
-                })}
-              </nav>
+            <div className={`toc-sticky${tocHasMore ? ' toc-has-more' : ''}`}>
+              <div className="toc-scroll" ref={tocScrollRef}>
+                <div className="toc-title">{lang === 'en' ? 'Outline' : '大纲'}</div>
+                <nav className="toc-nav">
+                  {toc.map((item) => {
+                    const hasTocNote = currentNotebookNotes.some((n) => n.sectionId === item.id)
+                    return (
+                      <button
+                        key={item.id}
+                        data-toc-id={item.id}
+                        className={[
+                          'toc-item',
+                          activeHeading === item.id ? 'active' : '',
+                          `toc-level-${item.level}`,
+                        ].join(' ')}
+                        onClick={() => handleTocClick(item.id)}
+                      >
+                        <span className="toc-item-text">{item.text}</span>
+                        {hasTocNote && <span className="toc-item-note-dot" title={lang === 'en' ? 'Has note' : '有笔记'} />}
+                      </button>
+                    )
+                  })}
+                </nav>
+              </div>
             </div>
           </aside>
         )}

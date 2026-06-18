@@ -263,7 +263,7 @@ Modern LLM Notebook
     ├── Evaluation
     ├── Distillation
     ├── On-policy distillation
-    └── RAG
+    └── vLLM & SGLang deployment
 ```
 
 每个 Notebook 都尽量自包含。你可以顺序学习，也可以直接跳到感兴趣的主题，不依赖前面 Notebook
@@ -320,7 +320,7 @@ Modern LLM Notebook
 | 23 | [Evaluation](notebooks/part5-production/23-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
 | 24 | [Distillation](notebooks/part5-production/24-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
 | 25 | [On-Policy Distillation](notebooks/part5-production/25-opd.ipynb) | 蒸馏如何减少 exposure bias？ | OPSD、KL 估计器分类 |
-| 26 | [RAG](notebooks/part5-production/26-rag.ipynb) | 检索增强生成如何把外部知识接入模型？ | chunk、embedding 检索、rerank、生成 |
+| 26 | [LLM Deployment](notebooks/part5-production/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
 
 ## 质量标准
 

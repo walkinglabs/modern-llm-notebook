@@ -295,7 +295,7 @@ Modern LLM Notebook
     ├── Evaluation
     ├── Distillation
     ├── On-policy distillation
-    └── RAG
+    └── vLLM & SGLang deployment
 ```
 
 Each notebook is designed to be runnable on its own. You can follow the full sequence or jump to a
@@ -352,7 +352,7 @@ topic without depending on hidden runtime state from earlier notebooks.
 | 23 | [Evaluation](notebooks-en/part5-production/23-evaluation.ipynb) | How do we tell whether a model is better? | Win-rate matrices, RAGAS, judge metrics |
 | 24 | [Distillation](notebooks-en/part5-production/24-distillation.ipynb) | How does a small model learn from a large one? | Soft labels, temperature, logit distillation |
 | 25 | [On-Policy Distillation](notebooks-en/part5-production/25-opd.ipynb) | How can distillation reduce exposure bias? | OPSD, KL estimator taxonomy |
-| 26 | [RAG](notebooks-en/part5-production/26-rag.ipynb) | How does retrieval-augmented generation connect external knowledge to a model? | Chunking, embedding retrieval, reranking, generation |
+| 26 | [LLM Deployment](notebooks-en/part5-production/26-llm-deployment.ipynb) | How do you turn a trained model into a callable service? | vLLM, SGLang, custom architecture registration |
 
 ## Quality Bar
 
