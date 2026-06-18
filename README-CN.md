@@ -241,7 +241,7 @@ Modern LLM Notebook
 │
 ├── Part 2: Training
 │   ├── 现代架构演进
-│   ├── 模型配置与超参
+│   ├── 模型配置
 │   ├── 稀疏专家模型（MoE）
 │   ├── 训练循环与损失函数
 │   ├── 缩放定律
@@ -253,20 +253,20 @@ Modern LLM Notebook
 │
 ├── Part 3: Inference
 │   ├── 解码策略
-│   ├── 推理系统：KV Cache 与显存
+│   ├── 推理加速
 │   ├── 模型量化
 │   └── 投机解码
 │
 ├── Part 4: Frontiers
-│   ├── 长上下文外推
-│   ├── 推理链与思维模型
+│   ├── 长上下文
+│   ├── 推理链与 CoT
 │   └── 视觉语言模型
 │
 └── Part 5: Production
     ├── 评测方法论
     ├── 知识蒸馏
     ├── 在线策略蒸馏（OPD）
-    └── LLM 服务部署
+    └── 模型部署
 ```
 
 每个 Notebook 都尽量自包含。你可以顺序学习，也可以直接跳到感兴趣的主题，不依赖前面 Notebook
@@ -283,21 +283,21 @@ Modern LLM Notebook
 | 03 | [Token Embedding 与分布式表示](notebooks/part1-foundation/03-embedding.ipynb) | Token ID 如何变成向量？ | Token Embedding、分布式表示 |
 | 04 | [位置编码](notebooks/part1-foundation/04-position-encoding.ipynb) | 模型如何感知词的顺序？ | 正弦位置编码、输入组装 |
 | 05 | [Self-Attention 与 Transformer Block](notebooks/part1-foundation/05-transformer-block.ipynb) | Attention 如何搬运上下文信息？ | MHA、残差、归一化 |
-| 06 | [Mini-GPT：Decoder-Only 语言模型](notebooks/part1-foundation/06-mini-gpt.ipynb) | GPT 风格模型如何组装起来？ | Decoder-only 模型、LM head |
-| 07 | [BERT：Encoder-Only 与双向理解](notebooks/part1-foundation/07-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
+| 06 | [Mini-GPT](notebooks/part1-foundation/06-mini-gpt.ipynb) | GPT 风格模型如何组装起来？ | Decoder-only 模型、LM head |
+| 07 | [BERT 编码器](notebooks/part1-foundation/07-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
 
 ### Part 2: Training
 
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
 | 08 | [现代架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
-| 09 | [模型配置与超参解析](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
+| 09 | [模型配置](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
 | 10 | [稀疏专家模型（MoE）](notebooks/part2-training/10-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
 | 11 | [训练循环与损失函数](notebooks/part2-training/11-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
 | 12 | [缩放定律](notebooks/part2-training/12-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | FLOPs 估算、Chinchilla 直觉 |
-| 13 | [分布式训练：DP / TP / PP](notebooks/part2-training/13-distributed-training.ipynb) | 多卡如何切分显存与计算？ | DDP、ZeRO Stage 1/2/3、FSDP、DeepSpeed、Accelerate |
+| 13 | [分布式训练](notebooks/part2-training/13-distributed-training.ipynb) | 多卡如何切分显存与计算？ | DDP、ZeRO Stage 1/2/3、FSDP、DeepSpeed、Accelerate |
 | 14 | [预训练数据工程](notebooks/part2-training/14-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
-| 15 | [LoRA：低秩适配](notebooks/part2-training/15-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
+| 15 | [LoRA](notebooks/part2-training/15-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
 | 16 | [函数调用与工具使用](notebooks/part2-training/16-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
 | 17 | [RLHF 与偏好对齐](notebooks/part2-training/17-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
 
@@ -305,8 +305,8 @@ Modern LLM Notebook
 
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
-| 18 | [解码策略：采样与搜索](notebooks/part3-inference/18-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
-| 19 | [推理系统：KV Cache 与显存](notebooks/part3-inference/19-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
+| 18 | [解码策略](notebooks/part3-inference/18-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
+| 19 | [推理加速](notebooks/part3-inference/19-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
 | 20 | [模型量化](notebooks/part3-inference/20-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
 | 21 | [投机解码](notebooks/part3-inference/21-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
 
@@ -314,8 +314,8 @@ Modern LLM Notebook
 
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
-| 22 | [长上下文外推](notebooks/part4-frontiers/22-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
-| 23 | [推理链与思维模型](notebooks/part4-frontiers/23-cot-thinking.ipynb) | 推理链为什么能改善答案？ | Self-Consistency、reward 设计 |
+| 22 | [长上下文](notebooks/part4-frontiers/22-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
+| 23 | [推理链与 CoT](notebooks/part4-frontiers/23-cot-thinking.ipynb) | 推理链为什么能改善答案？ | Self-Consistency、reward 设计 |
 | 24 | [视觉语言模型](notebooks/part4-frontiers/24-vlm.ipynb) | 图像信息如何进入语言模型？ | Patch Embedding、Cross-Attention |
 
 ### Part 5: Production
@@ -325,7 +325,7 @@ Modern LLM Notebook
 | 25 | [评测方法论](notebooks/part5-production/25-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
 | 26 | [知识蒸馏](notebooks/part5-production/26-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
 | 27 | [在线策略蒸馏（OPD）](notebooks/part5-production/27-opd.ipynb) | 蒸馏如何减少 exposure bias？ | OPSD、KL 估计器分类 |
-| 28 | [LLM 服务部署](notebooks/part5-production/28-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
+| 28 | [模型部署](notebooks/part5-production/28-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
 
 ## 质量标准
 

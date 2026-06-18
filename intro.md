@@ -53,8 +53,8 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 | **Part 1 — Foundation** | 01-07 | Tokenizer, BPE, Embedding, Position Encoding, Transformer Block, Mini-GPT, BERT |
 | **Part 2 — Training** | 08-17 | 现代架构演进, MoE, 训练循环, Scaling Laws, 分布式训练, 数据工程, LoRA, 函数调用, RLHF |
 | **Part 3 — Inference** | 18-21 | 解码策略, KV Cache + FlashAttention, 模型量化, 投机解码 |
-| **Part 4 — Frontiers** | 22-24 | 长上下文外推 (YaRN), 推理链与思维模型, 视觉语言模型 |
-| **Part 5 — Production** | 25-28 | 评测方法论, 知识蒸馏, 在线策略蒸馏, LLM 服务部署 |
+| **Part 4 — Frontiers** | 22-24 | 长上下文 (YaRN), 推理链与 CoT, 视觉语言模型 |
+| **Part 5 — Production** | 25-28 | 评测方法论, 知识蒸馏, 在线策略蒸馏, 模型部署 |
 
 ## 教学特色
 
