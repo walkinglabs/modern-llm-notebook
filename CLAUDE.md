@@ -172,10 +172,10 @@
 ```
 notebooks/
 ├── part1-foundation/    # 01-07: Tokenizer → Embedding → Transformer → Mini-GPT → BERT
-├── part2-training/      # 08-16: GPT-2 → 模型配置 → MoE → 训练损失 → 缩放定律 → 数据工程 → LoRA → CPT → RLHF
-├── part3-inference/     # 17-19: 生成 → 推理加速 → 投机解码
-├── part4-frontiers/     # 20-22: 长上下文 → CoT → VLM
-└── part5-production/    # 23-26: 评测 → 蒸馏 → OPD → RAG
+├── part2-training/      # 08-17: GPT-2 演进 → 模型配置 → MoE → 训练损失 → 缩放定律 → 分布式 → 数据工程 → LoRA → 函数调用 → RLHF
+├── part3-inference/     # 18-21: 解码策略 → 推理系统 → 量化 → 投机解码
+├── part4-frontiers/     # 22-24: 长上下文 → 推理链 → VLM
+└── part5-production/    # 25-28: 评测 → 蒸馏 → OPD → 部署
 ```
 
 ## Notebook 间引用规范

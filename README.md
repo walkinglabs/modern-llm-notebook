@@ -241,8 +241,8 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 | Area | Status |
 |:---|:---|
-| Chinese notebooks | Complete 26/26 |
-| English notebooks | Complete 26/26 with executed outputs |
+| Chinese notebooks | Complete 27/27 (added 20-quantization; renumbered Part 3–5) |
+| English notebooks | Complete 26/26 with executed outputs; renumber pending |
 | Web reader | React / Vite app with language switching |
 | Static site | Published through GitHub Pages |
 | Quality checks | English coverage, syntax, output-language checks, and web build |
@@ -324,10 +324,11 @@ topic without depending on hidden runtime state from earlier notebooks.
 | 10 | [Mixture of Experts](notebooks-en/part2-training/10-moe.ipynb) | How does sparse expert routing work? | Router gate, top-k experts, aux-free load balancing |
 | 11 | [Training & Loss](notebooks-en/part2-training/11-training-loss.ipynb) | How does a language model learn from prediction errors? | Training loop, loss, gradients, Multi-Token Prediction |
 | 12 | [Scaling Laws](notebooks-en/part2-training/12-scaling-laws.ipynb) | How do model size, data, and compute trade off? | FLOPs estimates, Chinchilla intuition |
-| 13 | [Data Engineering](notebooks-en/part2-training/13-data-engineering.ipynb) | Why does data quality dominate model behavior? | Cleaning, filtering, MinHash, FIM |
-| 14 | [LoRA](notebooks-en/part2-training/14-lora.ipynb) | Why does low-rank adaptation work? | `LoraLinear`, merge for inference |
-| 15 | [Mid-Training & CPT](notebooks-en/part2-training/15-midtraining-cpt.ipynb) | How does continued pretraining adapt a model? | Data mixing, loss observation |
-| 16 | [RLHF Alignment](notebooks-en/part2-training/16-rlhf-alignment.ipynb) | How do preference signals become objectives? | Reward model, PPO, DPO |
+| 13 | [Distributed Training](notebooks-en/part2-training/13-distributed-training.ipynb) | How do we shard memory and compute across GPUs? | DDP, ZeRO Stage 1/2/3, FSDP, DeepSpeed, Accelerate |
+| 14 | [Data Engineering](notebooks-en/part2-training/14-data-engineering.ipynb) | Why does data quality dominate model behavior? | Cleaning, filtering, MinHash, FIM |
+| 15 | [LoRA](notebooks-en/part2-training/15-lora.ipynb) | Why does low-rank adaptation work? | `LoraLinear`, merge for inference |
+| 16 | [Mid-Training & CPT](notebooks-en/part2-training/16-midtraining-cpt.ipynb) | How does continued pretraining adapt a model? | Data mixing, loss observation |
+| 17 | [RLHF Alignment](notebooks-en/part2-training/17-rlhf-alignment.ipynb) | How do preference signals become objectives? | Reward model, PPO, DPO |
 
 ### Part 3: Inference
 

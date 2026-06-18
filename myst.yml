@@ -15,34 +15,36 @@ project:
         - file: notebooks/part1-foundation/04-position-encoding.ipynb
         - file: notebooks/part1-foundation/05-transformer-block.ipynb
         - file: notebooks/part1-foundation/06-mini-gpt.ipynb
-        - file: notebooks/part1-foundation/07-model-config.ipynb
-        - file: notebooks/part1-foundation/08-bert-encoder.ipynb
+        - file: notebooks/part1-foundation/07-bert-encoder.ipynb
     - title: Part 2 — Training
       children:
-        - file: notebooks/part2-training/09-gpt2-to-modern-models.ipynb
+        - file: notebooks/part2-training/08-gpt2-to-modern-models.ipynb
+        - file: notebooks/part2-training/09-model-config.ipynb
         - file: notebooks/part2-training/10-moe.ipynb
         - file: notebooks/part2-training/11-training-loss.ipynb
         - file: notebooks/part2-training/12-scaling-laws.ipynb
-        - file: notebooks/part2-training/13-data-engineering.ipynb
-        - file: notebooks/part2-training/14-lora.ipynb
-        - file: notebooks/part2-training/15-midtraining-cpt.ipynb
-        - file: notebooks/part2-training/16-rlhf-alignment.ipynb
+        - file: notebooks/part2-training/13-distributed-training.ipynb
+        - file: notebooks/part2-training/14-data-engineering.ipynb
+        - file: notebooks/part2-training/15-lora.ipynb
+        - file: notebooks/part2-training/16-function-calling.ipynb
+        - file: notebooks/part2-training/17-rlhf-alignment.ipynb
     - title: Part 3 — Inference
       children:
-        - file: notebooks/part3-inference/17-generation.ipynb
-        - file: notebooks/part3-inference/18-inference-acceleration.ipynb
-        - file: notebooks/part3-inference/19-speculative-decoding.ipynb
+        - file: notebooks/part3-inference/18-generation.ipynb
+        - file: notebooks/part3-inference/19-inference-acceleration.ipynb
+        - file: notebooks/part3-inference/20-quantization.ipynb
+        - file: notebooks/part3-inference/21-speculative-decoding.ipynb
     - title: Part 4 — Frontiers
       children:
-        - file: notebooks/part4-frontiers/20-long-context.ipynb
-        - file: notebooks/part4-frontiers/21-cot-thinking.ipynb
-        - file: notebooks/part4-frontiers/22-vlm.ipynb
+        - file: notebooks/part4-frontiers/22-long-context.ipynb
+        - file: notebooks/part4-frontiers/23-cot-thinking.ipynb
+        - file: notebooks/part4-frontiers/24-vlm.ipynb
     - title: Part 5 — Production
       children:
-        - file: notebooks/part5-production/23-evaluation.ipynb
-        - file: notebooks/part5-production/24-distillation.ipynb
-        - file: notebooks/part5-production/25-opd.ipynb
-        - file: notebooks/part5-production/26-rag.ipynb
+        - file: notebooks/part5-production/25-evaluation.ipynb
+        - file: notebooks/part5-production/26-distillation.ipynb
+        - file: notebooks/part5-production/27-opd.ipynb
+        - file: notebooks/part5-production/28-llm-deployment.ipynb
 site:
   options:
     folders: true

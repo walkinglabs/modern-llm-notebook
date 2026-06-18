@@ -1,6 +1,6 @@
 # Modern LLM Notebook
 
-**从零实现大语言模型核心组件的完整教程 — 23 个 Jupyter Notebook，手写核心算法，从 Tokenizer 到 On-Policy Distillation。**
+**从零实现大语言模型核心组件的完整教程 — 27 个 Jupyter Notebook，手写核心算法，从 Tokenizer 到 LLM 服务部署。**
 
 ---
 
@@ -8,7 +8,7 @@
 
 这不是另一份「调用 GPT API」的教程。这是一份**从零实现大模型核心组件**的实战指南。
 
-每个 Part 遵循 **直觉理解 -> 手算验证 -> 代码实现 -> 实验观察** 的教学循环。你会亲手写出 BPE Tokenizer、Multi-Head Attention、MoE Router、RLHF PPO、Speculative Decoding、VLM Cross-Attention。
+每个 Part 遵循 **直觉理解 -> 手算验证 -> 代码实现 -> 实验观察** 的教学循环。你会亲手写出 BPE Tokenizer、Multi-Head Attention、MoE Router、RLHF PPO、Speculative Decoding、VLM Cross-Attention、模型量化。
 
 ## 学习路径
 
@@ -21,7 +21,7 @@
 ┌──────────┐          ┌──────────────┐          ┌──────────────┐
 │ Part 1   │          │  Part 2       │          │  Part 3       │
 │ Foundation│ ───────>│  Training     │ ───────>│  Inference    │
-│ 01-05    │          │  06-14        │          │  15-17        │
+│ 01-07    │          │  08-17        │          │  18-21        │
 └──────────┘          └──────────────┘          └──────────────┘
                               │
                     ┌─────────┴─────────┐
@@ -29,7 +29,7 @@
              ┌──────────────┐   ┌──────────────┐
              │  Part 4       │   │  Part 5       │
              │  Frontiers    │   │  Production   │
-             │  18-20        │   │  21-23        │
+             │  22-24        │   │  25-28        │
              └──────────────┘   └──────────────┘
 ```
 
@@ -50,11 +50,11 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 
 | Part | 范围 | 你会写出 |
 |:---|:---|:---|
-| **Part 1 — Foundation** | 01-05 | Tokenizer, BPE, Embedding, Transformer Block, Mini-GPT |
-| **Part 2 — Training** | 06-14 | RMSNorm/SwiGLU, MoE, BERT, Scaling Laws, Data Pipeline, LoRA, RLHF/DPO |
-| **Part 3 — Inference** | 15-17 | KV Cache, FlashAttention, Speculative Decoding |
-| **Part 4 — Frontiers** | 18-20 | Long Context (YaRN), Chain-of-Thought, Vision-Language Models |
-| **Part 5 — Production** | 21-23 | Evaluation, Distillation, On-Policy Distillation |
+| **Part 1 — Foundation** | 01-07 | Tokenizer, BPE, Embedding, Position Encoding, Transformer Block, Mini-GPT, BERT |
+| **Part 2 — Training** | 08-17 | 现代架构演进, MoE, 训练循环, Scaling Laws, 分布式训练, 数据工程, LoRA, 函数调用, RLHF |
+| **Part 3 — Inference** | 18-21 | 解码策略, KV Cache + FlashAttention, 模型量化, 投机解码 |
+| **Part 4 — Frontiers** | 22-24 | 长上下文外推 (YaRN), 推理链与思维模型, 视觉语言模型 |
+| **Part 5 — Production** | 25-28 | 评测方法论, 知识蒸馏, 在线策略蒸馏, LLM 服务部署 |
 
 ## 教学特色
 
@@ -64,7 +64,7 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 
 ## 覆盖论文
 
-Attention Is All You Need, BERT, LLaMA, Scaling Laws, Chinchilla, LoRA, RLHF/PPO, DPO, FlashAttention, vLLM, Speculative Decoding, RoPE, YaRN, Chain-of-Thought, DeepSeek-R1, Flamingo, LLaVA, RAGAS, LLM-as-Judge, Knowledge Distillation, On-Policy Distillation 等 20+ 篇核心论文。
+Attention Is All You Need, BERT, LLaMA, Scaling Laws, Chinchilla, LoRA, RLHF/PPO, DPO, FlashAttention, vLLM, PagedAttention, Speculative Decoding, RoPE, YaRN, Chain-of-Thought, DeepSeek-R1, Flamingo, LLaVA, RAGAS, LLM-as-Judge, Knowledge Distillation, On-Policy Distillation, GPTQ, AWQ 等 20+ 篇核心论文。
 
 ---
 
