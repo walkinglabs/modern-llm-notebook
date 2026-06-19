@@ -28,7 +28,7 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-27-orange">
+  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-32-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
@@ -300,6 +300,7 @@ Modern LLM Notebook
 | 15 | [LoRA](notebooks/part2-training/15-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
 | 16 | [函数调用与工具使用](notebooks/part2-training/16-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
 | 17 | [RLHF 与偏好对齐](notebooks/part2-training/17-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
+| 29 | [MLA 与 KV Cache 压缩](notebooks/part2-training/29-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
 
 ### Part 3: Inference
 
@@ -309,6 +310,7 @@ Modern LLM Notebook
 | 19 | [推理加速](notebooks/part3-inference/19-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
 | 20 | [模型量化](notebooks/part3-inference/20-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
 | 21 | [投机解码](notebooks/part3-inference/21-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
+| 30 | [现代推理系统](notebooks/part3-inference/30-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
 
 ### Part 4: Frontiers
 
@@ -317,6 +319,8 @@ Modern LLM Notebook
 | 22 | [长上下文](notebooks/part4-frontiers/22-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
 | 23 | [推理链与 CoT](notebooks/part4-frontiers/23-cot-thinking.ipynb) | 推理链为什么能改善答案？ | Self-Consistency、reward 设计 |
 | 24 | [视觉语言模型](notebooks/part4-frontiers/24-vlm.ipynb) | 图像信息如何进入语言模型？ | Patch Embedding、Cross-Attention |
+| 31 | [Linear Attention 与混合架构](notebooks/part4-frontiers/31-linear-attention.ipynb) | 怎么把 attention 复杂度从 O(N²) 压到 O(N)？ | Linear attention、SSM/Mamba、Lightning Attention、Hybrid 架构 |
+| 32 | [Sparse Attention](notebooks/part4-frontiers/32-sparse-attention.ipynb) | 保留 softmax 但只算一部分 key 行不行？ | Sliding Window、Learnable sparse、NSA、DSA |
 
 ### Part 5: Production
 

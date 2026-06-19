@@ -28,7 +28,7 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-26-orange">
+  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-32-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
@@ -241,7 +241,7 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 | Area | Status |
 |:---|:---|
-| Chinese notebooks | Complete 27/27 (added 20-quantization; renumbered Part 3–5) |
+| Chinese notebooks | Complete 32/32 (added 29-MLA, 30-inference-systems, 31-linear-attention, 32-sparse-attention) |
 | English notebooks | Complete 26/26 with executed outputs; renumber pending |
 | Web reader | React / Vite app with language switching |
 | Static site | Published through GitHub Pages |
