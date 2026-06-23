@@ -20,61 +20,128 @@ const NOTES_SENTINEL = '__notes__'
 const DEFAULT_LANG = 'zh'
 
 const LEGACY_NOTEBOOK_IDS = {
+  // embedding 历史: 03-embedding-position → 03-embedding
   '03-embedding-position': '03-embedding',
+
+  // transformer-block: 04 → 05
   '04-transformer-block': '05-transformer-block',
-  '05-mini-gpt': '06-mini-gpt',
+
+  // mini-gpt: 04 → 05 → 06
   '04-mini-gpt': '06-mini-gpt',
+  '05-mini-gpt': '06-mini-gpt',
+
+  // gpt2-to-modern-models / 现代架构: 05 → 06 → 08
   '05-architecture-refinements': '08-gpt2-to-modern-models',
   '06-architecture-refinements': '08-gpt2-to-modern-models',
   '06-llama-architecture-upgrades': '08-gpt2-to-modern-models',
   '06-gpt2-to-modern-models': '08-gpt2-to-modern-models',
+
+  // bert-encoder: 08 → 07
+  '08-bert-encoder': '07-bert-encoder',
+
+  // moe: 06 → 07 → 10
   '06-moe': '10-moe',
   '07-moe': '10-moe',
-  '08-bert-encoder': '07-bert-encoder',
+
+  // training-loss: 08 → 09 → 11
   '08-training-loss': '11-training-loss',
   '09-training-loss': '11-training-loss',
+
+  // scaling-laws: 09 → 10 → 12
   '09-scaling-laws': '12-scaling-laws',
   '10-scaling-laws': '12-scaling-laws',
+
+  // data-engineering: 10 → 11 → 13 → 14
   '10-data-engineering': '14-data-engineering',
   '11-data-engineering': '14-data-engineering',
+  '13-data-engineering': '14-data-engineering',
+
+  // lora: 11 → 12 → 14 → 15
   '11-lora': '15-lora',
   '12-lora': '15-lora',
+  '14-lora': '15-lora',
+
+  // function-calling / midtraining-cpt: 12 → 13 → 15 → 16
   '12-midtraining-cpt': '16-function-calling',
   '13-midtraining-cpt': '16-function-calling',
+  '15-midtraining-cpt': '16-function-calling',
+
+  // rlhf-alignment: 13 → 14 → 16 → 17
   '13-rlhf-alignment': '17-rlhf-alignment',
   '14-rlhf-alignment': '17-rlhf-alignment',
-  '13-data-engineering': '14-data-engineering',
-  '14-lora': '15-lora',
-  '15-midtraining-cpt': '16-function-calling',
   '16-rlhf-alignment': '17-rlhf-alignment',
-  '13-generation': '18-generation',
-  '15-generation': '18-generation',
-  '17-generation': '18-generation',
-  '14-inference-acceleration': '19-inference-acceleration',
-  '16-inference-acceleration': '19-inference-acceleration',
-  '18-inference-acceleration': '19-inference-acceleration',
-  '15-speculative-decoding': '21-speculative-decoding',
-  '17-speculative-decoding': '21-speculative-decoding',
-  '19-speculative-decoding': '21-speculative-decoding',
-  '16-long-context': '22-long-context',
-  '18-long-context': '22-long-context',
-  '20-long-context': '22-long-context',
-  '17-cot-thinking': '23-cot-thinking',
-  '19-cot-thinking': '23-cot-thinking',
-  '21-cot-thinking': '23-cot-thinking',
-  '18-vlm': '24-vlm',
-  '20-vlm': '24-vlm',
-  '22-vlm': '24-vlm',
-  '19-evaluation': '25-evaluation',
-  '21-evaluation': '25-evaluation',
-  '23-evaluation': '25-evaluation',
-  '20-distillation': '26-distillation',
-  '22-distillation': '26-distillation',
-  '24-distillation': '26-distillation',
-  '21-opd': '27-opd',
-  '23-opd': '27-opd',
-  '25-opd': '27-opd',
-  '26-llm-deployment': '28-llm-deployment',
+
+  // mla-kv-cache: 29 → 18
+  '29-mla-kv-cache': '18-mla-kv-cache',
+
+  // generation: 13 → 15 → 17 → 18 → 19
+  '13-generation': '19-generation',
+  '15-generation': '19-generation',
+  '17-generation': '19-generation',
+  '18-generation': '19-generation',
+
+  // inference-acceleration: 14 → 16 → 18 → 19 → 20
+  '14-inference-acceleration': '20-inference-acceleration',
+  '16-inference-acceleration': '20-inference-acceleration',
+  '18-inference-acceleration': '20-inference-acceleration',
+  '19-inference-acceleration': '20-inference-acceleration',
+
+  // quantization: 19 → 20 → 21
+  '19-quantization': '21-quantization',
+  '20-quantization': '21-quantization',
+
+  // speculative-decoding: 15 → 17 → 19 → 21 → 22
+  '15-speculative-decoding': '22-speculative-decoding',
+  '17-speculative-decoding': '22-speculative-decoding',
+  '19-speculative-decoding': '22-speculative-decoding',
+  '21-speculative-decoding': '22-speculative-decoding',
+
+  // inference-systems: 30 → 23
+  '30-inference-systems': '23-inference-systems',
+
+  // long-context: 16 → 18 → 20 → 22 → 24
+  '16-long-context': '24-long-context',
+  '18-long-context': '24-long-context',
+  '20-long-context': '24-long-context',
+  '22-long-context': '24-long-context',
+
+  // cot-thinking: 17 → 19 → 21 → 23 → 25
+  '17-cot-thinking': '25-cot-thinking',
+  '19-cot-thinking': '25-cot-thinking',
+  '21-cot-thinking': '25-cot-thinking',
+  '23-cot-thinking': '25-cot-thinking',
+
+  // vlm: 18 → 20 → 22 → 24 → 26
+  '18-vlm': '26-vlm',
+  '20-vlm': '26-vlm',
+  '22-vlm': '26-vlm',
+  '24-vlm': '26-vlm',
+
+  // efficient-attention: 由 31-linear-attention + 32-sparse-attention 合并而来
+  '31-linear-attention': '27-efficient-attention',
+  '32-sparse-attention': '27-efficient-attention',
+
+  // evaluation: 19 → 21 → 23 → 25 → 28
+  '19-evaluation': '28-evaluation',
+  '21-evaluation': '28-evaluation',
+  '23-evaluation': '28-evaluation',
+  '25-evaluation': '28-evaluation',
+
+  // distillation: 20 → 22 → 24 → 26 → 29
+  '20-distillation': '29-distillation',
+  '22-distillation': '29-distillation',
+  '24-distillation': '29-distillation',
+  '26-distillation': '29-distillation',
+
+  // opd: 21 → 23 → 25 → 27 → 30
+  '21-opd': '30-opd',
+  '23-opd': '30-opd',
+  '25-opd': '30-opd',
+  '27-opd': '30-opd',
+
+  // llm-deployment: 26 → 28 → 31
+  '26-llm-deployment': '31-llm-deployment',
+  '28-llm-deployment': '31-llm-deployment',
 }
 
 // 从构建时注入的 git log 数据中读取
