@@ -1596,28 +1596,6 @@ mark.note-anchor code {
   background: transparent;
 }
 
-/* hover 时用 attr() 弹出笔记正文（纯 CSS，省一层 React state） */
-mark.note-anchor[data-note-text]:hover::after,
-mark.note-anchor[data-note-text]:focus-visible::after {
-  content: attr(data-note-text);
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 6px);
-  z-index: 90;
-  max-width: 320px;
-  padding: 8px 12px;
-  background: #1d1d1f;
-  color: #fff;
-  font-size: 13px;
-  line-height: 1.5;
-  font-weight: 400;
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  white-space: pre-wrap;
-  word-break: break-word;
-  pointer-events: none;
-}
-
 [data-theme="dark"] mark.note-anchor {
   border-bottom-color: #6ea8ff;
 }
@@ -1625,13 +1603,6 @@ mark.note-anchor[data-note-text]:focus-visible::after {
 [data-theme="dark"] mark.note-anchor:hover,
 [data-theme="dark"] mark.note-anchor:focus-visible {
   background: rgba(110, 168, 255, 0.16);
-}
-
-[data-theme="dark"] mark.note-anchor[data-note-text]:hover::after,
-[data-theme="dark"] mark.note-anchor[data-note-text]:focus-visible::after {
-  background: #2a2a2e;
-  color: #f5f5f7;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
 .highlight-delete-btn {

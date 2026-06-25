@@ -423,7 +423,6 @@ function setNoteAnchorMarkData(mark, data) {
   mark.dataset.sectionId = data.sectionId || ''
   mark.dataset.sectionTitle = data.sectionTitle || ''
   mark.dataset.noteQuote = data.quote || ''
-  mark.dataset.noteText = data.text || ''
 }
 
 function renderNoteAnchorMark(range, note) {
@@ -433,7 +432,6 @@ function renderNoteAnchorMark(range, note) {
     sectionId: note.sectionId,
     sectionTitle: note.sectionTitle,
     quote: note.quote,
-    text: note.text || '',
   })
   mark.appendChild(range.extractContents())
   range.insertNode(mark)
@@ -471,7 +469,6 @@ function syncSavedNotes(root, noteList) {
         sectionId: note.sectionId,
         sectionTitle: note.sectionTitle,
         quote: note.quote,
-        text: note.text || '',
       })
       return
     }
@@ -1403,13 +1400,15 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
       event.stopPropagation()
       setSelectionToolbar(null)
       window.getSelection()?.removeAllRanges()
+      const noteId = noteAnchor.dataset.noteId || null
+      const matchedNote = noteId ? currentNotebookNotes.find((n) => n.id === noteId) : null
       const rect = noteAnchor.getBoundingClientRect()
       setNoteEditor({
-        noteId: noteAnchor.dataset.noteId || null,
+        noteId,
         sectionId: noteAnchor.dataset.sectionId || '',
         sectionTitle: noteAnchor.dataset.sectionTitle || '',
         quote: noteAnchor.dataset.noteQuote || noteAnchor.textContent,
-        text: noteAnchor.dataset.noteText || '',
+        text: matchedNote?.text || '',
         top: Math.max(80, rect.top - 20),
         left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
       })
