@@ -96,14 +96,18 @@ export default function NotesPanel({
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
-  const handleNoteClick = (notebookId, sectionId, quote = '') => {
+  const handleNoteClick = (notebookId, noteId, sectionId, quote = '') => {
     onSelect(notebookId)
 
     const tryScroll = (retries) => {
       const root = document.querySelector('.notebook-content')
-      const quoteTarget = root ? findQuoteTarget(root, quote) : null
-      const sectionTarget = sectionId ? document.getElementById(sectionId) : null
-      const target = quoteTarget || sectionTarget
+      // 优先用笔记 anchor mark（笔记或高亮）精确定位，fallback 用 quote 文字搜索、再 fallback 到 section 标题
+      const anchorMark = noteId && root
+        ? root.querySelector(`mark.note-anchor[data-note-id="${noteId}"], mark.user-highlight[data-note-id="${noteId}"]`)
+        : null
+      const quoteTarget = !anchorMark && root ? findQuoteTarget(root, quote) : null
+      const sectionTarget = !anchorMark && !quoteTarget && sectionId ? document.getElementById(sectionId) : null
+      const target = anchorMark || quoteTarget || sectionTarget
 
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -216,11 +220,11 @@ export default function NotesPanel({
                           role="button"
                           tabIndex={0}
                           className="notes-note-row"
-                          onClick={() => handleNoteClick(group.notebookId, n.sectionId)}
+                          onClick={() => handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)}
                           onKeyDown={(e) => {
                             if (e.key !== 'Enter' && e.key !== ' ') return
                             e.preventDefault()
-                            handleNoteClick(group.notebookId, n.sectionId)
+                            handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)
                           }}>
                           <div className="notes-card-main">
                             <div className="notes-card-meta-row">
@@ -233,13 +237,13 @@ export default function NotesPanel({
                                 tabIndex={0}
                                 onClick={(e) => {
                                   e.stopPropagation()
-                                  handleNoteClick(group.notebookId, n.sectionId, n.quote)
+                                  handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)
                                 }}
                                 onKeyDown={(e) => {
                                   if (e.key !== 'Enter' && e.key !== ' ') return
                                   e.preventDefault()
                                   e.stopPropagation()
-                                  handleNoteClick(group.notebookId, n.sectionId, n.quote)
+                                  handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)
                                 }}
                               >
                                 {String(n.quote).slice(0, 150)}{String(n.quote).length > 150 ? '…' : ''}
@@ -252,13 +256,13 @@ export default function NotesPanel({
                                 tabIndex={0}
                                 onClick={(e) => {
                                   e.stopPropagation()
-                                  handleNoteClick(group.notebookId, n.sectionId, n.quote)
+                                  handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)
                                 }}
                                 onKeyDown={(e) => {
                                   if (e.key !== 'Enter' && e.key !== ' ') return
                                   e.preventDefault()
                                   e.stopPropagation()
-                                  handleNoteClick(group.notebookId, n.sectionId, n.quote)
+                                  handleNoteClick(group.notebookId, n.id, n.sectionId, n.quote)
                                 }}
                               >
                                 {String(n.text).slice(0, 100)}{String(n.text).length > 100 ? '…' : ''}

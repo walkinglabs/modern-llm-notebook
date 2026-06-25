@@ -410,6 +410,90 @@ function syncSavedHighlights(root, noteList) {
   }
 }
 
+// 普通笔记：不带 hl_ 前缀，且 quote 非空（quote 是定位原文锚点的依据）
+function isPlainNote(note) {
+  if (!note || typeof note !== 'object') return false
+  if (String(note.id || '').startsWith('hl_')) return false
+  return String(note.quote || '').trim().length > 0
+}
+
+function setNoteAnchorMarkData(mark, data) {
+  mark.className = 'note-anchor'
+  mark.dataset.noteId = data.noteId || ''
+  mark.dataset.sectionId = data.sectionId || ''
+  mark.dataset.sectionTitle = data.sectionTitle || ''
+  mark.dataset.noteQuote = data.quote || ''
+  mark.dataset.noteText = data.text || ''
+}
+
+function renderNoteAnchorMark(range, note) {
+  const mark = document.createElement('mark')
+  setNoteAnchorMarkData(mark, {
+    noteId: note.id,
+    sectionId: note.sectionId,
+    sectionTitle: note.sectionTitle,
+    quote: note.quote,
+    text: note.text || '',
+  })
+  mark.appendChild(range.extractContents())
+  range.insertNode(mark)
+  return mark
+}
+
+function renderNoteAnchorMarks(ranges, note) {
+  const marks = []
+  for (const range of [...ranges].reverse()) {
+    marks.unshift(renderNoteAnchorMark(range, note))
+  }
+  return marks
+}
+
+function getNoteAnchorMarkQuote(root, noteId) {
+  return [...root.querySelectorAll(`mark.note-anchor[data-note-id="${noteId}"]`)]
+    .map((mark) => mark.textContent)
+    .join('\n')
+    .trim()
+}
+
+// 镜像 syncSavedHighlights 的结构：清理失效 mark、为新笔记渲染虚线下划线锚点
+function syncSavedNotes(root, noteList) {
+  const plainNotes = new Map()
+  for (const note of noteList) {
+    if (!isPlainNote(note)) continue
+    plainNotes.set(note.id, note)
+  }
+
+  root.querySelectorAll('mark.note-anchor').forEach((mark) => {
+    const note = plainNotes.get(mark.dataset.noteId || '')
+    if (note && getNoteAnchorMarkQuote(root, note.id) === String(note.quote || '').trim()) {
+      setNoteAnchorMarkData(mark, {
+        noteId: note.id,
+        sectionId: note.sectionId,
+        sectionTitle: note.sectionTitle,
+        quote: note.quote,
+        text: note.text || '',
+      })
+      return
+    }
+    unwrapHighlight(mark)
+  })
+
+  for (const note of plainNotes.values()) {
+    const existing = root.querySelector(`mark.note-anchor[data-note-id="${note.id}"]`)
+    if (existing) continue
+    const ranges = findSavedHighlightRanges(root, note)
+    if (ranges) renderNoteAnchorMarks(ranges, note)
+  }
+}
+
+// 从一个 Range 算出 anchor（不写 DOM），新建笔记时用
+function computeAnchorFromRange(root, range) {
+  if (!root || !range) return null
+  const blockRanges = getHighlightBlockRanges(root, range)
+  if (blockRanges.length === 0) return null
+  return makeMultiHighlightAnchor(root, blockRanges)
+}
+
 function getAbsoluteOffset(block, node, offset) {
   const range = document.createRange()
   range.selectNodeContents(block)
@@ -550,6 +634,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const [sharePreview, setSharePreview] = useState(null)
   const shareCanvasRef = useRef(null)
   const savedRangeRef = useRef(null)
+  // 新建笔记时携带的选区 range，保存时用来计算 anchor；编辑模式下为 null
+  const noteAnchorRangeRef = useRef(null)
   const activeHighlightRef = useRef(null)
   const highlightDragRef = useRef(null)
   const previousHighlightSyncRef = useRef(null)
@@ -1035,12 +1121,13 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     const content = notebookContentRef.current
     if (!notebook?.id || !content) return
 
-    const highlightNoteKey = JSON.stringify(currentHighlightNotes.map((note) => [
+    const notesSyncKey = JSON.stringify(currentNotebookNotes.map((note) => [
       note.id,
       note.updatedAt || 0,
       note.sectionId || '',
       note.sectionTitle || '',
       note.quote || '',
+      note.text || '',
       note.anchor?.kind || '',
       note.anchor?.blockIndex ?? null,
       note.anchor?.startOffset ?? null,
@@ -1055,18 +1142,19 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     if (
       previousSync?.notebookId === notebook.id &&
       previousSync?.html === notebook.html &&
-      previousSync?.highlightNoteKey === highlightNoteKey
+      previousSync?.notesSyncKey === notesSyncKey
     ) {
       return
     }
     previousHighlightSyncRef.current = {
       notebookId: notebook.id,
       html: notebook.html,
-      highlightNoteKey,
+      notesSyncKey,
     }
 
     const activeNoteId = activeHighlightRef.current?.dataset.noteId || ''
-    syncSavedHighlights(content, currentHighlightNotes)
+    syncSavedHighlights(content, currentNotebookNotes)
+    syncSavedNotes(content, currentNotebookNotes)
 
     if (activeNoteId) {
       const nextActive = content.querySelector(`mark.user-highlight[data-note-id="${activeNoteId}"]`)
@@ -1075,7 +1163,12 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         showHighlightEditor(nextActive)
       }
     }
-  }, [notebook?.id, notebook?.html, currentHighlightNotes])
+  }, [notebook?.id, notebook?.html, currentNotebookNotes])
+
+  // noteEditor 关闭（任意路径）后清掉暂存的选区 range，避免污染下次新建笔记
+  useEffect(() => {
+    if (!noteEditor) noteAnchorRangeRef.current = null
+  }, [noteEditor])
 
   useEffect(() => {
     if (!imagePreview && !noteEditor && !selectionToolbar && !highlightEditor) return undefined
@@ -1301,6 +1394,25 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
       setSelectionToolbar(null)
       window.getSelection()?.removeAllRanges()
       showHighlightEditor(highlight)
+      return
+    }
+
+    const noteAnchor = event.target.closest('mark.note-anchor')
+    if (noteAnchor && notebookContentRef.current?.contains(noteAnchor)) {
+      event.preventDefault()
+      event.stopPropagation()
+      setSelectionToolbar(null)
+      window.getSelection()?.removeAllRanges()
+      const rect = noteAnchor.getBoundingClientRect()
+      setNoteEditor({
+        noteId: noteAnchor.dataset.noteId || null,
+        sectionId: noteAnchor.dataset.sectionId || '',
+        sectionTitle: noteAnchor.dataset.sectionTitle || '',
+        quote: noteAnchor.dataset.noteQuote || noteAnchor.textContent,
+        text: noteAnchor.dataset.noteText || '',
+        top: Math.max(80, rect.top - 20),
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
+      })
       return
     }
 
@@ -1596,14 +1708,21 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                 <button
                   className="note-editor-btn note-editor-save"
                   onClick={() => {
+                    const root = notebookContentRef.current
+                    // 新建笔记时从暂存选区算 anchor；编辑模式下不传，保留原 anchor
+                    const anchor = (!noteEditor.noteId && root && noteAnchorRangeRef.current)
+                      ? computeAnchorFromRange(root, noteAnchorRangeRef.current)
+                      : undefined
                     saveNote?.(
                       notebook.id,
                       noteEditor.sectionId,
                       noteEditor.sectionTitle,
                       noteEditor.quote || '',
                       noteEditor.text,
-                      noteEditor.noteId || undefined
+                      noteEditor.noteId || undefined,
+                      anchor
                     )
+                    noteAnchorRangeRef.current = null
                     setNoteEditor(null)
                   }}
                   disabled={!noteEditor.text.trim() && !noteEditor.quote}
@@ -1756,6 +1875,9 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
               onMouseUp={(e) => { e.preventDefault(); e.stopPropagation() }}
               onClick={(e) => {
                 e.preventDefault(); e.stopPropagation()
+                // 暂存选区 range，保存时用来计算笔记 anchor
+                noteAnchorRangeRef.current = savedRangeRef.current?.cloneRange() || null
+                savedRangeRef.current = null
                 setNoteEditor({
                   noteId: null,
                   sectionId: selectionToolbar.sectionId,
