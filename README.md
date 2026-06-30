@@ -215,6 +215,7 @@ The reader imports the `.ipynb` files directly and renders them in the browser, 
 web content copy.
 
 ```bash
+cd web
 npm install
 npm run dev
 ```
@@ -222,6 +223,7 @@ npm run dev
 Build and preview the static site:
 
 ```bash
+cd web
 npm run build
 npm run preview
 ```

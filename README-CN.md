@@ -184,6 +184,7 @@ source .venv/bin/activate
 阅读器直接读取仓库中的 `.ipynb` 原文并在前端渲染，不维护额外的网页内容副本。
 
 ```bash
+cd web
 npm install
 npm run dev
 ```
@@ -191,6 +192,7 @@ npm run dev
 构建并预览静态网站：
 
 ```bash
+cd web
 npm run build
 npm run preview
 ```
