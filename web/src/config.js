@@ -34,10 +34,6 @@ export function getNotebookModelScopeUrl(meta, notebookId) {
   return withNotebookParams('https://modelscope.cn/my/mynotebook/preset', meta, notebookId)
 }
 
-export function getNotebookBaiduXingheUrl(meta, notebookId) {
-  return withNotebookParams('https://aistudio.baidu.com/notebook/open', meta, notebookId)
-}
-
 export function getNotebookLaunchLinks(meta, notebookId) {
   const isEnglish = meta?.lang === 'en'
   return [
@@ -50,12 +46,6 @@ export function getNotebookLaunchLinks(meta, notebookId) {
       id: 'modelscope',
       label: isEnglish ? 'Open in ModelScope' : '在 ModelScope 打开',
       href: getNotebookModelScopeUrl(meta, notebookId),
-      disabled: true,
-    },
-    {
-      id: 'baidu-xinghe',
-      label: isEnglish ? 'Open in Baidu Xinghe' : '在百度星河社区打开',
-      href: getNotebookBaiduXingheUrl(meta, notebookId),
       disabled: true,
     },
   ]
