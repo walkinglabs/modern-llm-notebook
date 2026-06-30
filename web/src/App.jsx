@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { flushSync } from 'react-dom'
 import { PanelLeftOpen } from 'lucide-react'
 import Sidebar from './components/Sidebar.jsx'
@@ -13,7 +13,7 @@ import { SettingsProvider } from './context/SettingsContext.jsx'
 import useSettings from './hooks/useSettings.js'
 import useTheme from './hooks/useTheme.js'
 import useNotesAndBookmarks from './hooks/useNotesAndBookmarks.js'
-import { getCatalog, getNotebook } from './data/notebooks.js'
+import { getCatalog, getNotebook, getCachedNotebook, prefetchNotebook } from './data/notebooks.js'
 
 const NOTES_SENTINEL = '__notes__'
 
@@ -210,6 +210,27 @@ function AppContent() {
   const { resolvedTheme, toggleTheme } = useTheme(settings.theme)
   const nbm = useNotesAndBookmarks()
 
+  // catalog 走 ref,schedulePrefetch 的回调身份就能保持稳定,不会触发下游 effect 重跑
+  const catalogRef = useRef(catalog)
+  useEffect(() => {
+    catalogRef.current = catalog
+  }, [catalog])
+
+  // 浏览器空闲时预取下一篇 notebook,点击下一篇时基本秒开
+  const schedulePrefetch = useCallback((id, lng) => {
+    const list = catalogRef.current
+    const idx = list.findIndex(n => n.id === id)
+    if (idx < 0) return
+    const next = list[idx + 1]
+    if (!next) return
+    const run = () => prefetchNotebook(next.id, lng)
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(run, { timeout: 2000 })
+    } else {
+      setTimeout(run, 200)
+    }
+  }, [])
+
   // 同步字号到 CSS 变量
   useEffect(() => {
     const sizeMap = { small: '14.5px', default: '16.5px', large: '18.5px' }
@@ -245,13 +266,26 @@ function AppContent() {
       }
     }
 
-    setNotebook(null)
+    // 缓存命中:同步 set,跳过 spinner,整次切换无 loading 态
+    const cached = getCachedNotebook(currentId, lang)
+    if (cached) {
+      setNotebook(cached)
+      setLoading(false)
+      schedulePrefetch(currentId, lang)
+      return () => {
+        cancelled = true
+      }
+    }
+
+    // 缓存未命中:第一次访问,只能走异步
+    // 不清空旧 notebook —— 保留它直到新 notebook 就绪,避免全屏 spinner 闪一下
     setLoading(true)
 
     getNotebook(currentId, lang)
       .then((nextNotebook) => {
         if (!cancelled) {
           setNotebook(nextNotebook)
+          schedulePrefetch(currentId, lang)
         }
       })
       .catch((error) => {
@@ -384,14 +418,14 @@ function AppContent() {
       {
         target: '[data-tour="notebooks"]',
         title: '精选可运行 Notebook',
-        body: '这里展示了 10 篇推荐 Notebook，每篇都有独特的可视化封面。点击即可进入阅读，支持一键打开到 ModelScope、百度星河社区或 Colab 运行。',
+        body: '这里展示了 10 篇推荐 Notebook，每篇都有独特的可视化封面。点击即可进入阅读，支持一键打开到 ModelScope 或 Colab 运行。',
         nextLabel: '进入 01',
         action: 'open-notebook',
       },
       {
         target: '.viewer-launches',
         title: '一键运行',
-        body: '顶部按钮可以把当前 Notebook 打开到 ModelScope、百度星河社区或 Colab，在线运行代码，无需本地配置。',
+        body: '顶部按钮可以把当前 Notebook 打开到 ModelScope 或 Colab，在线运行代码，无需本地配置。',
       },
       {
         target: '.bookmark-star',
@@ -479,14 +513,14 @@ function AppContent() {
       {
         target: '[data-tour="notebooks"]',
         title: 'Runnable Notebooks',
-        body: '10 recommended notebooks with unique visual covers. Click to start reading, or open in ModelScope, Baidu Xinghe, or Google Colab to run code online.',
+        body: '10 recommended notebooks with unique visual covers. Click to start reading, or open in ModelScope or Google Colab to run code online.',
         nextLabel: 'Open 01',
         action: 'open-notebook',
       },
       {
         target: '.viewer-launches',
         title: 'One-Click Run',
-        body: 'The top buttons open the current notebook in ModelScope, Baidu Xinghe, or Google Colab. Run code online without any local setup.',
+        body: 'The top buttons open the current notebook in ModelScope or Google Colab. Run code online without any local setup.',
       },
       {
         target: '.bookmark-star',

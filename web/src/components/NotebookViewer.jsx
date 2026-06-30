@@ -1511,7 +1511,9 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     })
   }
 
-  if (loading) {
+  // 只有"既没 notebook 又在 loading"(首次进入应用还没加载过任何 notebook)才用全屏 spinner
+  // 切换时保留旧 notebook 显示,新 notebook 就绪后无缝替换,避免每次切换都看到 spinner
+  if (loading && !notebook) {
     return (
       <div className="viewer" ref={contentRef}>
         <div className="loading">
@@ -1559,7 +1561,6 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
               <>
               <span className="viewer-launch-icon" aria-hidden="true">
                 {link.id === 'modelscope' && 'MS'}
-                {link.id === 'baidu-xinghe' && '星'}
                 {link.id === 'colab' && (
                   <svg width="18" height="11" viewBox="0.17 5.07 23.67 13.87" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" fill="#E8710A"/>

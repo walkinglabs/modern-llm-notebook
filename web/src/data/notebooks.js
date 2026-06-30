@@ -662,12 +662,46 @@ export function getCatalog(lang = 'zh') {
   })
 }
 
+// 已解析 notebook 的内存缓存:切换已访问过的 notebook 时跳过 spinner
+const notebookCache = new Map()
+
+function cacheKey(id, lang) {
+  return `${normalizeLang(lang)}:${id}`
+}
+
+// 同步读缓存。命中时调用方可以立刻 setNotebook,完全避免 loading 态
+export function getCachedNotebook(id, lang = 'zh') {
+  return notebookCache.get(cacheKey(id, lang)) || null
+}
+
 export async function getNotebook(id, lang = 'zh') {
   const safeLang = normalizeLang(lang)
+  const key = cacheKey(id, safeLang)
+  const cached = notebookCache.get(key)
+  if (cached) return cached
+
   const entry = NOTEBOOKS_BY_LANG[safeLang].find(item => item.id === id)
   if (!entry) return null
   const raw = await entry.load()
-  return parseNotebook(entry, raw, safeLang)
+  const parsed = parseNotebook(entry, raw, safeLang)
+  notebookCache.set(key, parsed)
+  return parsed
+}
+
+// 后台预取:浏览器空闲时把 notebook 解析结果填进缓存,后续点击秒开
+export function prefetchNotebook(id, lang = 'zh') {
+  const safeLang = normalizeLang(lang)
+  const key = cacheKey(id, safeLang)
+  if (notebookCache.has(key)) return
+  const entry = NOTEBOOKS_BY_LANG[safeLang].find(item => item.id === id)
+  if (!entry) return
+  entry.load()
+    .then((raw) => {
+      if (!notebookCache.has(key)) {
+        notebookCache.set(key, parseNotebook(entry, raw, safeLang))
+      }
+    })
+    .catch(() => {})
 }
 
 if (import.meta.hot) {
