@@ -231,37 +231,43 @@ function ReaderLetterModal({ isOpen, onClose, lang }) {
   const title = isZh ? '给读者的一封信' : 'A Letter to Readers'
   const eyebrow = isZh ? '开始之前，先看清这条路会带你去哪' : 'Before you start, see where this path leads'
   const intro = isZh
-    ? '这套教程想解决一个很具体的困惑：大模型看起来到处都是新名词，但它到底是怎么从数据、代码、训练一步步长出来的？'
+    ? '亲爱的读者：你好。在正式开始之前，我想简单聊聊，做这套教程的初衷。'
     : 'This tutorial answers one concrete question: how does a large model grow from data, code, and training instead of mysterious terminology?'
   const sections = isZh ? [
     {
-      heading: '你会完整走过哪些内容',
+      heading: null,
       items: [
-        '从 Token、Tokenizer、BPE、Embedding 开始，弄清楚文字怎样变成模型能计算的数字。',
-        '手写 Position Encoding、Self-Attention、Transformer Block、Mini-GPT 和 BERT Encoder。',
-        '升级到现代 GPT 架构：RMSNorm、RoPE、GQA、SwiGLU、KV Cache、MLA 等核心组件。',
-        '理解模型配置、Training Loss、Scaling Laws、数据工程、分布式训练、LoRA、Function Calling 和 RLHF。',
-        '亲手实现 MoE 的 Router、Expert、负载均衡损失，知道为什么稀疏模型能在算力不变时变强。',
-        '进入推理阶段：生成策略、推理加速、量化、Speculative Decoding 和推理系统。',
-        '最后看长上下文、CoT、VLM、Efficient Attention、评测、蒸馏、部署和线上 OPD。',
+        '现在想学大模型的人越来越多，大家每天都会接触到各式各样的名词：Token、Transformer、RLHF、MoE。看得多、搜得多，但大多只是零散的碎片，心里始终差一条完整的主线。市面上的开源内容与教程，大多只截取片段环节，要么只讲理论、要么只有零散代码，几乎没有一套能覆盖从底层原理、完整训练到落地部署的全流程详细指南，更少有兼顾现代前沿架构与工程落地的系统性教程。',
       ],
     },
     {
-      heading: '你最后会获得什么',
+      heading: null,
       items: [
-        '一条从 0 到 1 的完整模型路径：自己清洗数据，自己写 PT、SFT 训练流程。',
-        'dense 模型和 MoE 模型的完整实现，不只是调用现成库，而是知道每个模块为什么存在。',
-        '在同等参数规模下，你会知道怎样把模型训练到接近先进水平，而不是只停留在 toy demo。',
-        '你会建立判断框架：看到新论文、新架构、新训练技巧时，能判断它改的是数据、结构、优化、推理还是评测。',
-        '学完以后，再继续学习任何大模型内部知识时，基础问题不会再挡住你。',
+        '这也让很多人卡在同一个尴尬的状态：会跑代码、会调开源模型，却始终搞不懂，大模型究竟如何从零搭建、训练迭代、一步步进化成型。',
       ],
     },
     {
-      heading: '这套教程怎么学',
+      heading: null,
       items: [
-        '先跟着直觉读懂问题，再用小数字手算一遍，最后跑代码观察输出。',
-        '遇到不懂的地方，不要急着背公式，先问：这个组件解决了什么问题？输入输出是什么 shape？',
-        '可以用 AI 问思路、拆步骤、检查理解，但尽量自己改代码、跑实验、看现象。',
+        '我会和你一起走过一条完整的大模型知识链路：既吃透底层基础，也看懂当下前沿。从 Token、Embedding、Transformer 核心结构，再到 RoPE、GQA、SwiGLU、KV Cache 等现代 GPT 进阶组件，吃透 MoE 稀疏路由、负载均衡逻辑，掌握多词预测推理加速与 OPD 蒸馏。不求速成，只求通透。',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        '学完这套内容，你不再只是被人说“只会套用模型”的菜鸟。你比你想象的更强：仅需一张 24G 显卡，你就能独立完成数据清洗、PT、SFT，训练 Dense 和 MoE 架构模型，在同等参数量下跑出不错的效果，真正拥有属于自己的完整大模型。',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        '非常感谢你愿意翻开这篇前言，愿意沉下心深耕底层、吃透原理。也许，未来预测出下一代模型架构的人会是你，探索出 AI 全新落地可能的人会是你，让机器真正拥有拟人思考能力的突破，也终将由你带来。',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        '大语言模型终将重塑人类的生活与思考方式，站在这场技术变革的浪潮里，在历史的面前，比起害怕，不如鼓起勇气尽情享受，祝你与我在探索的路途上好运！',
       ],
     },
   ] : [
@@ -337,14 +343,13 @@ function ReaderLetterModal({ isOpen, onClose, lang }) {
               </section>
             ))}
 
-            <div className="rounded-2xl border border-blue-200/70 bg-blue-50/80 p-4 text-blue-900">
-              <p className="font-bold">
-                {isZh
-                  ? '一句话总结：这不是“看懂几个 API”的教程，而是让你真的能从底层拆开、改动、训练并评估一个大模型系统。'
-                  : 'In one sentence: this is not an API tour, but a path to open up, modify, train, and evaluate an LLM system from the inside.'}
-              </p>
-            </div>
-
+            {!isZh && (
+              <div className="rounded-2xl border border-blue-200/70 bg-blue-50/80 p-4 text-blue-900">
+                <p className="font-bold">
+                  In one sentence: this is not an API tour, but a path to open up, modify, train, and evaluate an LLM system from the inside.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
