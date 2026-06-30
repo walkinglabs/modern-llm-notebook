@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import {
   BookOpen, ArrowRight, Check, Layers, Cpu, Star,
   Monitor, Languages, ChevronRight, CodeXml, Rocket, Sparkles, Menu,
+  Mail, X,
 } from 'lucide-react'
 import { GITHUB_OWNER, GITHUB_REPO } from '../config.js'
 import { PATH_STEPS, RUNNABLE_NOTEBOOKS } from '../data/sidebar.js'
@@ -214,8 +215,146 @@ const NOTEBOOK_SVGS = {
   ),
 }
 
+function ReaderLetterModal({ isOpen, onClose, lang }) {
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+
+  if (!isOpen) return null
+
+  const isZh = lang === 'zh'
+  const title = isZh ? '给读者的一封信' : 'A Letter to Readers'
+  const eyebrow = isZh ? '开始之前，先看清这条路会带你去哪' : 'Before you start, see where this path leads'
+  const intro = isZh
+    ? '这套教程想解决一个很具体的困惑：大模型看起来到处都是新名词，但它到底是怎么从数据、代码、训练一步步长出来的？'
+    : 'This tutorial answers one concrete question: how does a large model grow from data, code, and training instead of mysterious terminology?'
+  const sections = isZh ? [
+    {
+      heading: '你会完整走过哪些内容',
+      items: [
+        '从 Token、Tokenizer、BPE、Embedding 开始，弄清楚文字怎样变成模型能计算的数字。',
+        '手写 Position Encoding、Self-Attention、Transformer Block、Mini-GPT 和 BERT Encoder。',
+        '升级到现代 GPT 架构：RMSNorm、RoPE、GQA、SwiGLU、KV Cache、MLA 等核心组件。',
+        '理解模型配置、Training Loss、Scaling Laws、数据工程、分布式训练、LoRA、Function Calling 和 RLHF。',
+        '亲手实现 MoE 的 Router、Expert、负载均衡损失，知道为什么稀疏模型能在算力不变时变强。',
+        '进入推理阶段：生成策略、推理加速、量化、Speculative Decoding 和推理系统。',
+        '最后看长上下文、CoT、VLM、Efficient Attention、评测、蒸馏、部署和线上 OPD。',
+      ],
+    },
+    {
+      heading: '你最后会获得什么',
+      items: [
+        '一条从 0 到 1 的完整模型路径：自己清洗数据，自己写 PT、SFT 训练流程。',
+        'dense 模型和 MoE 模型的完整实现，不只是调用现成库，而是知道每个模块为什么存在。',
+        '在同等参数规模下，你会知道怎样把模型训练到接近先进水平，而不是只停留在 toy demo。',
+        '你会建立判断框架：看到新论文、新架构、新训练技巧时，能判断它改的是数据、结构、优化、推理还是评测。',
+        '学完以后，再继续学习任何大模型内部知识时，基础问题不会再挡住你。',
+      ],
+    },
+    {
+      heading: '这套教程怎么学',
+      items: [
+        '先跟着直觉读懂问题，再用小数字手算一遍，最后跑代码观察输出。',
+        '遇到不懂的地方，不要急着背公式，先问：这个组件解决了什么问题？输入输出是什么 shape？',
+        '可以用 AI 问思路、拆步骤、检查理解，但尽量自己改代码、跑实验、看现象。',
+      ],
+    },
+  ] : [
+    {
+      heading: 'What you will walk through',
+      items: [
+        'Start from Token, Tokenizer, BPE, and Embedding: how text becomes numbers a model can compute.',
+        'Hand-build Position Encoding, Self-Attention, Transformer Blocks, Mini-GPT, and a BERT Encoder.',
+        'Upgrade toward modern GPT architecture: RMSNorm, RoPE, GQA, SwiGLU, KV Cache, MLA, and more.',
+        'Understand model configs, training loss, scaling laws, data engineering, distributed training, LoRA, function calling, and RLHF.',
+        'Implement MoE routers, experts, and load-balancing loss to see why sparse models can grow stronger under similar compute.',
+        'Move into inference: generation, acceleration, quantization, speculative decoding, and inference systems.',
+        'Then study long context, CoT, VLM, efficient attention, evaluation, distillation, deployment, and online OPD.',
+      ],
+    },
+    {
+      heading: 'What you will have at the end',
+      items: [
+        'A complete from-zero model path: clean data yourself, then run PT and SFT training yourself.',
+        'Working dense and MoE model implementations, with an understanding of why each module exists.',
+        'A practical sense of how to train models near the advanced level for the same parameter scale, beyond toy demos.',
+        'A mental map for new papers and systems: whether they change data, architecture, optimization, inference, or evaluation.',
+        'After this, foundational questions should no longer block you from learning deeper LLM internals.',
+      ],
+    },
+    {
+      heading: 'How to study it',
+      items: [
+        'Read the intuition first, verify with small numbers, then run the code and inspect the output.',
+        'When stuck, ask what problem the component solves and what shapes flow in and out.',
+        'Use AI for hints and direction checks, but still edit code, run experiments, and observe behavior yourself.',
+      ],
+    },
+  ]
+
+  return (
+    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={title}>
+      <div className="modal-backdrop" onClick={onClose} />
+      <div className="modal-card" style={{ maxWidth: 760, maxHeight: '86vh' }}>
+        <div className="modal-header">
+          <div className="min-w-0">
+            <div className="text-[10px] sm:text-[11px] font-extrabold tracking-[0.12em] uppercase text-blue-600 mb-1">
+              {eyebrow}
+            </div>
+            <h2>{title}</h2>
+          </div>
+          <button className="modal-close" onClick={onClose} aria-label={isZh ? '关闭' : 'Close'}>
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="modal-body">
+          <div className="space-y-6 text-[13px] sm:text-sm leading-7 text-[var(--text-secondary)]">
+            <p className="text-base sm:text-lg leading-8 font-bold text-[var(--text-primary)]">
+              {intro}
+            </p>
+
+            {sections.map((section, idx) => (
+              <section key={section.heading || idx} className="space-y-3">
+                {section.heading && (
+                  <h3 className="text-[15px] sm:text-base font-extrabold text-[var(--text-primary)]">
+                    {section.heading}
+                  </h3>
+                )}
+                <div className="space-y-2.5">
+                  {section.items.map((item) => (
+                    <div key={item} className="flex gap-2.5">
+                      {section.heading && <Check className="w-4 h-4 mt-1 text-blue-600 shrink-0" />}
+                      <p>{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+
+            <div className="rounded-2xl border border-blue-200/70 bg-blue-50/80 p-4 text-blue-900">
+              <p className="font-bold">
+                {isZh
+                  ? '一句话总结：这不是“看懂几个 API”的教程，而是让你真的能从底层拆开、改动、训练并评估一个大模型系统。'
+                  : 'In one sentence: this is not an API tour, but a path to open up, modify, train, and evaluate an LLM system from the inside.'}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onStartTour }) {
   const [starCount, setStarCount] = useState(null)
+  const [isLetterOpen, setIsLetterOpen] = useState(false)
   const catalogById = new Map(catalog.map(item => [item.id, item]))
 
   useEffect(() => {
@@ -257,6 +396,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     bannerDesc: 'Modern LLM Notebook 通过交互式 Notebook，带你深入理解 LLM 的核心技术与前沿应用。',
     startBtn: '开始学习',
     browsePath: '浏览学习路径',
+    readerLetter: '给读者的一封信',
+    readerLetterDesc: '给读者们的一封信',
     check1: '交互式 Notebook', check2: '逐步构建知识', check3: '代码即文档', check4: '实验即理解',
     learningPathTitle: '学习路径',
     learningPathSub: '科学规划，逐步深入',
@@ -281,6 +422,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     bannerDesc: 'Modern LLM Notebook guides you deep into core LLM concepts and breakthrough applications via interactive Notebooks.',
     startBtn: 'Start Learning',
     browsePath: 'Browse Pathways',
+    readerLetter: 'A Letter to Readers',
+    readerLetterDesc: 'See the full route, final builds, and skills you will gain',
     check1: 'Interactive Notebook', check2: 'Step-by-step Knowledge', check3: 'Code as Document', check4: 'Understand via Experiments',
     learningPathTitle: 'Learning Paths',
     learningPathSub: 'Structured curriculum, progress step-by-step',
@@ -347,6 +490,24 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
                   {t.browsePath}
                 </button>
               </div>
+
+              <button
+                onClick={() => setIsLetterOpen(true)}
+                className="group w-full max-w-xl text-left rounded-2xl border border-blue-200/80 bg-white/85 hover:bg-white shadow-sm hover:shadow-md px-4 sm:px-5 py-3 sm:py-4 transition-all active:scale-[0.99] flex items-center gap-3"
+              >
+                <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+                  <Mail className="w-5 h-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm sm:text-base font-extrabold text-slate-900">
+                    {t.readerLetter}
+                  </span>
+                  <span className="block text-[11px] sm:text-xs text-slate-500 font-semibold leading-relaxed mt-0.5">
+                    {t.readerLetterDesc}
+                  </span>
+                </span>
+                <ChevronRight className="w-5 h-5 text-blue-600 group-hover:translate-x-0.5 transition-transform shrink-0" />
+              </button>
 
               <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 border-t border-[var(--border-light)]/50 pt-4 sm:pt-5 max-w-lg select-none">
                 {[t.check1, t.check2, t.check3, t.check4].map((feature, idx) => (
@@ -601,6 +762,11 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
         <div className="w-full flex items-center justify-center pt-2 pb-6 select-none">
           <span className="text-xs text-[var(--text-label)] tracking-wide">{t.footerQuote}</span>
         </div>
+        <ReaderLetterModal
+          isOpen={isLetterOpen}
+          onClose={() => setIsLetterOpen(false)}
+          lang={lang}
+        />
     </div>
   )
 }
