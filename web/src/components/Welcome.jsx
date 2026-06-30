@@ -270,6 +270,10 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     feature3: '模型结构可视化', feature3d: '代码级图解，直观易懂',
     feature4: '中英双语支持', feature4d: '专业术语对照，双语切换',
     feature5: '面向未来', feature5d: '紧跟前沿，持续更新',
+    sponsorsTitle: '合作方',
+    sponsorsSub: '本项目由以下合作方提供计算资源与技术支持',
+    amdDesc: 'GPU 计算资源支持',
+    modelscopeDesc: '模型托管与开源支持',
   } : {
     bannerBadge: 'Future-Ready LLM Learning Method',
     bannerTitleLine1: 'Practice Large Models,',
@@ -290,6 +294,10 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     feature3: 'Structure Visuals', feature3d: 'Code-level diagrams, intuitive',
     feature4: 'Bilingual Support', feature4d: 'Bilingual toggle & index',
     feature5: 'Future Oriented', feature5d: 'Up-to-date documentation',
+    sponsorsTitle: 'Partners',
+    sponsorsSub: 'Compute resources and technical support provided by our partners',
+    amdDesc: 'GPU Compute Resources',
+    modelscopeDesc: 'Model Hub & Open Source',
   }
 
   const scrollToPath = () => {
@@ -541,6 +549,51 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
                 </div>
               )
             })}
+          </div>
+        </section>
+
+        {/* SPONSORS */}
+        <section className="bg-[var(--bg-sidebar)] rounded-2xl border border-black/10 shadow-sm p-5 md:p-6 space-y-4">
+          <div className="space-y-0.5">
+            <h2 className="text-[18px] md:text-[20px] font-bold text-[var(--text-primary)]">{t.sponsorsTitle}</h2>
+            <p className="text-xs text-[var(--text-muted)] font-medium">{t.sponsorsSub}</p>
+          </div>
+
+          <div className="flex flex-wrap items-stretch gap-3">
+            <a
+              href="https://www.amd.com/en/products/accelerators/instinct.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 px-4 sm:px-5 py-3 sm:py-3.5 bg-white rounded-xl border border-black/10 hover:border-black/20 hover:shadow-md transition-all"
+            >
+              <svg width="84" height="20" viewBox="0 0 512 123" className="shrink-0 text-[var(--text-primary)]" aria-hidden="true" fill="currentColor">
+                <path d="M120.415 114.002H91.868L83.184 93.04H35.839L27.923 114H0L42.654 8.172h30.562zM58.522 33.383L42.838 74.61h32.577zM223.386 8.172h22.976v105.83h-26.384v-65.96l-28.546 33.2h-4.03l-28.547-33.347v65.96H132.47V8.172h22.976l33.97 39.356zm89.816 0c38.624 0 58.632 24.039 58.632 53.061c0 30.415-19.239 52.769-61.453 52.769h-43.9V8.172zm-20.337 86.445h17.223c26.53 0 34.446-17.993 34.446-33.53c0-18.323-9.785-33.53-34.74-33.53h-16.93zm131.261-54.674v47.931h47.931l-34.226 34.263H389.9V74.169zM512 0v121.11l-33.273-33.273V33.273h-54.564L390.926 0z" />
+              </svg>
+              <div className="border-l border-[var(--border-light)] pl-3 sm:pl-4 hidden sm:block">
+                <div className="text-[11px] font-bold text-[var(--text-primary)] leading-tight">AMD Instinct™</div>
+                <div className="text-[10px] text-[var(--text-muted)] mt-0.5 leading-tight">{t.amdDesc}</div>
+              </div>
+            </a>
+
+            <a
+              href="https://modelscope.cn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 bg-white rounded-xl border border-black/10 hover:border-black/20 hover:shadow-md transition-all"
+            >
+              <div className="flex items-center gap-2 text-[var(--text-primary)]">
+                <svg width="22" height="22" viewBox="0 0 24 24" className="shrink-0" aria-hidden="true" fill="currentColor">
+                  <path d="M2.667 5.3H8v2.667H5.333v2.666H2.667V8.467H.5v2.166h2.167V13.3H0V7.967h2.667V5.3zM2.667 13.3h2.666v2.667H8v2.666H2.667V13.3zM8 10.633h2.667V13.3H8v-2.667zM13.333 13.3v2.667h-2.666V13.3h2.666zM13.333 13.3v-2.667H16V13.3h-2.667z" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M21.333 13.3v-2.667h-2.666V7.967H16V5.3h5.333v2.667H24V13.3h-2.667zm0-2.667H23.5V8.467h-2.167v2.166z" />
+                  <path d="M21.333 13.3v5.333H16v-2.666h2.667V13.3h2.666z" />
+                </svg>
+                <span className="text-base font-bold tracking-tight leading-none">ModelScope</span>
+              </div>
+              <div className="border-l border-[var(--border-light)] pl-3 sm:pl-4 hidden sm:block">
+                <div className="text-[11px] font-bold text-[var(--text-primary)] leading-tight">{lang === 'zh' ? '魔搭社区' : 'Community'}</div>
+                <div className="text-[10px] text-[var(--text-muted)] mt-0.5 leading-tight">{t.modelscopeDesc}</div>
+              </div>
+            </a>
           </div>
         </section>
 
