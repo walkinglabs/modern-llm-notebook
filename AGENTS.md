@@ -25,6 +25,7 @@
 - 多用反问句引发思考，然后自问自答
 - 代码注释用中文
 - 不要翻译专有名词（Self-Attention、Embedding、Token 等保持英文）
+- Matplotlib/Seaborn 等图片里的可视文字必须使用英文，包括 title、axis label、legend、colorbar label、annotation text；中文 Notebook 的正文、注释和 print 可以继续中文。
 - 每个 Notebook 结尾有小结 checklist，确认读者懂了
 - 开头要像高中生教程：先告诉读者“今天要解决什么困惑”，再说会怎么一步步解决
 - 不要一上来用抽象判断压读者；先给定义，再给例子，再给反例或注意事项

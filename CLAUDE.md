@@ -56,6 +56,7 @@
 - 不要用 `---` 水平分割线
 - 补充性内容（如 special token）用四级小标题引入（`#### 附录：special token`），不占用正式章节编号
 - 非概念性的过渡段落用加粗引入（**实验语料**），不作为独立 section
+- Matplotlib/Seaborn 等图片里的可视文字必须使用英文，包括 title、axis label、legend、colorbar label、annotation text。中文 Notebook 的正文、注释和 print 可以继续中文；图片文字用英文是为了避免服务器或网页环境缺少中文字体现成方块。
 
 ### 章节标题规范
 
