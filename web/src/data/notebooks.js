@@ -17,6 +17,7 @@ const PARTS = [
   ['part3-inference', 'Inference'],
   ['part4-frontiers', 'Frontiers'],
   ['part5-production', 'Evaluation & Deployment'],
+  ['appendix-advanced', 'Appendix'],
 ]
 
 const PYTHON_KEYWORDS = new Set([

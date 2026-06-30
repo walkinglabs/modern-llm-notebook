@@ -175,8 +175,11 @@ notebooks/
 ├── part2-training/      # 08-17: GPT-2 演进 → 模型配置 → MoE → 训练损失 → 缩放定律 → 分布式 → 数据工程 → LoRA → 函数调用 → RLHF
 ├── part3-inference/     # 18-21: 解码策略 → 推理系统 → 量化 → 投机解码
 ├── part4-frontiers/     # 22-24: 长上下文 → 推理链 → VLM
-└── part5-production/    # 25-28: 评测 → 蒸馏 → OPD → 部署
+├── part5-production/    # 25-28: 评测 → 蒸馏 → OPD → 部署
+└── appendix-advanced/   # A-J: GPU 硬件 → Accounting → 混合精度 → 通信原语 → 并行策略 → 框架 API → FlashAttention → 进阶 Kernel → 概率信息论 → 现代优化器
 ```
+
+`appendix-advanced/` 是「现代 LLM 工程深水区」附录，编号用单字母 A-J（不是数字）。主线 notebook 引用附录时用「附录 G」「附录 I」这种形式（不带点号），附录之间互引用同样用单字母。
 
 ## Notebook 间引用规范
 

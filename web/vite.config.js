@@ -77,13 +77,39 @@ function buildNotebookCatalog() {
 function notebookCatalogPlugin() {
   const virtualModuleId = 'virtual:notebook-catalog'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
+  const watchedDirs = [
+    path.join(repoRoot, 'notebooks'),
+    path.join(repoRoot, 'notebooks-en'),
+  ]
 
   return {
     name: 'vite-plugin-notebook-catalog',
     resolveId(id) {
       if (id === virtualModuleId) return resolvedVirtualModuleId
     },
+    configureServer(server) {
+      // Watch the directory trees so renames / new subdirectories trigger reloads
+      for (const dir of watchedDirs) {
+        server.watcher.add(dir)
+      }
+      const rebuild = (event) => (file) => {
+        if (!file || !file.endsWith('.ipynb')) return
+        const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
+        if (!mod) return
+        server.moduleGraph.invalidateModule(mod)
+        server.ws.send({ type: 'full-reload' })
+        server.config.logger.info(`[notebook-catalog] ${event}: ${path.basename(file)}`, {
+          timestamp: true,
+        })
+      }
+      for (const dir of watchedDirs) {
+        server.watcher.on('change', rebuild('change'))
+        server.watcher.on('add', rebuild('add'))
+        server.watcher.on('unlink', rebuild('unlink'))
+      }
+    },
     buildStart() {
+      // Also add individual files for build-mode watching
       for (const filePath of [
         ...listNotebookFiles(path.join(repoRoot, 'notebooks')),
         ...listNotebookFiles(path.join(repoRoot, 'notebooks-en')),
