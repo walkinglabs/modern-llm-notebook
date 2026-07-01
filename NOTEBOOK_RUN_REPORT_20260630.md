@@ -45,7 +45,7 @@ Font warnings: 0
 
 - Filled existing exercise placeholders so notebooks can execute end-to-end instead of stopping at asserts.
 - Updated notebook-compatible APIs: Mixtral MoE attribute, Jupyter-safe multiprocessing start method, Transformers `safe_serialization=False` for tied MiniGPT weights.
-- Used public `Qwen/Qwen2.5-0.5B` in deployment notebook because `Qwen/Qwen2.5-0.6B` returned 401/not found from HuggingFace.
+- Updated the deployment notebook to use the user-specified public model `Qwen/Qwen3.5-0.8B`; the notebook was rerun successfully after the change.
 - Guarded external API/service examples when credentials or local vLLM service are absent; the notebooks now print explicit skip/explanation output instead of crashing.
 - Moved the expensive optimizer comparison in appendix E onto ROCm/PyTorch `cuda` device without reducing step counts.
 - Converted remaining plot-visible Chinese model labels to English where font warnings appeared.
