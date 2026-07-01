@@ -480,7 +480,7 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
                 {t.bannerDesc}
               </p>
 
-              <div className="flex flex-wrap gap-3 sm:gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
                 <button
                   onClick={() => onSelect('01-tokenizer-basics')}
                   className="h-10 sm:h-12 px-5 sm:px-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center gap-2"
@@ -494,25 +494,17 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
                 >
                   {t.browsePath}
                 </button>
-              </div>
-
-              <button
-                onClick={() => setIsLetterOpen(true)}
-                className="group w-full max-w-xl text-left rounded-2xl border border-blue-200/80 bg-white/85 hover:bg-white shadow-sm hover:shadow-md px-4 sm:px-5 py-3 sm:py-4 transition-all active:scale-[0.99] flex items-center gap-3"
-              >
-                <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
-                  <Mail className="w-5 h-5" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm sm:text-base font-extrabold text-slate-900">
+                <button
+                  onClick={() => setIsLetterOpen(true)}
+                  className="group h-10 sm:h-12 px-3 sm:px-4 rounded-xl border border-blue-200/80 bg-white/85 hover:bg-white shadow-sm hover:shadow-md transition-all active:scale-[0.99] flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4 text-blue-600 shrink-0" />
+                  <span className="text-xs sm:text-sm font-extrabold text-slate-900 whitespace-nowrap">
                     {t.readerLetter}
                   </span>
-                  <span className="block text-[11px] sm:text-xs text-slate-500 font-semibold leading-relaxed mt-0.5">
-                    {t.readerLetterDesc}
-                  </span>
-                </span>
-                <ChevronRight className="w-5 h-5 text-blue-600 group-hover:translate-x-0.5 transition-transform shrink-0" />
-              </button>
+                  <ChevronRight className="w-4 h-4 text-blue-600 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                </button>
+              </div>
 
               <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 border-t border-[var(--border-light)]/50 pt-4 sm:pt-5 max-w-lg select-none">
                 {[t.check1, t.check2, t.check3, t.check4].map((feature, idx) => (
