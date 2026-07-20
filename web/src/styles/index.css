@@ -1692,7 +1692,10 @@ mark.note-anchor code {
 .note-editor-popup {
   position: fixed;
   z-index: 101;
-  width: 360px;
+  width: clamp(420px, 56vw, 600px);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 14px;
@@ -1726,6 +1729,7 @@ mark.note-anchor code {
   overflow-y: auto;
   white-space: pre-wrap;
   word-break: break-word;
+  flex-shrink: 0;
 }
 .note-editor-close {
   display: flex;
@@ -1744,13 +1748,16 @@ mark.note-anchor code {
 .note-editor-close:hover { background: rgba(0,0,0,0.05); color: #1d1d1f; }
 .note-editor-textarea {
   width: 100%;
+  flex: 1 1 auto;
+  min-height: 120px;
+  max-height: 56vh;
   padding: 10px 12px;
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 10px;
   font-size: 13px;
   line-height: 1.55;
   font-family: inherit;
-  resize: vertical;
+  resize: none;
   outline: none;
   transition: border-color 0.18s ease;
 }
@@ -1760,6 +1767,7 @@ mark.note-anchor code {
   align-items: center;
   gap: 6px;
   margin-top: 8px;
+  flex-shrink: 0;
 }
 .note-editor-spacer { flex: 1; }
 .note-editor-btn {
@@ -1791,6 +1799,104 @@ mark.note-anchor code {
   color: #e74c3c;
 }
 .note-editor-delete:hover { background: rgba(231, 76, 60, 0.08); }
+
+/* 笔记编辑器图片区 */
+.note-editor-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.note-editor-image-item {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+.note-editor-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+}
+.note-editor-image-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.note-editor-image-item:hover .note-editor-image-remove {
+  opacity: 1;
+}
+.note-editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.note-editor-add-image {
+  background: rgba(29, 107, 243, 0.08);
+  color: #1d6bf3;
+}
+.note-editor-add-image:hover {
+  background: rgba(29, 107, 243, 0.16);
+}
+.note-editor-paste-hint {
+  font-size: 11px;
+  color: #86868b;
+}
+
+/* 笔记列表行的图片缩略图 */
+.notes-card-images {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+.notes-card-image-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: zoom-in;
+}
+.notes-card-image-more {
+  font-size: 11px;
+  color: #86868b;
+  font-weight: 600;
+}
+
+/* dark 模式适配 */
+[data-theme="dark"] .note-editor-popup {
+  background: #1c1c1e;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .note-editor-image-item {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .notes-card-image-thumb {
+  border-color: rgba(255, 255, 255, 0.1);
+}
 
 /* Notes panel (the full-page view) */
 .notes-panel {
