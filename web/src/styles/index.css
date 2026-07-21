@@ -1702,6 +1702,19 @@ mark.note-anchor code {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   padding: 14px;
 }
+/* 小屏（≤640px）：弹窗宽度 clamp 下限 420px 会溢出视口，
+   且 JS 按选区位置算 top/left 可能把弹窗推出屏幕底部。
+   改用 bottom-sheet 模式：左右贴边 16px、底部对齐，保证任何小屏下完整可见可操作 */
+@media (max-width: 640px) {
+  .note-editor-popup {
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important;
+    top: auto !important;
+    bottom: 16px !important;
+    max-height: calc(100vh - 32px);
+  }
+}
 .note-editor-header {
   display: flex;
   align-items: center;
@@ -1859,6 +1872,19 @@ mark.note-anchor code {
 }
 .note-editor-add-image:hover {
   background: rgba(29, 107, 243, 0.16);
+}
+.note-editor-add-image:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.note-editor-add-image:disabled:hover {
+  background: rgba(29, 107, 243, 0.08);
+}
+.note-editor-image-count {
+  font-size: 12px;
+  color: #86868b;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 .note-editor-paste-hint {
   font-size: 11px;

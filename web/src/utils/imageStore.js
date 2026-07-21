@@ -11,6 +11,7 @@ const THUMB_MAX_SIDE = 320
 const THUMB_QUALITY = 0.8
 
 export const MAX_IMAGE_MB = 5
+export const MAX_IMAGES = 6  // 单条笔记最多 6 张图片（缩略图进 localStorage，需控制总量）
 
 function makeImageId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8)

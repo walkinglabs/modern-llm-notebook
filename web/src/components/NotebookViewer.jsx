@@ -12,7 +12,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { getNotebookLaunchLinks } from '../config.js'
-import { prepareImage, putImage, deleteImage, normalizeImageEntry, MAX_IMAGE_MB } from '../utils/imageStore.js'
+import { prepareImage, putImage, deleteImage, normalizeImageEntry, MAX_IMAGE_MB, MAX_IMAGES } from '../utils/imageStore.js'
 import ImageLightbox, { useImagePreview } from './ImageLightbox.jsx'
 
 function extractToc(html) {
@@ -628,7 +628,11 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const tocScrollRef = useRef(null)
   const [visibleNotebookId, setVisibleNotebookId] = useState(null)
   const { imagePreview, openEntry, openBlob, openSrc, close: closeImagePreview } = useImagePreview()
+  // 镜像 noteEditor.images 的当前长度，供 addImagesFromFiles 同步读取（避免闭包 stale state）
+  // 声明必须在同步语句之前，否则触发 TDZ
+  const noteEditorImagesRef = useRef(0)
   const [noteEditor, setNoteEditor] = useState(null)
+  noteEditorImagesRef.current = noteEditor?.images?.length || 0
   const [selectionToolbar, setSelectionToolbar] = useState(null)
   const [highlightEditor, setHighlightEditor] = useState(null)
   const [sharePreview, setSharePreview] = useState(null)
@@ -781,9 +785,27 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         : `以下图片超过 ${MAX_IMAGE_MB}MB 已跳过：${skipped.join('、')}`)
     }
     if (prepared.length === 0) return
+
+    // 数量上限校验：单条笔记最多 MAX_IMAGES 张，超出部分截断并提示
+    const remaining = MAX_IMAGES - noteEditorImagesRef.current
+    let toAdd = prepared
+    let overflow = 0
+    if (remaining <= 0) {
+      toAdd = []
+      overflow = prepared.length
+    } else if (prepared.length > remaining) {
+      toAdd = prepared.slice(0, remaining)
+      overflow = prepared.length - remaining
+    }
+    if (overflow > 0) {
+      alert(lang === 'en'
+        ? `A note can have at most ${MAX_IMAGES} images. ${overflow} image(s) were skipped.`
+        : `单条笔记最多 ${MAX_IMAGES} 张图片，已跳过 ${overflow} 张。`)
+    }
+    if (toAdd.length === 0) return
     setNoteEditor((prev) => prev ? {
       ...prev,
-      images: [...(prev.images || []), ...prepared]
+      images: [...(prev.images || []), ...toAdd]
     } : prev)
   }
 
@@ -1475,7 +1497,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         images: matchedNote?.images || [],
         removedImages: [],
         top: Math.max(80, rect.top - 20),
-        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
+        // 弹窗宽 clamp(420px, 56vw, 600px)，left clamp 用最大宽 600+16 安全边距，防右侧溢出
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
       })
       return
     }
@@ -1769,11 +1792,15 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                   type="button"
                   className="note-editor-btn note-editor-add-image"
                   onClick={() => imageInputRef.current?.click()}
+                  disabled={(noteEditor.images?.length || 0) >= MAX_IMAGES}
                   title={lang === 'en' ? 'Insert image' : '插入图片'}
                 >
                   <ImagePlus className="w-3.5 h-3.5" />
                   <span>{lang === 'en' ? 'Image' : '图片'}</span>
                 </button>
+                <span className="note-editor-image-count">
+                  {(noteEditor.images?.length || 0)}/{MAX_IMAGES}
+                </span>
                 <span className="note-editor-paste-hint">
                   {lang === 'en' ? 'Paste image: Ctrl/Cmd+V' : '可粘贴图片 Ctrl/Cmd+V'}
                 </span>
@@ -2008,7 +2035,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                   images: [],
                   removedImages: [],
                   top: selectionToolbar.top - 20,
-                  left: Math.min(selectionToolbar.left, window.innerWidth - 360),
+                  // 同上：用弹窗最大宽 600+16 clamp left，防右侧溢出
+                  left: Math.min(selectionToolbar.left, window.innerWidth - 616),
                 })
                 setSelectionToolbar(null)
                 window.getSelection()?.removeAllRanges()
