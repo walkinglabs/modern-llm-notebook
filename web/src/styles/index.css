@@ -1792,6 +1792,40 @@ mark.note-anchor code {
 }
 .note-editor-delete:hover { background: rgba(231, 76, 60, 0.08); }
 
+/* 标题笔记小图标（挂在有笔记的 H2/H3 标题上） */
+.heading-note-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(29, 107, 243, 0.12);
+  cursor: pointer;
+  vertical-align: middle;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+.heading-note-indicator::before {
+  content: '\270D';
+  font-size: 11px;
+  color: #1d6bf3;
+}
+.heading-note-indicator:hover {
+  transform: scale(1.15);
+  background: rgba(29, 107, 243, 0.22);
+}
+
+/* dark 模式适配 */
+[data-theme="dark"] .heading-note-indicator {
+  background: rgba(110, 168, 255, 0.16);
+}
+[data-theme="dark"] .heading-note-indicator::before {
+  color: #6ea8ff;
+}
+
 /* Notes panel (the full-page view) */
 .notes-panel {
   max-width: 920px;
