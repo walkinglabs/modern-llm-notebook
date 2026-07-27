@@ -1145,6 +1145,11 @@
   font-size: 12px;
 }
 
+.toc-level-4 {
+  padding-left: 32px;
+  font-size: 11.5px;
+}
+
 .toc-sticky.toc-has-more::after {
   content: '';
   position: absolute;

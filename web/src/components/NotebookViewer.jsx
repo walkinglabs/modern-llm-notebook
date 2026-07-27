@@ -18,14 +18,14 @@ import ImageLightbox, { useImagePreview } from './ImageLightbox.jsx'
 function extractToc(html) {
   const temp = document.createElement('div')
   temp.innerHTML = html
-  const headings = temp.querySelectorAll('h2, h3')
+  const headings = temp.querySelectorAll('h2, h3, h4')
   const toc = []
   headings.forEach((h) => {
     const clone = h.cloneNode(true)
     clone.querySelectorAll('.anchor-link').forEach((link) => link.remove())
     const text = clone.textContent.trim()
     if (!text) return
-    const level = h.tagName === 'H3' ? 3 : 2
+    const level = h.tagName === 'H4' ? 4 : h.tagName === 'H3' ? 3 : 2
     toc.push({ id: h.id, text, level })
   })
   return toc
@@ -913,16 +913,16 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   }
 
   const findNearestHeading = (content, range) => {
-    // 选区位于 H2/H3 标题内时，直接返回该标题
+    // 选区位于 H2/H3/H4 标题内时，直接返回该标题
     // （修复子标题笔记 sectionId 错位到上一节的 bug）
     const startEl = elementFromNode(range.startContainer)
-    const headingAncestor = startEl?.closest('h2, h3')
+    const headingAncestor = startEl?.closest('h2, h3, h4')
     if (headingAncestor && content.contains(headingAncestor)) {
       return headingAncestor
     }
     // 否则找选区上方最近的标题（原逻辑）
     const selTop = range.getBoundingClientRect().top
-    const headings = [...content.querySelectorAll('h2, h3')]
+    const headings = [...content.querySelectorAll('h2, h3, h4')]
     let nearest = null
     let minDist = Infinity
     for (const h of headings) {
@@ -1151,7 +1151,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const updateActiveHeading = () => {
     const scroller = contentRef.current
     const content = notebookContentRef.current
-    const headings = content ? [...content.querySelectorAll('h2, h3')] : []
+    const headings = content ? [...content.querySelectorAll('h2, h3, h4')] : []
     if (!scroller || headings.length === 0) return
 
     if (scroller.scrollTop < 24) {
@@ -1324,7 +1324,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     // （bug 修复前已给子标题写过的笔记，sectionId 错指上一节，用 quote 反查真实归属）
     let effectiveNotes = currentNotebookNotes
     if (!calibratedNotebookIdsRef.current.has(notebook.id)) {
-      const headings = [...content.querySelectorAll('h2, h3')]
+      const headings = [...content.querySelectorAll('h2, h3, h4')]
       const corrections = []
       const patched = currentNotebookNotes.map((note) => {
         if (isHighlightNote(note) || !isPlainNote(note)) return note
