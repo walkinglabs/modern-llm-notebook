@@ -1957,7 +1957,6 @@ mark.note-anchor code {
 [data-theme="dark"] .heading-note-indicator::before {
   color: #6ea8ff;
 }
-}
 
 /* Notes panel (the full-page view) */
 .notes-panel {
