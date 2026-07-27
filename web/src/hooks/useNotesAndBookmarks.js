@@ -82,7 +82,7 @@ export default function useNotesAndBookmarks() {
       if (noteId) {
         const idx = list.findIndex((n) => n.id === noteId)
         if (idx >= 0) {
-          list[idx] = { ...list[idx], sectionTitle, quote, text, updatedAt: Date.now() }
+          list[idx] = { ...list[idx], sectionId, sectionTitle, quote, text, updatedAt: Date.now() }
           if (anchor) list[idx].anchor = anchor
           if (images !== undefined) list[idx].images = images
         } else {

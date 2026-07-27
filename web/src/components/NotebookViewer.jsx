@@ -1607,7 +1607,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         text: matchedNote?.text || '',
         images: matchedNote?.images || [],
         removedImages: [],
-        top: Math.max(80, rect.top - 20),
+        top: Math.min(Math.max(80, rect.top - 20), window.innerHeight - 280),
         // 弹窗宽 clamp(420px, 56vw, 600px)，left clamp 用最大宽 600+16 安全边距，防右侧溢出
         left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
       })
@@ -1631,8 +1631,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         text: matchedNote?.text || '',
         images: matchedNote?.images || [],
         removedImages: [],
-        top: Math.max(80, rect.top - 20),
-        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
+        top: Math.min(Math.max(80, rect.top - 20), window.innerHeight - 280),
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
       })
       return
     }
@@ -2168,7 +2168,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                   text: '',
                   images: [],
                   removedImages: [],
-                  top: selectionToolbar.top - 20,
+                  top: Math.min(Math.max(80, selectionToolbar.top - 20), window.innerHeight - 280),
                   // 同上：用弹窗最大宽 600+16 clamp left，防右侧溢出
                   left: Math.min(selectionToolbar.left, window.innerWidth - 616),
                 })
