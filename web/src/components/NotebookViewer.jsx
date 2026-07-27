@@ -1629,6 +1629,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         sectionTitle: matchedNote?.sectionTitle || '',
         quote: matchedNote?.quote || '',
         text: matchedNote?.text || '',
+        images: matchedNote?.images || [],
+        removedImages: [],
         top: Math.max(80, rect.top - 20),
         left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
       })
