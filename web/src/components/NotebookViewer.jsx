@@ -486,6 +486,86 @@ function syncSavedNotes(root, noteList) {
   }
 }
 
+// 历史子标题笔记迁移：用 quote 反查笔记真正归属的 section
+// 返回 { sectionId, sectionTitle } 表示需要修正；返回 null 表示已正确或无法校准
+function calibrateNoteSection(root, note, headings) {
+  if (!note || !note.quote) return null
+  const quote = String(note.quote).trim()
+  if (!quote) return null
+
+  const normalizeHeading = (h) => h.textContent.replace(/[#\n\r]/g, '').trim()
+
+  // 情况 A/C：quote 等于或包含于某 heading 的文本（用户选了整个或部分标题）
+  for (const h of headings) {
+    const hText = normalizeHeading(h)
+    if (!hText) continue
+    if (hText === quote || hText.includes(quote) || quote.includes(hText)) {
+      if (h.id === note.sectionId) return null  // 已正确
+      return { sectionId: h.id, sectionTitle: hText }
+    }
+  }
+
+  // 情况 B：quote 在某 block（p/li/td/th）里，取该 block 上方最近 heading
+  const blocks = getHighlightBlocks(root)
+  for (const block of blocks) {
+    const blockText = block.textContent.replace(/\s+/g, ' ').trim()
+    if (!blockText.includes(quote)) continue
+    const blockTop = block.getBoundingClientRect().top
+    let nearest = null
+    let minDist = Infinity
+    for (const h of headings) {
+      const dist = blockTop - h.getBoundingClientRect().bottom
+      if (dist >= 0 && dist < minDist) {
+        minDist = dist
+        nearest = h
+      }
+    }
+    if (nearest) {
+      const hText = normalizeHeading(nearest)
+      if (nearest.id === note.sectionId) return null  // 已正确
+      return { sectionId: nearest.id, sectionTitle: hText }
+    }
+  }
+
+  return null  // 无法校准
+}
+
+// 在有笔记的标题上挂笔记小图标，让用户能从页面入口打开标题笔记
+// 仅对「没有 DOM anchor mark」的 plain note 生效（anchor 渲染失败的标题笔记）
+function syncHeadingNotes(root, noteList) {
+  if (!root) return
+
+  // 清理旧图标
+  root.querySelectorAll('.heading-note-indicator').forEach((el) => el.remove())
+
+  // 按 sectionId 分组：没有 anchor mark 的 plain note 才需要标题图标
+  const notesBySection = new Map()
+  for (const note of noteList) {
+    if (!isPlainNote(note)) continue
+    if (!note.sectionId) continue
+    if (root.querySelector(`mark.note-anchor[data-note-id="${note.id}"]`)) continue
+    if (!notesBySection.has(note.sectionId)) notesBySection.set(note.sectionId, [])
+    notesBySection.get(note.sectionId).push(note)
+  }
+
+  for (const [sectionId, notes] of notesBySection) {
+    const safeId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(sectionId) : sectionId
+    const heading = root.querySelector(`#${safeId}`)
+    if (!heading) continue
+    const note = notes[0]
+    const indicator = document.createElement('button')
+    indicator.className = 'heading-note-indicator'
+    indicator.type = 'button'
+    indicator.dataset.noteId = note.id
+    indicator.dataset.noteIds = notes.map((n) => n.id).join(',')
+    indicator.title = notes.length > 1
+      ? `该章节有 ${notes.length} 条笔记，点击查看`
+      : '该章节有笔记，点击查看'
+    indicator.setAttribute('aria-label', indicator.title)
+    heading.appendChild(indicator)
+  }
+}
+
 // 从一个 Range 算出 anchor（不写 DOM），新建笔记时用
 function computeAnchorFromRange(root, range) {
   if (!root || !range) return null
@@ -615,7 +695,7 @@ function getHighlightSideCenterY(mark, side) {
   return rect ? rect.top + rect.height / 2 : null
 }
 
-function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark, notes, saveNote, deleteNote }) {
+function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark, notes, saveNote, deleteNote, updateNoteSection }) {
   const contentRef = useRef(null)
   const notebookContentRef = useRef(null)
   const revealFrameRef = useRef(null)
@@ -645,6 +725,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const previousHighlightSyncRef = useRef(null)
   // 笔记编辑器的图片文件选择 input
   const imageInputRef = useRef(null)
+  // 记录已做过 sectionId 校准的 notebook id，避免每次重渲染都重算
+  const calibratedNotebookIdsRef = useRef(new Set())
   const lang = meta?.lang === 'en' ? 'en' : 'zh'
   const notebookHtml = useMemo(() => ({ __html: notebook?.html || '' }), [notebook?.html])
   const currentNotebookNotes = useMemo(() => {
@@ -831,7 +913,14 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   }
 
   const findNearestHeading = (content, range) => {
-    // 找选区上方最近的标题
+    // 选区位于 H2/H3 标题内时，直接返回该标题
+    // （修复子标题笔记 sectionId 错位到上一节的 bug）
+    const startEl = elementFromNode(range.startContainer)
+    const headingAncestor = startEl?.closest('h2, h3')
+    if (headingAncestor && content.contains(headingAncestor)) {
+      return headingAncestor
+    }
+    // 否则找选区上方最近的标题（原逻辑）
     const selTop = range.getBoundingClientRect().top
     const headings = [...content.querySelectorAll('h2, h3')]
     let nearest = null
@@ -1231,8 +1320,30 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
 
     const activeNoteId = activeHighlightRef.current?.dataset.noteId || ''
 
-    syncSavedHighlights(content, currentNotebookNotes)
-    syncSavedNotes(content, currentNotebookNotes)
+    // 历史子标题笔记惰性迁移：校准 plain note 的 sectionId
+    // （bug 修复前已给子标题写过的笔记，sectionId 错指上一节，用 quote 反查真实归属）
+    let effectiveNotes = currentNotebookNotes
+    if (!calibratedNotebookIdsRef.current.has(notebook.id)) {
+      const headings = [...content.querySelectorAll('h2, h3')]
+      const corrections = []
+      const patched = currentNotebookNotes.map((note) => {
+        if (isHighlightNote(note) || !isPlainNote(note)) return note
+        const fix = calibrateNoteSection(content, note, headings)
+        if (!fix) return note
+        corrections.push({ id: note.id, ...fix })
+        return { ...note, ...fix }
+      })
+      if (corrections.length > 0) {
+        console.info(`[notes] 校准 ${notebook.id} 的 ${corrections.length} 条笔记 sectionId`, corrections)
+        corrections.forEach((c) => updateNoteSection?.(notebook.id, c.id, c.sectionId, c.sectionTitle))
+        effectiveNotes = patched
+      }
+      calibratedNotebookIdsRef.current.add(notebook.id)
+    }
+
+    syncSavedHighlights(content, effectiveNotes)
+    syncSavedNotes(content, effectiveNotes)
+    syncHeadingNotes(content, effectiveNotes)
 
     if (activeNoteId) {
       const nextActive = content.querySelector(`mark.user-highlight[data-note-id="${activeNoteId}"]`)
@@ -1499,6 +1610,27 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         top: Math.max(80, rect.top - 20),
         // 弹窗宽 clamp(420px, 56vw, 600px)，left clamp 用最大宽 600+16 安全边距，防右侧溢出
         left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
+      })
+      return
+    }
+
+    const headingIndicator = event.target.closest('.heading-note-indicator')
+    if (headingIndicator && notebookContentRef.current?.contains(headingIndicator)) {
+      event.preventDefault()
+      event.stopPropagation()
+      setSelectionToolbar(null)
+      window.getSelection()?.removeAllRanges()
+      const noteId = headingIndicator.dataset.noteId || null
+      const matchedNote = noteId ? currentNotebookNotes.find((n) => n.id === noteId) : null
+      const rect = headingIndicator.getBoundingClientRect()
+      setNoteEditor({
+        noteId,
+        sectionId: matchedNote?.sectionId || '',
+        sectionTitle: matchedNote?.sectionTitle || '',
+        quote: matchedNote?.quote || '',
+        text: matchedNote?.text || '',
+        top: Math.max(80, rect.top - 20),
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
       })
       return
     }

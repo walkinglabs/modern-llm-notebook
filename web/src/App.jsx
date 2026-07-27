@@ -682,6 +682,7 @@ function AppContent() {
             notes={nbm.notes}
             saveNote={nbm.saveNote}
             deleteNote={nbm.deleteNote}
+            updateNoteSection={nbm.updateNoteSection}
           />
         ) : (
           <Welcome

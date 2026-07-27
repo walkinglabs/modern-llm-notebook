@@ -138,6 +138,23 @@ export default function useNotesAndBookmarks() {
     })
   }, [])
 
+  // 仅更新笔记的 sectionId/sectionTitle，保留其他字段和 updatedAt
+  // 用于历史子标题笔记的惰性迁移（修正 bug 前错位的 sectionId）
+  const updateNoteSection = useCallback((notebookId, noteId, sectionId, sectionTitle) => {
+    setNotes((prev) => {
+      const list = prev[notebookId]
+      if (!Array.isArray(list)) return prev
+      const idx = list.findIndex((n) => n.id === noteId)
+      if (idx < 0) return prev
+      const next = { ...prev }
+      const nextList = [...list]
+      nextList[idx] = { ...nextList[idx], sectionId, sectionTitle }
+      next[notebookId] = nextList
+      saveJSON(NOTES_KEY, next)
+      return next
+    })
+  }, [])
+
   const getSectionNotes = useCallback((notebookId) => {
     return (notes[notebookId] || []).slice().sort((a, b) => b.updatedAt - a.updatedAt)
   }, [notes])
@@ -241,6 +258,7 @@ export default function useNotesAndBookmarks() {
     isBookmarked,
     saveNote,
     deleteNote,
+    updateNoteSection,
     getSectionNotes,
     exportData,
     importData,
