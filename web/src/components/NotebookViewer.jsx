@@ -3,6 +3,7 @@ import {
   Copy,
   Download,
   Highlighter,
+  ImagePlus,
   PanelRightClose,
   PanelRightOpen,
   Pencil,
@@ -11,18 +12,20 @@ import {
   Trash2,
 } from 'lucide-react'
 import { getNotebookLaunchLinks } from '../config.js'
+import { prepareImage, putImage, deleteImage, normalizeImageEntry, MAX_IMAGE_MB, MAX_IMAGES } from '../utils/imageStore.js'
+import ImageLightbox, { useImagePreview } from './ImageLightbox.jsx'
 
 function extractToc(html) {
   const temp = document.createElement('div')
   temp.innerHTML = html
-  const headings = temp.querySelectorAll('h2, h3')
+  const headings = temp.querySelectorAll('h2, h3, h4')
   const toc = []
   headings.forEach((h) => {
     const clone = h.cloneNode(true)
     clone.querySelectorAll('.anchor-link').forEach((link) => link.remove())
     const text = clone.textContent.trim()
     if (!text) return
-    const level = h.tagName === 'H3' ? 3 : 2
+    const level = h.tagName === 'H4' ? 4 : h.tagName === 'H3' ? 3 : 2
     toc.push({ id: h.id, text, level })
   })
   return toc
@@ -704,8 +707,12 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const [tocHasMore, setTocHasMore] = useState(false)
   const tocScrollRef = useRef(null)
   const [visibleNotebookId, setVisibleNotebookId] = useState(null)
-  const [imagePreview, setImagePreview] = useState(null)
+  const { imagePreview, openEntry, openBlob, openSrc, close: closeImagePreview } = useImagePreview()
+  // 镜像 noteEditor.images 的当前长度，供 addImagesFromFiles 同步读取（避免闭包 stale state）
+  // 声明必须在同步语句之前，否则触发 TDZ
+  const noteEditorImagesRef = useRef(0)
   const [noteEditor, setNoteEditor] = useState(null)
+  noteEditorImagesRef.current = noteEditor?.images?.length || 0
   const [selectionToolbar, setSelectionToolbar] = useState(null)
   const [highlightEditor, setHighlightEditor] = useState(null)
   const [sharePreview, setSharePreview] = useState(null)
@@ -716,6 +723,8 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const activeHighlightRef = useRef(null)
   const highlightDragRef = useRef(null)
   const previousHighlightSyncRef = useRef(null)
+  // 笔记编辑器的图片文件选择 input
+  const imageInputRef = useRef(null)
   // 记录已做过 sectionId 校准的 notebook id，避免每次重渲染都重算
   const calibratedNotebookIdsRef = useRef(new Set())
   const lang = meta?.lang === 'en' ? 'en' : 'zh'
@@ -834,17 +843,86 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     return true
   }
 
+  // 笔记编辑器：从 File 列表预处理并追加图片
+  // 单张 >5MB 拒绝并收集后一次提示；原图 file 暂存内存，保存笔记时才写 IndexedDB
+  const addImagesFromFiles = async (fileList) => {
+    const files = [...fileList].filter((f) => f.type.startsWith('image/'))
+    if (files.length === 0) return
+    const prepared = []
+    const skipped = []
+    for (const f of files) {
+      try {
+        prepared.push(await prepareImage(f))
+      } catch (err) {
+        if (err.message === 'image-too-large') {
+          skipped.push(f.name || (lang === 'en' ? 'pasted image' : '粘贴的图片'))
+        } else {
+          console.warn('[notes] 图片预处理失败', err)
+        }
+      }
+    }
+    if (skipped.length > 0) {
+      alert(lang === 'en'
+        ? `Skipped images over ${MAX_IMAGE_MB}MB: ${skipped.join(', ')}`
+        : `以下图片超过 ${MAX_IMAGE_MB}MB 已跳过：${skipped.join('、')}`)
+    }
+    if (prepared.length === 0) return
+
+    // 数量上限校验：单条笔记最多 MAX_IMAGES 张，超出部分截断并提示
+    const remaining = MAX_IMAGES - noteEditorImagesRef.current
+    let toAdd = prepared
+    let overflow = 0
+    if (remaining <= 0) {
+      toAdd = []
+      overflow = prepared.length
+    } else if (prepared.length > remaining) {
+      toAdd = prepared.slice(0, remaining)
+      overflow = prepared.length - remaining
+    }
+    if (overflow > 0) {
+      alert(lang === 'en'
+        ? `A note can have at most ${MAX_IMAGES} images. ${overflow} image(s) were skipped.`
+        : `单条笔记最多 ${MAX_IMAGES} 张图片，已跳过 ${overflow} 张。`)
+    }
+    if (toAdd.length === 0) return
+    setNoteEditor((prev) => prev ? {
+      ...prev,
+      images: [...(prev.images || []), ...toAdd]
+    } : prev)
+  }
+
+  // 笔记编辑器：粘贴图片（Ctrl/Cmd+V）
+  const handleNoteEditorPaste = (e) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    const files = [...items]
+      .filter((it) => it.kind === 'file' && it.type.startsWith('image/'))
+      .map((it) => it.getAsFile())
+      .filter(Boolean)
+    if (files.length === 0) return
+    e.preventDefault()
+    addImagesFromFiles(files)
+  }
+
+  // 笔记编辑器：文件选择器选图
+  const handleImageInputChange = (e) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    addImagesFromFiles(files)
+    e.target.value = ''
+  }
+
   const findNearestHeading = (content, range) => {
-    // 选区位于 H2/H3 标题内时，直接返回该标题
+    // 选区位于 H2/H3/H4 标题内时，直接返回该标题
     // （修复子标题笔记 sectionId 错位到上一节的 bug）
     const startEl = elementFromNode(range.startContainer)
-    const headingAncestor = startEl?.closest('h2, h3')
+    const headingAncestor = startEl?.closest('h2, h3, h4')
     if (headingAncestor && content.contains(headingAncestor)) {
       return headingAncestor
     }
     // 否则找选区上方最近的标题（原逻辑）
     const selTop = range.getBoundingClientRect().top
-    const headings = [...content.querySelectorAll('h2, h3')]
+    const headings = [...content.querySelectorAll('h2, h3, h4')]
     let nearest = null
     let minDist = Infinity
     for (const h of headings) {
@@ -1073,7 +1151,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   const updateActiveHeading = () => {
     const scroller = contentRef.current
     const content = notebookContentRef.current
-    const headings = content ? [...content.querySelectorAll('h2, h3')] : []
+    const headings = content ? [...content.querySelectorAll('h2, h3, h4')] : []
     if (!scroller || headings.length === 0) return
 
     if (scroller.scrollTop < 24) {
@@ -1241,11 +1319,12 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     }
 
     const activeNoteId = activeHighlightRef.current?.dataset.noteId || ''
+
     // 历史子标题笔记惰性迁移：校准 plain note 的 sectionId
     // （bug 修复前已给子标题写过的笔记，sectionId 错指上一节，用 quote 反查真实归属）
     let effectiveNotes = currentNotebookNotes
     if (!calibratedNotebookIdsRef.current.has(notebook.id)) {
-      const headings = [...content.querySelectorAll('h2, h3')]
+      const headings = [...content.querySelectorAll('h2, h3, h4')]
       const corrections = []
       const patched = currentNotebookNotes.map((note) => {
         if (isHighlightNote(note) || !isPlainNote(note)) return note
@@ -1285,7 +1364,11 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
-        if (imagePreview) setImagePreview(null)
+        // 灯箱在最上层：只关灯箱，不连带关编辑器（避免丢失未保存输入）
+        if (imagePreview) {
+          closeImagePreview()
+          return
+        }
         if (noteEditor) setNoteEditor(null)
         if (highlightEditor) {
           setHighlightEditor(null)
@@ -1300,7 +1383,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [imagePreview, noteEditor, selectionToolbar, highlightEditor])
+  }, [imagePreview, noteEditor, selectionToolbar, highlightEditor, closeImagePreview])
 
   useEffect(() => {
     if (!highlightEditor) return undefined
@@ -1522,8 +1605,11 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         sectionTitle: noteAnchor.dataset.sectionTitle || '',
         quote: noteAnchor.dataset.noteQuote || noteAnchor.textContent,
         text: matchedNote?.text || '',
-        top: Math.max(80, rect.top - 20),
-        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
+        images: matchedNote?.images || [],
+        removedImages: [],
+        top: Math.min(Math.max(80, rect.top - 20), window.innerHeight - 280),
+        // 弹窗宽 clamp(420px, 56vw, 600px)，left clamp 用最大宽 600+16 安全边距，防右侧溢出
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
       })
       return
     }
@@ -1543,8 +1629,10 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         sectionTitle: matchedNote?.sectionTitle || '',
         quote: matchedNote?.quote || '',
         text: matchedNote?.text || '',
-        top: Math.max(80, rect.top - 20),
-        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 360),
+        images: matchedNote?.images || [],
+        removedImages: [],
+        top: Math.min(Math.max(80, rect.top - 20), window.innerHeight - 280),
+        left: Math.min(Math.max(rect.left, 80), window.innerWidth - 616),
       })
       return
     }
@@ -1553,10 +1641,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     if (image && notebookContentRef.current?.contains(image)) {
       event.preventDefault()
       event.stopPropagation()
-      setImagePreview({
-        src: image.currentSrc || image.src,
-        alt: image.alt || 'notebook output',
-      })
+      openSrc(image.currentSrc || image.src, image.alt || 'notebook output')
       return
     }
 
@@ -1639,10 +1724,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     if (!image || !notebookContentRef.current?.contains(image)) return
 
     event.preventDefault()
-    setImagePreview({
-      src: image.currentSrc || image.src,
-      alt: image.alt || 'notebook output',
-    })
+    openSrc(image.currentSrc || image.src, image.alt || 'notebook output')
   }
 
   // 只有"既没 notebook 又在 loading"(首次进入应用还没加载过任何 notebook)才用全屏 spinner
@@ -1766,29 +1848,12 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
         />
 
         {imagePreview && (
-          <div
-            className="image-lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-label={lang === 'en' ? 'Image preview' : '图片预览'}
-            onClick={() => setImagePreview(null)}
-          >
-            <button
-              className="image-lightbox-close"
-              type="button"
-              aria-label={lang === 'en' ? 'Close image preview' : '关闭图片预览'}
-              onClick={() => setImagePreview(null)}
-            >
-              ×
-            </button>
-            <div className="image-lightbox-scroll">
-              <img
-                src={imagePreview.src}
-                alt={imagePreview.alt}
-                onClick={(event) => event.stopPropagation()}
-              />
-            </div>
-          </div>
+          <ImageLightbox
+            src={imagePreview.src}
+            alt={imagePreview.alt}
+            lang={lang}
+            onClose={closeImagePreview}
+          />
         )}
 
         {noteEditor && (
@@ -1800,6 +1865,7 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
               className="note-editor-popup"
               style={{ top: noteEditor.top, left: noteEditor.left }}
               onClick={(e) => e.stopPropagation()}
+              onPaste={handleNoteEditorPaste}
             >
               <div className="note-editor-header">
                 <span className="note-editor-section">{noteEditor.sectionTitle}</span>
@@ -1811,6 +1877,42 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
               {noteEditor.quote && (
                 <blockquote className="note-editor-quote">{noteEditor.quote}</blockquote>
               )}
+              {noteEditor.images && noteEditor.images.length > 0 && (
+                <div className="note-editor-images">
+                  {noteEditor.images.map((img, i) => {
+                    const entry = normalizeImageEntry(img)
+                    return (
+                      <div key={i} className="note-editor-image-item">
+                        <img
+                          src={entry.thumb}
+                          alt=""
+                          onClick={() => {
+                            // 新加的图片原图还在内存（file），直接用；已保存的从 IndexedDB 取
+                            if (img.file) {
+                              openBlob(img.file, `note image ${i + 1}`)
+                            } else {
+                              openEntry(img, `note image ${i + 1}`)
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="note-editor-image-remove"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            // 删除延迟生效：移入 removedImages，保存时才清 IndexedDB（取消则原图保留）
+                            setNoteEditor({
+                              ...noteEditor,
+                              images: noteEditor.images.filter((_, idx) => idx !== i),
+                              removedImages: [...(noteEditor.removedImages || []), img],
+                            })
+                          }}
+                        >&times;</button>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
               <textarea
                 className="note-editor-textarea"
                 value={noteEditor.text}
@@ -1818,6 +1920,32 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                 placeholder={lang === 'en' ? 'Write your note...' : '写下你的笔记...'}
                 rows={4}
                 autoFocus
+              />
+              <div className="note-editor-toolbar">
+                <button
+                  type="button"
+                  className="note-editor-btn note-editor-add-image"
+                  onClick={() => imageInputRef.current?.click()}
+                  disabled={(noteEditor.images?.length || 0) >= MAX_IMAGES}
+                  title={lang === 'en' ? 'Insert image' : '插入图片'}
+                >
+                  <ImagePlus className="w-3.5 h-3.5" />
+                  <span>{lang === 'en' ? 'Image' : '图片'}</span>
+                </button>
+                <span className="note-editor-image-count">
+                  {(noteEditor.images?.length || 0)}/{MAX_IMAGES}
+                </span>
+                <span className="note-editor-paste-hint">
+                  {lang === 'en' ? 'Paste image: Ctrl/Cmd+V' : '可粘贴图片 Ctrl/Cmd+V'}
+                </span>
+              </div>
+              <input
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: 'none' }}
+                onChange={handleImageInputChange}
               />
               <div className="note-editor-actions">
                 {noteEditor.noteId && (
@@ -1841,12 +1969,25 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                 </button>
                 <button
                   className="note-editor-btn note-editor-save"
-                  onClick={() => {
+                  onClick={async () => {
                     const root = notebookContentRef.current
                     // 新建笔记时从暂存选区算 anchor；编辑模式下不传，保留原 anchor
                     const anchor = (!noteEditor.noteId && root && noteAnchorRangeRef.current)
                       ? computeAnchorFromRange(root, noteAnchorRangeRef.current)
                       : undefined
+                    const images = noteEditor.images || []
+                    // 新图片（带 file）保存时才写 IndexedDB；本次删除的图片同步清理
+                    try {
+                      await Promise.all(images
+                        .filter((img) => img?.file && img?.id)
+                        .map((img) => putImage(img.id, img.file)))
+                      await Promise.all((noteEditor.removedImages || [])
+                        .filter((img) => img?.id)
+                        .map((img) => deleteImage(img.id)))
+                    } catch (err) {
+                      // IDB 不可用（如隐私模式）时降级：笔记照存，原图缺失时灯箱回退缩略图
+                      console.warn('[notes] 图片落库失败，将仅保留缩略图', err)
+                    }
                     saveNote?.(
                       notebook.id,
                       noteEditor.sectionId,
@@ -1854,12 +1995,19 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                       noteEditor.quote || '',
                       noteEditor.text,
                       noteEditor.noteId || undefined,
-                      anchor
+                      anchor,
+                      {
+                        // 剥离 file，只把 { id, thumb } 引用存进笔记数据
+                        images: images.map((img) => {
+                          const e = normalizeImageEntry(img)
+                          return { id: e.id, thumb: e.thumb }
+                        })
+                      }
                     )
                     noteAnchorRangeRef.current = null
                     setNoteEditor(null)
                   }}
-                  disabled={!noteEditor.text.trim() && !noteEditor.quote}
+                  disabled={!noteEditor.text.trim() && !noteEditor.quote && (!noteEditor.images || noteEditor.images.length === 0)}
                 >
                   {lang === 'en' ? 'Save' : '保存'}
                 </button>
@@ -2018,8 +2166,11 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
                   sectionTitle: selectionToolbar.sectionTitle,
                   quote: selectionToolbar.selectedText,
                   text: '',
-                  top: selectionToolbar.top - 20,
-                  left: Math.min(selectionToolbar.left, window.innerWidth - 360),
+                  images: [],
+                  removedImages: [],
+                  top: Math.min(Math.max(80, selectionToolbar.top - 20), window.innerHeight - 280),
+                  // 同上：用弹窗最大宽 600+16 clamp left，防右侧溢出
+                  left: Math.min(selectionToolbar.left, window.innerWidth - 616),
                 })
                 setSelectionToolbar(null)
                 window.getSelection()?.removeAllRanges()

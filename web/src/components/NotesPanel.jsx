@@ -1,11 +1,24 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Download, Upload, Star, StickyNote, ExternalLink, Trash2 } from 'lucide-react'
+import ImageLightbox, { useImagePreview } from './ImageLightbox.jsx'
+import { normalizeImageEntry } from '../utils/imageStore.js'
 
 export default function NotesPanel({
   catalog, bookmarks, notes, notebooksWithNotes, getSectionNotes, exportData, importFile, onClearAll, onSelect, lang,
 }) {
   const fileInputRef = useRef(null)
   const [confirmClear, setConfirmClear] = useState(false)
+  const { imagePreview, openEntry, close: closeImagePreview } = useImagePreview()
+
+  // 灯箱打开时挂载 Escape 监听，关闭即卸载
+  useEffect(() => {
+    if (!imagePreview) return undefined
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') closeImagePreview()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [imagePreview, closeImagePreview])
 
   const bookmarkList = Object.entries(bookmarks).sort((a, b) => b[1].addedAt - a[1].addedAt)
 
@@ -71,8 +84,8 @@ export default function NotesPanel({
     }, 1800)
   }
 
-  const handleExport = () => {
-    const json = exportData()
+  const handleExport = async () => {
+    const json = await exportData()
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -87,9 +100,12 @@ export default function NotesPanel({
     if (!file) return
     const result = await importFile(file)
     if (result.ok) {
+      const imagePart = result.imageCount
+        ? (lang === 'zh' ? `，${result.imageCount} 张图片` : `, ${result.imageCount} images`)
+        : ''
       alert(lang === 'zh'
-        ? `导入成功：${result.bookmarkCount} 个收藏，${result.noteCount} 条笔记`
-        : `Imported: ${result.bookmarkCount} bookmarks, ${result.noteCount} notes`)
+        ? `导入成功：${result.bookmarkCount} 个收藏，${result.noteCount} 条笔记${imagePart}`
+        : `Imported: ${result.bookmarkCount} bookmarks, ${result.noteCount} notes${imagePart}`)
     } else {
       alert(lang === 'zh' ? `导入失败：${result.error}` : `Import failed: ${result.error}`)
     }
@@ -268,6 +284,29 @@ export default function NotesPanel({
                                 {String(n.text).slice(0, 100)}{String(n.text).length > 100 ? '…' : ''}
                               </span>
                             )}
+                            {n.images && n.images.length > 0 && (
+                              <div className="notes-card-images">
+                                {n.images.slice(0, 3).map((img, i) => {
+                                  const entry = normalizeImageEntry(img)
+                                  return (
+                                    <img
+                                      key={i}
+                                      src={entry.thumb}
+                                      alt=""
+                                      className="notes-card-image-thumb"
+                                      // 点开灯箱看原图，阻止冒泡避免触发笔记行跳转
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        openEntry(img, String(n.text || n.quote || 'note image').slice(0, 80))
+                                      }}
+                                    />
+                                  )
+                                })}
+                                {n.images.length > 3 && (
+                                  <span className="notes-card-image-more">+{n.images.length - 3}</span>
+                                )}
+                              </div>
+                            )}
                           </div>
                           <div className="notes-card-meta">
                             <span className="notes-card-date">
@@ -285,6 +324,15 @@ export default function NotesPanel({
           </section>
         </div>
       </div>
+
+      {imagePreview && (
+        <ImageLightbox
+          src={imagePreview.src}
+          alt={imagePreview.alt}
+          lang={lang}
+          onClose={closeImagePreview}
+        />
+      )}
     </div>
   )
 }

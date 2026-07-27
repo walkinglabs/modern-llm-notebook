@@ -1,7 +1,24 @@
 import { useState, useCallback, useMemo } from 'react'
+import {
+  getAllImages,
+  putImage,
+  deleteImage,
+  clearImages,
+  normalizeImageEntry,
+} from '../utils/imageStore.js'
 
 const BOOKMARKS_KEY = 'mln_bookmarks'
 const NOTES_KEY = 'mln_notes'
+
+// Blob → data URL（导出时把 IndexedDB 原图内嵌进 JSON）
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(blob)
+  })
+}
 
 function loadJSON(key, fallback = {}) {
   try {
@@ -55,16 +72,19 @@ export default function useNotesAndBookmarks() {
     quote,
     text,
     noteId,
-    anchor
+    anchor,
+    options = {}
   ) => {
+    const { images } = options
     setNotes((prev) => {
       const next = { ...prev }
       const list = [...(next[notebookId] || [])]
       if (noteId) {
         const idx = list.findIndex((n) => n.id === noteId)
         if (idx >= 0) {
-          list[idx] = { ...list[idx], sectionTitle, quote, text, updatedAt: Date.now() }
+          list[idx] = { ...list[idx], sectionId, sectionTitle, quote, text, updatedAt: Date.now() }
           if (anchor) list[idx].anchor = anchor
+          if (images !== undefined) list[idx].images = images
         } else {
           list.push({
             id: noteId,
@@ -73,6 +93,7 @@ export default function useNotesAndBookmarks() {
             quote,
             text,
             ...(anchor ? { anchor } : {}),
+            ...(images !== undefined ? { images } : {}),
             updatedAt: Date.now(),
           })
         }
@@ -85,6 +106,7 @@ export default function useNotesAndBookmarks() {
           quote,
           text,
           ...(anchor ? { anchor } : {}),
+          ...(images !== undefined ? { images } : {}),
           updatedAt: Date.now(),
         })
       }
@@ -97,11 +119,19 @@ export default function useNotesAndBookmarks() {
   const deleteNote = useCallback((notebookId, noteId) => {
     setNotes((prev) => {
       const next = { ...prev }
+      const removed = (next[notebookId] || []).find((n) => n.id === noteId)
       const list = (next[notebookId] || []).filter((n) => n.id !== noteId)
       if (list.length === 0) {
         delete next[notebookId]
       } else {
         next[notebookId] = list
+      }
+      // 联动清理该笔记引用的 IndexedDB 原图（幂等，StrictMode 双调无害）
+      if (removed?.images) {
+        for (const img of removed.images) {
+          const { id } = normalizeImageEntry(img)
+          if (id) deleteImage(id).catch(() => {})
+        }
       }
       saveJSON(NOTES_KEY, next)
       return next
@@ -137,11 +167,21 @@ export default function useNotesAndBookmarks() {
     return set
   }, [notes])
 
-  const exportData = useCallback(() => {
-    return JSON.stringify({ bookmarks, notes, exportedAt: new Date().toISOString() }, null, 2)
+  const exportData = useCallback(async () => {
+    // 原图从 IndexedDB 读出并 base64 内嵌，保证备份可完整还原
+    const images = {}
+    try {
+      const all = await getAllImages()
+      for (const { id, blob } of all) {
+        images[id] = await blobToDataUrl(blob)
+      }
+    } catch (err) {
+      console.warn('[notes] 导出图片失败，将仅导出文本数据', err)
+    }
+    return JSON.stringify({ bookmarks, notes, images, exportedAt: new Date().toISOString() }, null, 2)
   }, [bookmarks, notes])
 
-  const importData = useCallback((jsonString) => {
+  const importData = useCallback(async (jsonString) => {
     try {
       const data = JSON.parse(jsonString)
       if (!data || typeof data !== 'object') throw new Error('Invalid format')
@@ -151,6 +191,20 @@ export default function useNotesAndBookmarks() {
       const newNotes = data.notes && typeof data.notes === 'object' && !Array.isArray(data.notes)
         ? data.notes
         : {}
+      // 还原 IndexedDB 原图（旧版导出文件无 images 字段则跳过）
+      let imageCount = 0
+      if (data.images && typeof data.images === 'object' && !Array.isArray(data.images)) {
+        try {
+          await clearImages()
+          for (const [id, dataUrl] of Object.entries(data.images)) {
+            const blob = await (await fetch(dataUrl)).blob()
+            await putImage(id, blob)
+            imageCount += 1
+          }
+        } catch (err) {
+          console.warn('[notes] 导入图片失败，已仅还原文本数据', err)
+        }
+      }
       setBookmarks(newBookmarks)
       setNotes(newNotes)
       saveJSON(BOOKMARKS_KEY, newBookmarks)
@@ -159,7 +213,7 @@ export default function useNotesAndBookmarks() {
       for (const list of Object.values(newNotes)) {
         if (Array.isArray(list)) noteCount += list.length
       }
-      return { ok: true, bookmarkCount: Object.keys(newBookmarks).length, noteCount }
+      return { ok: true, bookmarkCount: Object.keys(newBookmarks).length, noteCount, imageCount }
     } catch {
       return { ok: false, error: 'Invalid import file' }
     }
@@ -168,8 +222,8 @@ export default function useNotesAndBookmarks() {
   const importFile = useCallback((file) => {
     return new Promise((resolve) => {
       const reader = new FileReader()
-      reader.onload = () => {
-        const result = importData(reader.result)
+      reader.onload = async () => {
+        const result = await importData(reader.result)
         resolve(result)
       }
       reader.onerror = () => {
@@ -184,6 +238,7 @@ export default function useNotesAndBookmarks() {
     setNotes({})
     saveJSON(BOOKMARKS_KEY, {})
     saveJSON(NOTES_KEY, {})
+    clearImages().catch(() => {})
   }, [])
 
   const bookmarkCount = useMemo(() => Object.keys(bookmarks).length, [bookmarks])
