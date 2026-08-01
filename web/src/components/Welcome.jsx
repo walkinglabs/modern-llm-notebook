@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import {
   BookOpen, ArrowRight, Check, Layers, Cpu, Star,
   Monitor, Languages, ChevronRight, CodeXml, Rocket, Sparkles, Menu,
-  Mail, X,
+  Mail, X, ExternalLink,
 } from 'lucide-react'
 import { GITHUB_OWNER, GITHUB_REPO } from '../config.js'
 import { PATH_STEPS, RUNNABLE_NOTEBOOKS } from '../data/sidebar.js'
@@ -403,6 +403,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     browsePath: '浏览学习路径',
     readerLetter: '给读者的一封信',
     readerLetterDesc: '给读者们的一封信',
+    runHintTitle: '每篇 Notebook 都可以直接运行',
+    runHintDesc: '进入章节后，点击顶部按钮即可在 ModelScope 或 Colab 中打开，无需本地配置。',
     check1: '交互式 Notebook', check2: '逐步构建知识', check3: '代码即文档', check4: '实验即理解',
     learningPathTitle: '学习路径',
     learningPathSub: '科学规划，逐步深入',
@@ -429,6 +431,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     browsePath: 'Browse Pathways',
     readerLetter: 'A Letter to Readers',
     readerLetterDesc: 'See the full route, final builds, and skills you will gain',
+    runHintTitle: 'Run every Notebook online',
+    runHintDesc: 'Open a chapter, then use the top buttons to launch it in ModelScope or Colab. No local setup needed.',
     check1: 'Interactive Notebook', check2: 'Step-by-step Knowledge', check3: 'Code as Document', check4: 'Understand via Experiments',
     learningPathTitle: 'Learning Paths',
     learningPathSub: 'Structured curriculum, progress step-by-step',
@@ -504,6 +508,20 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
                   </span>
                   <ChevronRight className="w-4 h-4 text-blue-600 group-hover:translate-x-0.5 transition-transform shrink-0" />
                 </button>
+              </div>
+
+              <div className="flex items-start gap-3 max-w-xl rounded-2xl border border-blue-200/80 bg-white/75 px-3.5 py-3 shadow-sm">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                  <ExternalLink className="h-4 w-4" strokeWidth={2.2} />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">
+                    {t.runHintTitle}
+                  </p>
+                  <p className="mt-1 text-[10px] sm:text-xs leading-relaxed text-[var(--text-muted)]">
+                    {t.runHintDesc}
+                  </p>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 border-t border-[var(--border-light)]/50 pt-4 sm:pt-5 max-w-lg select-none">
