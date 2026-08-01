@@ -1776,7 +1776,22 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
             const content = (
               <>
               <span className="viewer-launch-icon" aria-hidden="true">
-                {link.id === 'modelscope' && 'MS'}
+                {link.id === 'modelscope' && (
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M2.667 5.3H8v2.667H5.333v2.666H2.667V8.467H.5v2.166h2.167V13.3H0V7.967h2.667V5.3z" />
+                    <path d="M2.667 13.3h2.666v2.667H8v2.666H2.667V13.3z" />
+                    <path d="M8 10.633h2.667V13.3H8v-2.667zM13.333 13.3v2.667h-2.666V13.3h2.666z" />
+                    <path d="M13.333 13.3v-2.667H16V13.3h-2.667z" />
+                    <path d="M21.333 13.3v-2.667h-2.666V7.967H16V5.3h5.333v2.667H24V13.3h-2.667zm0-2.667H23.5V8.467h-2.167v2.166z" />
+                    <path d="M21.333 13.3v5.333H16v-2.666h2.667V13.3h2.666z" />
+                  </svg>
+                )}
                 {link.id === 'colab' && (
                   <svg width="18" height="11" viewBox="0.17 5.07 23.67 13.87" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.54,9.46,2.19,7.1a6.93,6.93,0,0,0,0,9.79l2.36-2.36A3.59,3.59,0,0,1,4.54,9.46Z" fill="#E8710A"/>
