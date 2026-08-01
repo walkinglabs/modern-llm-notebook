@@ -952,6 +952,10 @@
   line-height: 1;
 }
 
+.viewer-launch-modelscope .viewer-launch-icon {
+  color: #1d6bf3;
+}
+
 .viewer-launch:hover {
   background: var(--bg-sidebar);
 }
