@@ -361,6 +361,7 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
   const [starCount, setStarCount] = useState(null)
   const [isLetterOpen, setIsLetterOpen] = useState(false)
   const catalogById = new Map(catalog.map(item => [item.id, item]))
+  const notebookCount = catalog.length
 
   useEffect(() => {
     let cancelled = false
@@ -409,7 +410,7 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     learningPathTitle: '学习路径',
     learningPathSub: '科学规划，逐步深入',
     viewAllPaths: '查看全部路径',
-    runnableNotebooksTitle: '可运行的 Notebook',
+    runnableNotebooksTitle: '可在线运行的 Notebook',
     runnableNotebooksSub: '精选推荐，点击即可开始学习',
     allNotebooksLink: '全部 Notebook',
     footerQuote: '"构建是最好的学习方式。" — Modern LLM Notebook',
@@ -437,7 +438,7 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     learningPathTitle: 'Learning Paths',
     learningPathSub: 'Structured curriculum, progress step-by-step',
     viewAllPaths: 'View All Paths',
-    runnableNotebooksTitle: 'Runnable Notebooks',
+    runnableNotebooksTitle: 'Runnable Online Notebooks',
     runnableNotebooksSub: 'Selected recommendations, click to start learning',
     allNotebooksLink: 'All Notebooks',
     footerQuote: '"The best way to learn is to build." — Modern LLM Notebook',
@@ -596,8 +597,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
               <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.5]" />
             </div>
             <div className="space-y-0.5 min-w-0">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] tracking-tight leading-none">23+</div>
-              <div className="text-[10px] sm:text-[11px] font-medium text-[var(--text-label)] leading-snug break-words">{lang === 'zh' ? '可运行 Notebook' : 'Runnable Notebooks'}</div>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] tracking-tight leading-none">{notebookCount}</div>
+              <div className="text-[10px] sm:text-[11px] font-medium text-[var(--text-label)] leading-snug break-words">{lang === 'zh' ? '可在线运行 Notebook' : 'Runnable Online Notebooks'}</div>
             </div>
           </div>
           <div className="p-4 sm:p-5 md:p-6 flex items-center gap-3 sm:gap-4 hover:bg-[var(--bg-input)]/45 transition-colors">
