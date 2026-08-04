@@ -177,7 +177,7 @@ notebooks/
 ├── part3-inference/     # 18-21: 解码策略 → 推理系统 → 量化 → 投机解码
 ├── part4-frontiers/     # 22-24: 长上下文 → 推理链 → VLM
 ├── part5-production/    # 25-28: 评测 → 蒸馏 → OPD → 部署
-└── appendix-advanced/   # A-H: GPU 硬件 → Accounting → 混合精度 → 通信原语 → 并行策略 → FlashAttention → 进阶 Kernel → 概率信息论
+└── appendix-advanced/   # A-H: 概率信息论 → 参数量手算 → 混合精度 → FlashAttention → 集合通信 → 5D 并行 → 进阶 Kernel → GPU 硬件
 ```
 
 `appendix-advanced/` 是「现代 LLM 工程深水区」附录，编号用单字母 A-H（不是数字）。主线 notebook 引用附录时用「附录 G」「附录 H」这种形式（不带点号），附录之间互引用同样用单字母。
