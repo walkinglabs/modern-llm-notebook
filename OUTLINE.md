@@ -103,7 +103,7 @@ Notebook 总数：31
 
 ## Part 2 · Training（训练）
 
-### 08-gpt2-to-modern-models.ipynb — 现代语言模型架构
+### 08-gpt2-to-modern-models.ipynb — 现代语言模型架构演进
 
 
 - Decoder-Only 架构
@@ -147,22 +147,7 @@ Notebook 总数：31
 - 参考资料
 
 
-### 11-moe.ipynb — MoE 架构
-
-
-- 1. 普通 Transformer 的 FFN 层
-- 2. MoE 的核心思想
-- 3. MoE 的参数 vs 计算量
-- 4. MoE 的训练难题：负载均衡
-- 5. MoE 的推理难题：所有专家都要加载
-- 6. 著名的 MoE 模型
-- 7. 为什么 MoE 有效：参数和计算的分离
-- 8. MoE 的进阶话题
-- 小结
-- 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
-
-
-### 12-training-loss.ipynb — 训练循环与损失函数
+### 11-training-loss.ipynb — 完成第一次预训练与微调
 
 
 - 0. 先建立直觉：Trainer 到底帮你省了什么？
@@ -180,7 +165,7 @@ Notebook 总数：31
 - 小结（checklist）
 
 
-### 13-distributed-training.ipynb — 分布式训练基础
+### 12-distributed-training.ipynb — 分布式训练基础
 
 
 - 1. 单卡的极限：再算一遍显存账单
@@ -193,6 +178,21 @@ Notebook 总数：31
 - 小结
 - 作业
 - 参考资料
+
+
+### 13-moe.ipynb — 从 dense 到 MoE 架构
+
+
+- 1. 普通 Transformer 的 FFN 层
+- 2. MoE 的核心思想
+- 3. MoE 的参数 vs 计算量
+- 4. MoE 的训练难题：负载均衡
+- 5. MoE 的推理难题：所有专家都要加载
+- 6. 著名的 MoE 模型
+- 7. 为什么 MoE 有效：参数和计算的分离
+- 8. MoE 的进阶话题
+- 小结
+- 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
 
 ### 14-scaling-laws.ipynb — 缩放定律
@@ -229,7 +229,7 @@ Notebook 总数：31
 - 作业
 
 
-### 16-lora.ipynb — LoRA
+### 16-lora.ipynb — LoRA 低秩微调
 
 
 - 1. 全量微调的成本
@@ -247,7 +247,7 @@ Notebook 总数：31
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
 
-### 17-distillation.ipynb — 知识蒸馏
+### 17-distillation.ipynb — 从大模型到小模型：知识蒸馏
 
 
 - 1. 蒸馏的本质
@@ -261,7 +261,7 @@ Notebook 总数：31
 - 作业
 
 
-### 18-function-calling.ipynb — 函数调用
+### 18-function-calling.ipynb — 从对话到工具：函数调用
 
 
 - 本节要点
@@ -275,7 +275,7 @@ Notebook 总数：31
 - 作业
 
 
-### 19-rlhf-alignment.ipynb — RLHF 对齐
+### 19-rlhf-alignment.ipynb — 从偏好到对齐：RLHF
 
 
 - 1. 为什么需要对齐

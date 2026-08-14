@@ -242,18 +242,18 @@ Modern LLM Notebook
 │   └── BERT Encoder
 │
 ├── Part 2: Training
-│   ├── 现代语言模型架构
+│   ├── 现代语言模型架构演进
 │   ├── KV Cache 架构演进
 │   ├── 读懂大模型的配置文件
-│   ├── MoE 架构
-│   ├── 训练循环与损失函数
+│   ├── 完成第一次预训练与微调
 │   ├── 分布式训练基础
+│   ├── 从 dense 到 MoE 架构
 │   ├── 缩放定律
 │   ├── 预训练数据工程
-│   ├── LoRA
-│   ├── 知识蒸馏
-│   ├── 函数调用
-│   └── RLHF 对齐
+│   ├── LoRA 低秩微调
+│   ├── 从大模型到小模型：知识蒸馏
+│   ├── 从对话到工具：函数调用
+│   └── 从偏好到对齐：RLHF
 │
 ├── Part 3: Inference
 │   ├── 解码策略
@@ -293,18 +293,18 @@ Modern LLM Notebook
 
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
-| 08 | [现代语言模型架构](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
+| 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
 | 09 | [KV Cache 架构演进](notebooks/part2-training/09-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
 | 10 | [读懂大模型的配置文件](notebooks/part2-training/10-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 11 | [MoE 架构](notebooks/part2-training/11-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
-| 12 | [训练循环与损失函数](notebooks/part2-training/12-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
-| 13 | [分布式训练基础](notebooks/part2-training/13-distributed-training.ipynb) | 多卡如何切分显存与计算？ | DDP、ZeRO Stage 1/2/3、FSDP、DeepSpeed、Accelerate |
+| 11 | [完成第一次预训练与微调](notebooks/part2-training/11-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
+| 12 | [分布式训练基础](notebooks/part2-training/12-distributed-training.ipynb) | 多卡如何切分显存与计算？ | DDP、ZeRO Stage 1/2/3、FSDP、DeepSpeed、Accelerate |
+| 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
 | 14 | [缩放定律](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | FLOPs 估算、Chinchilla 直觉 |
 | 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
-| 16 | [LoRA](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
-| 17 | [知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
-| 18 | [函数调用](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
-| 19 | [RLHF 对齐](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
+| 16 | [LoRA 低秩微调](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
+| 17 | [从大模型到小模型：知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
+| 18 | [从对话到工具：函数调用](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
+| 19 | [从偏好到对齐：RLHF](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
 
 ### Part 3: Inference
 

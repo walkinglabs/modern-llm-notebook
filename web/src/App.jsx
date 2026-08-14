@@ -23,6 +23,10 @@ const LEGACY_NOTEBOOK_IDS = {
   // embedding 历史: 03-embedding-position → 03-embedding
   '03-embedding-position': '03-embedding',
 
+  // appendix en 对齐 zh 字母: A-flops → B, B-mixed → C
+  'A-flops-memory-accounting': 'B-flops-memory-accounting',
+  'B-mixed-precision-training': 'C-mixed-precision-training',
+
   // transformer-block: 04 → 05
   '04-transformer-block': '05-transformer-block',
 
@@ -47,18 +51,19 @@ const LEGACY_NOTEBOOK_IDS = {
   // model-config: 09 → 10
   '09-model-config': '10-model-config',
 
-  // moe: 06 → 07 → 10 → 11
-  '06-moe': '11-moe',
-  '07-moe': '11-moe',
-  '10-moe': '11-moe',
+  // moe: 06 → 07 → 10 → 11 → 13
+  '06-moe': '13-moe',
+  '07-moe': '13-moe',
+  '10-moe': '13-moe',
+  '11-moe': '13-moe',
 
-  // training-loss: 08 → 09 → 11 → 12
-  '08-training-loss': '12-training-loss',
-  '09-training-loss': '12-training-loss',
-  '11-training-loss': '12-training-loss',
+  // training-loss: 08 → 09 → 11 → 12 → 11（回到 11）
+  '08-training-loss': '11-training-loss',
+  '09-training-loss': '11-training-loss',
+  '12-training-loss': '11-training-loss',
 
-  // distributed-training: 13 → 12 → 13
-  '12-distributed-training': '13-distributed-training',
+  // distributed-training: 13 → 12 → 13 → 12（回到 12）
+  '13-distributed-training': '12-distributed-training',
 
   // scaling-laws: 09 → 10 → 12 → 13 → 14
   '09-scaling-laws': '14-scaling-laws',

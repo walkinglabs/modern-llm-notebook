@@ -8,13 +8,13 @@ export const PATH_STEPS = [
 export const RUNNABLE_NOTEBOOKS = [
   { id: "nb-1", lessonId: "01-tokenizer-basics", title: "Tokenizer 基础", titleEn: "Tokenizer Basics", desc: "了解分词原理与实现", descEn: "Understand tokenization principles", section: "foundation", duration: 12 },
   { id: "nb-2", lessonId: "05-transformer-block", title: "Attention 与 Transformer", titleEn: "Attention & Transformer", desc: "从零实现注意力机制", descEn: "Build attention from scratch", section: "foundation", duration: 18 },
-  { id: "nb-3", lessonId: "11-moe", title: "MoE 架构", titleEn: "MoE Architecture", desc: "稀疏激活与专家路由", descEn: "Sparse activation and expert routing", section: "training", duration: 20 },
-  { id: "nb-4", lessonId: "12-training-loss", title: "训练与 Loss", titleEn: "Training & Loss", desc: "理解训练循环与优化", descEn: "Training loops and optimization", section: "training", duration: 25 },
+  { id: "nb-3", lessonId: "13-moe", title: "从 dense 到 MoE 架构", titleEn: "From Dense to MoE Architectures", desc: "稀疏激活与专家路由", descEn: "Sparse activation and expert routing", section: "training", duration: 20 },
+  { id: "nb-4", lessonId: "11-training-loss", title: "完成第一次预训练与微调", titleEn: "Your First Pretraining & Fine-tuning", desc: "理解训练循环与优化", descEn: "Training loops and optimization", section: "training", duration: 25 },
   { id: "nb-5", lessonId: "06-mini-gpt", title: "实现自己的第一个 LLM", titleEn: "Build Your First LLM", desc: "从零搭建 Mini-GPT", descEn: "Build Mini-GPT from scratch", section: "foundation", duration: 45 },
-  { id: "nb-6", lessonId: "16-lora", title: "LoRA", titleEn: "LoRA", desc: "参数高效微调方法", descEn: "Parameter-efficient fine-tuning", section: "training", duration: 20 },
+  { id: "nb-6", lessonId: "16-lora", title: "LoRA 低秩微调", titleEn: "LoRA", desc: "参数高效微调方法", descEn: "Parameter-efficient fine-tuning", section: "training", duration: 20 },
   { id: "nb-7", lessonId: "20-generation", title: "生成策略", titleEn: "Generation Strategies", desc: "贪心、采样与束搜索", descEn: "Greedy, sampling, and beam search", section: "inference", duration: 18 },
   { id: "nb-8", lessonId: "28-cot-thinking", title: "CoT 思维链", titleEn: "Chain-of-Thought", desc: "链式推理的机制", descEn: "Mechanics of chain reasoning", section: "frontiers", duration: 16 },
-  { id: "nb-9", lessonId: "19-rlhf-alignment", title: "RLHF 对齐", titleEn: "RLHF Alignment", desc: "人类反馈强化学习", descEn: "Reinforcement learning from human feedback", section: "training", duration: 36 },
-  { id: "nb-10", lessonId: "17-distillation", title: "知识蒸馏", titleEn: "Knowledge Distillation", desc: "模型压缩与传递", descEn: "Model compression and knowledge transfer", section: "training", duration: 20 },
+  { id: "nb-9", lessonId: "19-rlhf-alignment", title: "从偏好到对齐：RLHF", titleEn: "From Preferences to Alignment: RLHF", desc: "人类反馈强化学习", descEn: "Reinforcement learning from human feedback", section: "training", duration: 36 },
+  { id: "nb-10", lessonId: "17-distillation", title: "从大模型到小模型：知识蒸馏", titleEn: "From Large to Small: Knowledge Distillation", desc: "模型压缩与传递", descEn: "Model compression and knowledge transfer", section: "training", duration: 20 },
   { id: "nb-11", lessonId: "26-llm-deployment", title: "vLLM 与 SGLang 部署", titleEn: "vLLM & SGLang Deployment", desc: "从现成模型到自训练模型的部署", descEn: "Deploy off-the-shelf and custom-trained models", section: "inference", duration: 35 },
 ]
