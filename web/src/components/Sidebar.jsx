@@ -16,13 +16,12 @@ import {
 } from 'lucide-react'
 import { useSettingsContext } from '../context/SettingsContext.jsx'
 
-const SECTION_KEYS = ['foundation', 'training', 'inference', 'frontiers', 'production', 'appendix-advanced']
+const SECTION_KEYS = ['foundation', 'training', 'inference', 'frontiers', 'appendix-advanced']
 const SECTION_LABELS = {
   foundation: { title: '基础', titleEn: 'FOUNDATION' },
   training: { title: '训练', titleEn: 'TRAINING' },
   inference: { title: '推理', titleEn: 'INFERENCE' },
   frontiers: { title: '前沿', titleEn: 'FRONTIERS' },
-  production: { title: '评测与部署', titleEn: 'EVAL & DEPLOY' },
   'appendix-advanced': { title: '附录', titleEn: 'APPENDIX' },
 }
 

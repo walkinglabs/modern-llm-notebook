@@ -19,7 +19,6 @@ const SECTION_STYLES = {
   training: { bg: 'from-[#ede9fe] to-[#f5f3ff]', tag: 'bg-purple-50 text-purple-600 border-purple-200/50', nameZh: '训练', nameEn: 'Training', accent: 'purple', iconBg: 'bg-purple-100 text-purple-600 border-purple-200/50', pathBorder: 'border-l-purple-400' },
   inference: { bg: 'from-[#d1fae5] to-[#ecfdf5]', tag: 'bg-emerald-50 text-emerald-600 border-emerald-200/50', nameZh: '推理', nameEn: 'Inference', accent: 'emerald', iconBg: 'bg-emerald-100 text-emerald-600 border-emerald-200/50', pathBorder: 'border-l-emerald-400' },
   frontiers: { bg: 'from-[#fef3c7] to-[#fffbeb]', tag: 'bg-amber-50 text-amber-600 border-amber-200/50', nameZh: '前沿', nameEn: 'Frontiers', accent: 'amber', iconBg: 'bg-amber-100 text-amber-600 border-amber-200/50', pathBorder: 'border-l-amber-400' },
-  production: { bg: 'from-[#fce7f3] to-[#fdf2f8]', tag: 'bg-rose-50 text-rose-600 border-rose-200/50', nameZh: '评测与部署', nameEn: 'Eval & Deploy', accent: 'rose', iconBg: 'bg-rose-100 text-rose-600 border-rose-200/50', pathBorder: 'border-l-rose-400' },
 }
 
 const PATH_STEP_STYLES = [

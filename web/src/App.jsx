@@ -39,109 +39,138 @@ const LEGACY_NOTEBOOK_IDS = {
   // bert-encoder: 08 → 07
   '08-bert-encoder': '07-bert-encoder',
 
-  // moe: 06 → 07 → 10
-  '06-moe': '10-moe',
-  '07-moe': '10-moe',
+  // mla-kv-cache: 29 → 18 → 19 → 09（紧跟 08 架构一节）
+  '29-mla-kv-cache': '09-mla-kv-cache',
+  '18-mla-kv-cache': '09-mla-kv-cache',
+  '19-mla-kv-cache': '09-mla-kv-cache',
 
-  // training-loss: 08 → 09 → 11
-  '08-training-loss': '11-training-loss',
-  '09-training-loss': '11-training-loss',
+  // model-config: 09 → 10
+  '09-model-config': '10-model-config',
 
-  // scaling-laws: 09 → 10 → 12
-  '09-scaling-laws': '12-scaling-laws',
-  '10-scaling-laws': '12-scaling-laws',
+  // moe: 06 → 07 → 10 → 11
+  '06-moe': '11-moe',
+  '07-moe': '11-moe',
+  '10-moe': '11-moe',
 
-  // data-engineering: 10 → 11 → 13 → 14
-  '10-data-engineering': '14-data-engineering',
-  '11-data-engineering': '14-data-engineering',
-  '13-data-engineering': '14-data-engineering',
+  // training-loss: 08 → 09 → 11 → 12
+  '08-training-loss': '12-training-loss',
+  '09-training-loss': '12-training-loss',
+  '11-training-loss': '12-training-loss',
 
-  // lora: 11 → 12 → 14 → 15
-  '11-lora': '15-lora',
-  '12-lora': '15-lora',
-  '14-lora': '15-lora',
+  // distributed-training: 13 → 12 → 13
+  '12-distributed-training': '13-distributed-training',
 
-  // function-calling / midtraining-cpt: 12 → 13 → 15 → 16
-  '12-midtraining-cpt': '16-function-calling',
-  '13-midtraining-cpt': '16-function-calling',
-  '15-midtraining-cpt': '16-function-calling',
+  // scaling-laws: 09 → 10 → 12 → 13 → 14
+  '09-scaling-laws': '14-scaling-laws',
+  '10-scaling-laws': '14-scaling-laws',
+  '12-scaling-laws': '14-scaling-laws',
+  '13-scaling-laws': '14-scaling-laws',
 
-  // rlhf-alignment: 13 → 14 → 16 → 17
-  '13-rlhf-alignment': '17-rlhf-alignment',
-  '14-rlhf-alignment': '17-rlhf-alignment',
-  '16-rlhf-alignment': '17-rlhf-alignment',
+  // data-engineering: 10 → 11 → 13 → 14 → 15
+  '10-data-engineering': '15-data-engineering',
+  '11-data-engineering': '15-data-engineering',
+  '13-data-engineering': '15-data-engineering',
+  '14-data-engineering': '15-data-engineering',
 
-  // mla-kv-cache: 29 → 18
-  '29-mla-kv-cache': '18-mla-kv-cache',
+  // lora: 11 → 12 → 14 → 15 → 16
+  '11-lora': '16-lora',
+  '12-lora': '16-lora',
+  '14-lora': '16-lora',
+  '15-lora': '16-lora',
 
-  // generation: 13 → 15 → 17 → 18 → 19
-  '13-generation': '19-generation',
-  '15-generation': '19-generation',
-  '17-generation': '19-generation',
-  '18-generation': '19-generation',
+  // distillation: 20 → 22 → 24 → 26 → 29 → 17（移入训练篇）
+  '20-distillation': '17-distillation',
+  '22-distillation': '17-distillation',
+  '24-distillation': '17-distillation',
+  '26-distillation': '17-distillation',
+  '29-distillation': '17-distillation',
 
-  // inference-acceleration: 14 → 16 → 18 → 19 → 20
-  '14-inference-acceleration': '20-inference-acceleration',
-  '16-inference-acceleration': '20-inference-acceleration',
-  '18-inference-acceleration': '20-inference-acceleration',
-  '19-inference-acceleration': '20-inference-acceleration',
+  // function-calling / midtraining-cpt: 12 → 13 → 15 → 16 → 17 → 18
+  '12-midtraining-cpt': '18-function-calling',
+  '13-midtraining-cpt': '18-function-calling',
+  '15-midtraining-cpt': '18-function-calling',
+  '16-function-calling': '18-function-calling',
+  '17-function-calling': '18-function-calling',
 
-  // quantization: 19 → 20 → 21
-  '19-quantization': '21-quantization',
-  '20-quantization': '21-quantization',
+  // rlhf-alignment: 13 → 14 → 16 → 17 → 18 → 19
+  '13-rlhf-alignment': '19-rlhf-alignment',
+  '14-rlhf-alignment': '19-rlhf-alignment',
+  '16-rlhf-alignment': '19-rlhf-alignment',
+  '17-rlhf-alignment': '19-rlhf-alignment',
+  '18-rlhf-alignment': '19-rlhf-alignment',
 
-  // speculative-decoding: 15 → 17 → 19 → 21 → 22
-  '15-speculative-decoding': '22-speculative-decoding',
-  '17-speculative-decoding': '22-speculative-decoding',
-  '19-speculative-decoding': '22-speculative-decoding',
-  '21-speculative-decoding': '22-speculative-decoding',
+  // generation: 13 → 15 → 17 → 18 → 19 → 20
+  '13-generation': '20-generation',
+  '15-generation': '20-generation',
+  '17-generation': '20-generation',
+  '18-generation': '20-generation',
+  '19-generation': '20-generation',
 
-  // inference-systems: 30 → 23
-  '30-inference-systems': '23-inference-systems',
+  // inference-acceleration: 14 → 16 → 18 → 19 → 20 → 21
+  '14-inference-acceleration': '21-inference-acceleration',
+  '16-inference-acceleration': '21-inference-acceleration',
+  '18-inference-acceleration': '21-inference-acceleration',
+  '19-inference-acceleration': '21-inference-acceleration',
+  '20-inference-acceleration': '21-inference-acceleration',
 
-  // long-context: 16 → 18 → 20 → 22 → 24
-  '16-long-context': '24-long-context',
-  '18-long-context': '24-long-context',
-  '20-long-context': '24-long-context',
-  '22-long-context': '24-long-context',
+  // quantization: 19 → 20 → 21 → 22
+  '19-quantization': '22-quantization',
+  '20-quantization': '22-quantization',
+  '21-quantization': '22-quantization',
 
-  // cot-thinking: 17 → 19 → 21 → 23 → 25
-  '17-cot-thinking': '25-cot-thinking',
-  '19-cot-thinking': '25-cot-thinking',
-  '21-cot-thinking': '25-cot-thinking',
-  '23-cot-thinking': '25-cot-thinking',
+  // speculative-decoding: 15 → 17 → 19 → 21 → 22 → 23
+  '15-speculative-decoding': '23-speculative-decoding',
+  '17-speculative-decoding': '23-speculative-decoding',
+  '19-speculative-decoding': '23-speculative-decoding',
+  '21-speculative-decoding': '23-speculative-decoding',
+  '22-speculative-decoding': '23-speculative-decoding',
 
-  // vlm: 18 → 20 → 22 → 24 → 26
-  '18-vlm': '26-vlm',
-  '20-vlm': '26-vlm',
-  '22-vlm': '26-vlm',
-  '24-vlm': '26-vlm',
+  // inference-systems: 30 → 23 → 24
+  '30-inference-systems': '24-inference-systems',
+  '23-inference-systems': '24-inference-systems',
 
-  // efficient-attention: 由 31-linear-attention + 32-sparse-attention 合并而来
-  '31-linear-attention': '27-efficient-attention',
-  '32-sparse-attention': '27-efficient-attention',
+  // evaluation: 19 → 21 → 23 → 28 → 25（移入推理篇）
+  '19-evaluation': '25-evaluation',
+  '21-evaluation': '25-evaluation',
+  '23-evaluation': '25-evaluation',
+  '28-evaluation': '25-evaluation',
 
-  // evaluation: 19 → 21 → 23 → 25 → 28
-  '19-evaluation': '28-evaluation',
-  '21-evaluation': '28-evaluation',
-  '23-evaluation': '28-evaluation',
-  '25-evaluation': '28-evaluation',
+  // llm-deployment: 26 → 28 → 31 → 26（移入推理篇）
+  '28-llm-deployment': '26-llm-deployment',
+  '31-llm-deployment': '26-llm-deployment',
 
-  // distillation: 20 → 22 → 24 → 26 → 29
-  '20-distillation': '29-distillation',
-  '22-distillation': '29-distillation',
-  '24-distillation': '29-distillation',
-  '26-distillation': '29-distillation',
+  // long-context: 16 → 18 → 20 → 22 → 24 → 27
+  '16-long-context': '27-long-context',
+  '18-long-context': '27-long-context',
+  '20-long-context': '27-long-context',
+  '22-long-context': '27-long-context',
+  '24-long-context': '27-long-context',
 
-  // opd: 21 → 23 → 25 → 27 → 30
-  '21-opd': '30-opd',
-  '23-opd': '30-opd',
-  '25-opd': '30-opd',
-  '27-opd': '30-opd',
+  // cot-thinking: 17 → 19 → 21 → 23 → 25 → 28
+  '17-cot-thinking': '28-cot-thinking',
+  '19-cot-thinking': '28-cot-thinking',
+  '21-cot-thinking': '28-cot-thinking',
+  '23-cot-thinking': '28-cot-thinking',
+  '25-cot-thinking': '28-cot-thinking',
 
-  // llm-deployment: 26 → 28 → 31
-  '26-llm-deployment': '31-llm-deployment',
-  '28-llm-deployment': '31-llm-deployment',
+  // vlm: 18 → 20 → 22 → 24 → 26 → 29
+  '18-vlm': '29-vlm',
+  '20-vlm': '29-vlm',
+  '22-vlm': '29-vlm',
+  '24-vlm': '29-vlm',
+  '26-vlm': '29-vlm',
+
+  // efficient-attention: 由 31-linear-attention + 32-sparse-attention 合并而来; 27 → 30
+  '31-linear-attention': '30-efficient-attention',
+  '32-sparse-attention': '30-efficient-attention',
+  '27-efficient-attention': '30-efficient-attention',
+
+  // opd: 21 → 23 → 25 → 27 → 30 → 31（移入前沿篇）
+  '21-opd': '31-opd',
+  '23-opd': '31-opd',
+  '25-opd': '31-opd',
+  '27-opd': '31-opd',
+  '30-opd': '31-opd',
 }
 
 // 从构建时注入的 git log 数据中读取
@@ -377,7 +406,7 @@ function AppContent() {
       {
         target: '.parts',
         title: '5 大学习路径',
-        body: '这里是整套课程的地图：基础、训练、推理、前沿、评测与部署。每张卡片概括一个阶段要解决的问题，点击后会定位到对应学习路径，方便你从全局选择下一步。',
+        body: '这里是整套课程的地图：基础、训练、推理、前沿。每张卡片概括一个阶段要解决的问题，点击后会定位到对应学习路径，方便你从全局选择下一步。',
       },
       {
         target: '[data-tour="notes-saved"]',
@@ -472,7 +501,7 @@ function AppContent() {
       {
         target: '.parts',
         title: '5 Learning Paths',
-        body: 'This is the course map: Foundation, Training, Inference, Frontiers, and Eval & Deploy. Each card summarizes one stage, and clicking a card takes you to that learning path so you can choose the next step from the full curriculum.',
+        body: 'This is the course map: Foundation, Training, Inference, Frontiers. Each card summarizes one stage, and clicking a card takes you to that learning path so you can choose the next step from the full curriculum.',
       },
       {
         target: '[data-tour="notes-saved"]',

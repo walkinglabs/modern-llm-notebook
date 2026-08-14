@@ -11,6 +11,7 @@ Notebook 总数：31
 
 ### 01-tokenizer-basics.ipynb — 文本与 Tokenizer
 
+
 - 本节要点
 - 1. Token 和 Tokenizer
 - 2. 字符级 Tokenizer
@@ -19,7 +20,9 @@ Notebook 总数：31
 - 小结
 - 作业
 
+
 ### 02-bpe-tokenizer.ipynb — BPE：子词词表学习
+
 
 - 1. BPE 快速体验
 - 2. 对比 GPT-2 的真实 Tokenizer
@@ -29,7 +32,9 @@ Notebook 总数：31
 - 作业
 - 附录：一步步还原 BPE 原理
 
+
 ### 03-embedding.ipynb — Token Embedding 与分布式表示
+
 
 - 1. 从编号到向量
 - 2. Embedding 查表
@@ -38,7 +43,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
+
 ### 04-position-encoding.ipynb — 位置编码
+
 
 - 1. 为什么需要位置信息
 - 2. 正弦位置编码
@@ -50,7 +57,9 @@ Notebook 总数：31
 - 参考资料
 - 附录：正弦位置编码的外推能力
 
+
 ### 05-transformer-block.ipynb — Self-Attention 与 Transformer Block
+
 
 - 本节要点
 - 1. Attention 的直觉
@@ -64,7 +73,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 06-mini-gpt.ipynb — Mini-GPT
+
+### 06-mini-gpt.ipynb — 从零实现 GPT
+
 
 - 从零实现 MiniGPT
 - nanoGPT：从教学版到工程实现
@@ -72,7 +83,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
+
 ### 07-bert-encoder.ipynb — BERT 编码器
+
 
 - 1. 原始 Transformer：Encoder + Decoder
 - 2. Encoder 与 Decoder
@@ -87,9 +100,11 @@ Notebook 总数：31
 
 ---
 
+
 ## Part 2 · Training（训练）
 
-### 08-gpt2-to-modern-models.ipynb — 现代架构演进
+### 08-gpt2-to-modern-models.ipynb — 现代语言模型架构
+
 
 - Decoder-Only 架构
 - 教学版 Transformer Block
@@ -101,7 +116,26 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 09-model-config.ipynb — 模型配置
+
+### 09-mla-kv-cache.ipynb — KV Cache 架构演进
+
+
+- 本节要点
+- 1. 生成时到底在重复计算什么（代码验证历史 K 不变）
+- 2. 第一代方案：少存几份 K/V（MQA 与 GQA）
+- 3. 第二代方案：不存 K/V，存压缩向量（MLA）
+- 4. 从零实现简化 MLA
+- 5. 实验：三代方案放在一起比
+- 6. 绕不开的麻烦：RoPE（decoupled RoPE）
+- 7. 谁在用：MLA 的工程现状
+- 小结
+- 作业
+
+---
+
+
+### 10-model-config.ipynb — 读懂大模型的配置文件
+
 
 - 仓库文件地图：一张表看懂 HuggingFace 仓库
 - config.json：把结构参数变成 PyTorch 模块
@@ -112,7 +146,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 10-moe.ipynb — 稀疏专家模型（MoE）
+
+### 11-moe.ipynb — MoE 架构
+
 
 - 1. 普通 Transformer 的 FFN 层
 - 2. MoE 的核心思想
@@ -125,7 +161,9 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 11-training-loss.ipynb — 训练循环与损失函数
+
+### 12-training-loss.ipynb — 训练循环与损失函数
+
 
 - 0. 先建立直觉：Trainer 到底帮你省了什么？
 - 1. 一条文本样本如何变成训练样本？
@@ -141,7 +179,24 @@ Notebook 总数：31
 - 11. 作业
 - 小结（checklist）
 
-### 12-scaling-laws.ipynb — 缩放定律
+
+### 13-distributed-training.ipynb — 分布式训练基础
+
+
+- 1. 单卡的极限：再算一遍显存账单
+- 2. 数据并行（DDP）
+- 3. ZeRO：把冗余切到多卡
+- 4. FSDP：PyTorch 原生的 ZeRO-3
+- 5. DeepSpeed：配置驱动的 ZeRO
+- 6. Accelerate：统一封装
+- 7. 三层关系总结
+- 小结
+- 作业
+- 参考资料
+
+
+### 14-scaling-laws.ipynb — 缩放定律
+
 
 - 上半场：缩放定律
 - 1. 幂律分布
@@ -156,20 +211,9 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 13-distributed-training.ipynb — 分布式训练
 
-- 1. 单卡的极限：再算一遍显存账单
-- 2. 数据并行（DDP）
-- 3. ZeRO：把冗余切到多卡
-- 4. FSDP：PyTorch 原生的 ZeRO-3
-- 5. DeepSpeed：配置驱动的 ZeRO
-- 6. Accelerate：统一封装
-- 7. 三层关系总结
-- 小结
-- 作业
-- 参考资料
+### 15-data-engineering.ipynb — LLM 数据工程
 
-### 14-data-engineering.ipynb — LLM 数据工程
 
 - 0. 数据 Pipeline 总览
 - 1. 文本提取：从 HTML 里提取正文
@@ -184,7 +228,9 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 15-lora.ipynb — LoRA
+
+### 16-lora.ipynb — LoRA
+
 
 - 1. 全量微调的成本
 - 2. 低秩权重更新
@@ -200,7 +246,23 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 16-function-calling.ipynb — 函数调用与工具使用
+
+### 17-distillation.ipynb — 知识蒸馏
+
+
+- 1. 蒸馏的本质
+- 2. 方法一：Logit 蒸馏（最经典）
+- 3. 方法二：数据蒸馏（最容易落地）
+- 4. 方法三：特征蒸馏（进阶）
+- 5. 实战：蒸馏 7B 模型
+- 6. 蒸馏与 OPD 对比
+- 7. 蒸馏的常见问题
+- 小结
+- 作业
+
+
+### 18-function-calling.ipynb — 函数调用
+
 
 - 本节要点
 - 1. 为什么需要 Function Call
@@ -212,7 +274,9 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 17-rlhf-alignment.ipynb — RLHF 与偏好对齐
+
+### 19-rlhf-alignment.ipynb — RLHF 对齐
+
 
 - 1. 为什么需要对齐
 - 2. 对齐全景图
@@ -226,23 +290,11 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 18-mla-kv-cache.ipynb — MLA 与 KV Cache 压缩
-
-- 1. KV Cache 的代价：手算一笔账
-- 2. MHA / GQA / MQA：减少 KV 头数的传统思路
-- 3. MLA 的核心思想：latent 压缩
-- 4. 从零实现简化 MLA
-- 5. KV Cache 实测对比
-- 6. RoPE 与 MLA 的冲突
-- 7. MLA 在 DeepSeek-V2 / V3 / Kimi K2 的工程收益
-- 小结
-- 作业
-
----
 
 ## Part 3 · Inference（推理）
 
-### 19-generation.ipynb — 解码策略
+### 20-generation.ipynb — 解码策略
+
 
 - 1. 推理和训练的根本区别
 - 2. 训练一个能看到效果的模型
@@ -257,7 +309,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 20-inference-acceleration.ipynb — 推理加速
+
+### 21-inference-acceleration.ipynb — 推理加速
+
 
 - 1. 推理慢的根源
 - 2. KV Cache
@@ -274,7 +328,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 21-quantization.ipynb — 模型量化
+
+### 22-quantization.ipynb — 模型量化
+
 
 - 1. 对称量化的回顾与局限
 - 2. 非对称量化：引入 zero point
@@ -287,7 +343,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 22-speculative-decoding.ipynb — 投机解码
+
+### 23-speculative-decoding.ipynb — 投机解码
+
 
 - 1. 自回归生成的串行瓶颈
 - 2. 投机解码的完整流程
@@ -303,7 +361,9 @@ Notebook 总数：31
 - 作业
 - 参考资料
 
-### 23-inference-systems.ipynb — 现代推理系统
+
+### 24-inference-systems.ipynb — 现代推理系统
+
 
 - 1. 服务指标：吞吐、延迟、并发
 - 2. KV Cache 碎片问题
@@ -317,9 +377,50 @@ Notebook 总数：31
 
 ---
 
+
+### 25-evaluation.ipynb — 评测方法论
+
+
+- 1. 评测全景
+- 2. 核心评测框架 & Repo 推荐
+- 3. OpenAI-Compatible API 评测实战
+- 4. LLM-as-Judge：用 强模型当裁判
+- 5. 评测结果的汇总与对比
+- 6. AlpacaEval 实战
+- 7. 专项评测
+- 8. LLM-as-Judge 的偏差与一致性
+- 9. 评测指标体系
+- 10. 常见坑与最佳实践
+- 11. 实战速查
+- 小结
+- 作业
+
+
+### 26-llm-deployment.ipynb — 模型部署
+
+
+- 1. 为什么不直接用 HuggingFace transformers
+- 2. PagedAttention 与 RadixAttention：两种 KV Cache 管理思路
+- 3. 准备模型：Qwen2.5-0.6B
+- 4. vLLM 离线推理：LLM 类
+- 5. vLLM 启动 OpenAI 兼容服务
+- 6. 用 SGLang 部署同一个模型
+- 7. vLLM 与 SGLang 选型
+- 8. 部署自训练模型：核心障碍
+- 9. 路径 A：通过 transformers 注册
+- 10. 路径 B：在 vLLM 内部直接注册
+- 11. 自定义词表
+- 12. 端到端：把 MiniGPT 部署起来
+- 小结
+- 作业
+
+---
+
+
 ## Part 4 · Frontiers（前沿）
 
-### 24-long-context.ipynb — 长上下文
+### 27-long-context.ipynb — 长上下文
+
 
 - 1. 什么是外推
 - 2. 位置编码回顾
@@ -339,7 +440,9 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 25-cot-thinking.ipynb — 推理链与 CoT
+
+### 28-cot-thinking.ipynb — 推理链与 CoT
+
 
 - 1. LLM 的推理缺陷
 - 2. Chain-of-Thought（CoT）
@@ -355,7 +458,9 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 26-vlm.ipynb — 视觉语言模型（VLM）
+
+### 29-vlm.ipynb — 视觉语言模型（VLM）
+
 
 - 1. LLM 为什么不能直接读图片？
 - 2. Patchify：先把图片切成小块
@@ -370,7 +475,9 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 27-efficient-attention.ipynb — 高效 Attention：O(N²) 问题的两条路线
+
+### 30-efficient-attention.ipynb — 高效 Attention：O(N²) 问题的两条路线
+
 
 - 1. $O(N^2)$ 瓶颈：手算 attention 计算量
 - 2. 路线 A：Linear Attention（换计算顺序）
@@ -382,37 +489,9 @@ Notebook 总数：31
 
 ---
 
-## Part 5 · Production（生产部署）
 
-### 28-evaluation.ipynb — 评测方法论
+### 31-opd.ipynb — 在线策略蒸馏（OPD）
 
-- 1. 评测全景
-- 2. 核心评测框架 & Repo 推荐
-- 3. OpenAI-Compatible API 评测实战
-- 4. LLM-as-Judge：用 强模型当裁判
-- 5. 评测结果的汇总与对比
-- 6. AlpacaEval 实战
-- 7. 专项评测
-- 8. LLM-as-Judge 的偏差与一致性
-- 9. 评测指标体系
-- 10. 常见坑与最佳实践
-- 11. 实战速查
-- 小结
-- 作业
-
-### 29-distillation.ipynb — 知识蒸馏
-
-- 1. 蒸馏的本质
-- 2. 方法一：Logit 蒸馏（最经典）
-- 3. 方法二：数据蒸馏（最容易落地）
-- 4. 方法三：特征蒸馏（进阶）
-- 5. 实战：蒸馏 7B 模型
-- 6. 蒸馏与 OPD 对比
-- 7. 蒸馏的常见问题
-- 小结
-- 作业
-
-### 30-opd.ipynb — 在线策略蒸馏（OPD）
 
 - 模型输出分布
 - SFT：向外部数据分布模仿
@@ -437,21 +516,3 @@ Notebook 总数：31
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
-### 31-llm-deployment.ipynb — 模型部署
-
-- 1. 为什么不直接用 HuggingFace transformers
-- 2. PagedAttention 与 RadixAttention：两种 KV Cache 管理思路
-- 3. 准备模型：Qwen2.5-0.6B
-- 4. vLLM 离线推理：LLM 类
-- 5. vLLM 启动 OpenAI 兼容服务
-- 6. 用 SGLang 部署同一个模型
-- 7. vLLM 与 SGLang 选型
-- 8. 部署自训练模型：核心障碍
-- 9. 路径 A：通过 transformers 注册
-- 10. 路径 B：在 vLLM 内部直接注册
-- 11. 自定义词表
-- 12. 端到端：把 MiniGPT 部署起来
-- 小结
-- 作业
-
----

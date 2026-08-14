@@ -16,7 +16,6 @@ const PARTS = [
   ['part2-training', 'Training Systems'],
   ['part3-inference', 'Inference'],
   ['part4-frontiers', 'Frontiers'],
-  ['part5-production', 'Evaluation & Deployment'],
   ['appendix-advanced', 'Appendix'],
 ]
 

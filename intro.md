@@ -13,7 +13,7 @@
 ## 学习路径
 
 ```
-                        Modern LLM Full Stack
+                     Modern LLM Full Stack
                               │
     ┌─────────────────────────┼─────────────────────────┐
     │                         │                         │
@@ -21,16 +21,15 @@
 ┌──────────┐          ┌──────────────┐          ┌──────────────┐
 │ Part 1   │          │  Part 2       │          │  Part 3       │
 │ Foundation│ ───────>│  Training     │ ───────>│  Inference    │
-│ 01-07    │          │  08-17        │          │  18-21        │
+│ 01-07    │          │  08-19        │          │  20-26        │
 └──────────┘          └──────────────┘          └──────────────┘
                               │
-                    ┌─────────┴─────────┐
-                    ▼                   ▼
-             ┌──────────────┐   ┌──────────────┐
-             │  Part 4       │   │  Part 5       │
-             │  Frontiers    │   │  Production   │
-             │  22-24        │   │  25-28        │
-             └──────────────┘   └──────────────┘
+                              ▼
+                      ┌──────────────┐
+                      │  Part 4       │
+                      │  Frontiers    │
+                      │  27-31        │
+                      └──────────────┘
 ```
 
 ## 快速开始
@@ -46,15 +45,14 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 
 每个 Notebook 都是**自包含**的 — 可以按需跳转到任何 Part，不依赖前序 Notebook 的运行时状态。
 
-## 5 个学习阶段
+## 4 个学习阶段
 
 | Part | 范围 | 你会写出 |
 |:---|:---|:---|
 | **Part 1 — Foundation** | 01-07 | Tokenizer, BPE, Embedding, Position Encoding, Transformer Block, Mini-GPT, BERT |
-| **Part 2 — Training** | 08-17 | 现代架构演进, MoE, 训练循环, Scaling Laws, 分布式训练, 数据工程, LoRA, 函数调用, RLHF |
-| **Part 3 — Inference** | 18-21 | 解码策略, KV Cache + FlashAttention, 模型量化, 投机解码 |
-| **Part 4 — Frontiers** | 22-24 | 长上下文 (YaRN), 推理链与 CoT, 视觉语言模型 |
-| **Part 5 — Production** | 25-28 | 评测方法论, 知识蒸馏, 在线策略蒸馏, 模型部署 |
+| **Part 2 — Training** | 08-19 | 现代语言模型架构, KV Cache 架构演进, MoE, 训练循环, 分布式训练基础, Scaling Laws, 数据工程, LoRA, 知识蒸馏, 函数调用, RLHF |
+| **Part 3 — Inference** | 20-26 | 解码策略, 推理加速, 模型量化, 投机解码, 推理系统, 评测, 部署 |
+| **Part 4 — Frontiers** | 27-31 | 长上下文 (YaRN), 推理链与 CoT, VLM, 高效 Attention, 在线策略蒸馏 |
 
 ## 教学特色
 

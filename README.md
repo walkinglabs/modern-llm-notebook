@@ -161,16 +161,15 @@ raw text -> tokens -> embeddings -> attention -> Transformer -> Mini-GPT
 
 ## Curriculum
 
-The curriculum is organized into five progressive parts. Each notebook is self-contained, so you
+The curriculum is organized into four progressive parts. Each notebook is self-contained, so you
 can follow the full sequence or jump directly to a topic.
 
 | Part | Focus | Main topics |
 |:---|:---|:---|
-| I. Foundations | Build the model core | Tokenizer, BPE, Embedding, position encoding, Self-Attention, Transformer, Mini-GPT, BERT |
-| II. Training | Learn how models improve | Modern architecture upgrades, configuration, MoE, loss, scaling laws, distributed training, data engineering, LoRA, continued pretraining, RLHF |
-| III. Inference | Generate efficiently | Decoding strategies, KV Cache, memory and throughput, speculative decoding, inference systems |
-| IV. Frontiers | Explore newer capabilities | Long context, CoT and reasoning, VLMs, efficient attention |
-| V. Production | Close the model lifecycle | Evaluation, distillation, on-policy distillation, deployment |
+| I. Foundations | Build the model core | Tokenizer, BPE, Embedding, position encoding, Self-Attention, Transformer, GPT from scratch, BERT |
+| II. Training | Learn how models improve | Modern architectures, KV cache evolution, configuration, MoE, training loss, distributed training, scaling laws, data engineering, LoRA, distillation, function calling, RLHF |
+| III. Inference | Generate, evaluate, and deploy | Decoding strategies, inference acceleration, quantization, speculative decoding, inference systems, evaluation, deployment |
+| IV. Frontiers | Explore newer capabilities | Long context, CoT and reasoning, VLMs, efficient attention, on-policy distillation |
 
 ### Recommended Learning Path
 
@@ -327,7 +326,6 @@ modern-llm-notebook/
 │   ├── part2-training/
 │   ├── part3-inference/
 │   ├── part4-frontiers/
-│   └── part5-production/
 ├── notebooks-en/        # English notebook mirror
 ├── assets/              # README and course assets
 ├── web/                 # React/Vite course reader
