@@ -279,7 +279,18 @@ function renderMarkdown(source) {
         i += 1
         quoteLines.push(lines[i].trim().replace(/^>\s?/, ''))
       }
-      blocks.push(`<blockquote><p>${inlineMarkdown(quoteLines.join(' '))}</p></blockquote>`)
+      // 单独一个 > 的空行是引用内的分段，按它切成多个段落，和标准 Markdown 行为一致
+      const quoteParagraphs = [[]]
+      for (const quoteLine of quoteLines) {
+        if (quoteLine.trim() === '') quoteParagraphs.push([])
+        else quoteParagraphs[quoteParagraphs.length - 1].push(quoteLine)
+      }
+      blocks.push(
+        `<blockquote>${quoteParagraphs
+          .filter((group) => group.length > 0)
+          .map((group) => `<p>${inlineMarkdown(group.join(' '))}</p>`)
+          .join('')}</blockquote>`
+      )
       continue
     }
 
