@@ -43,13 +43,14 @@ const LEGACY_NOTEBOOK_IDS = {
   // bert-encoder: 08 → 07
   '08-bert-encoder': '07-bert-encoder',
 
-  // mla-kv-cache: 29 → 18 → 19 → 09（紧跟 08 架构一节）
-  '29-mla-kv-cache': '09-mla-kv-cache',
-  '18-mla-kv-cache': '09-mla-kv-cache',
-  '19-mla-kv-cache': '09-mla-kv-cache',
+  // mla-kv-cache: 29 → 18 → 19 → 09 → 11
+  '29-mla-kv-cache': '11-mla-kv-cache',
+  '18-mla-kv-cache': '11-mla-kv-cache',
+  '19-mla-kv-cache': '11-mla-kv-cache',
+  '09-mla-kv-cache': '11-mla-kv-cache',
 
-  // model-config: 09 → 10
-  '09-model-config': '10-model-config',
+  // model-config: 09 → 10 → 09（回到 09）
+  '10-model-config': '09-model-config',
 
   // moe: 06 → 07 → 10 → 11 → 13
   '06-moe': '13-moe',
@@ -57,10 +58,11 @@ const LEGACY_NOTEBOOK_IDS = {
   '10-moe': '13-moe',
   '11-moe': '13-moe',
 
-  // training-loss: 08 → 09 → 11 → 12 → 11（回到 11）
-  '08-training-loss': '11-training-loss',
-  '09-training-loss': '11-training-loss',
-  '12-training-loss': '11-training-loss',
+  // training-loss: 08 → 09 → 11 → 12 → 10
+  '08-training-loss': '10-training-loss',
+  '09-training-loss': '10-training-loss',
+  '11-training-loss': '10-training-loss',
+  '12-training-loss': '10-training-loss',
 
   // distributed-training: 13 → 12 → 13 → 12（回到 12）
   '13-distributed-training': '12-distributed-training',

@@ -243,10 +243,10 @@ Modern LLM Notebook
 │
 ├── Part 2: Training
 │   ├── 现代语言模型架构演进
-│   ├── KV Cache 架构演进
 │   ├── 读懂大模型的配置文件
 │   ├── 完成第一次预训练与微调
-│   ├── 分布式训练基础
+│   ├── KV Cache 及架构演进
+│   ├── 分布式训练：工业界的标准工具链
 │   ├── 从 dense 到 MoE 架构
 │   ├── 缩放定律
 │   ├── 预训练数据工程
@@ -294,10 +294,10 @@ Modern LLM Notebook
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
 | 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
-| 09 | [KV Cache 架构演进](notebooks/part2-training/09-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
-| 10 | [读懂大模型的配置文件](notebooks/part2-training/10-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 11 | [完成第一次预训练与微调](notebooks/part2-training/11-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
-| 12 | [分布式训练基础](notebooks/part2-training/12-distributed-training.ipynb) | 多卡如何切分显存与计算？ | DDP、ZeRO Stage 1/2/3、FSDP、DeepSpeed、Accelerate |
+| 09 | [读懂大模型的配置文件](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
+| 10 | [完成第一次预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
+| 11 | [KV Cache 及架构演进](notebooks/part2-training/11-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
+| 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
 | 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
 | 14 | [缩放定律](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | FLOPs 估算、Chinchilla 直觉 |
 | 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |

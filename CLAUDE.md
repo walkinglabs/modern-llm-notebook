@@ -173,7 +173,7 @@
 ```
 notebooks/
 ├── part1-foundation/    # 01-07: Tokenizer → Embedding → Transformer → Mini-GPT → BERT
-├── part2-training/      # 08-19: 现代架构演进 → KV Cache → 模型配置 → 预训练与微调 → 分布式 → MoE → 缩放定律 → 数据工程 → LoRA 低秩微调 → 蒸馏（大教小）→ 函数调用（对话到工具）→ RLHF（偏好到对齐）
+├── part2-training/      # 08-19: 现代架构演进 → 模型配置 → 预训练与微调 → KV Cache → 分布式 → MoE → 缩放定律 → 数据工程 → LoRA 低秩微调 → 蒸馏（大教小）→ 函数调用（对话到工具）→ RLHF（偏好到对齐）
 ├── part3-inference/     # 20-26: 解码策略 → 推理加速 → 量化 → 投机解码 → 推理系统 → 评测 → 部署
 ├── part4-frontiers/     # 27-31: 长上下文 → 推理链 → VLM → 高效注意力 → OPD
 └── appendix-advanced/   # A-H: 概率信息论 → 参数量手算 → 混合精度 → FlashAttention → 集合通信 → 5D 并行 → 进阶 Kernel → GPU 硬件

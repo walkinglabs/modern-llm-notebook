@@ -167,7 +167,7 @@ can follow the full sequence or jump directly to a topic.
 | Part | Focus | Main topics |
 |:---|:---|:---|
 | I. Foundations | Build the model core | Tokenizer, BPE, Embedding, position encoding, Self-Attention, Transformer, GPT from scratch, BERT |
-| II. Training | Learn how models improve | Modern architecture evolution, KV cache evolution, configuration, pretraining and fine-tuning, distributed training, MoE, scaling laws, data engineering, LoRA, distillation, function calling, RLHF |
+| II. Training | Learn how models improve | Modern architecture evolution, configuration, pretraining and fine-tuning, KV cache evolution, distributed training, MoE, scaling laws, data engineering, LoRA, distillation, function calling, RLHF |
 | III. Inference | Generate, evaluate, and deploy | Decoding strategies, inference acceleration, quantization, speculative decoding, inference systems, evaluation, deployment |
 | IV. Frontiers | Explore newer capabilities | Long context, CoT and reasoning, VLMs, efficient attention, on-policy distillation |
 

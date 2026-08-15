@@ -117,24 +117,7 @@ Notebook 总数：31
 - 作业
 
 
-### 09-mla-kv-cache.ipynb — KV Cache 架构演进
-
-
-- 本节要点
-- 1. 生成时到底在重复计算什么（代码验证历史 K 不变）
-- 2. 第一代方案：少存几份 K/V（MQA 与 GQA）
-- 3. 第二代方案：不存 K/V，存压缩向量（MLA）
-- 4. 从零实现简化 MLA
-- 5. 实验：三代方案放在一起比
-- 6. 绕不开的麻烦：RoPE（decoupled RoPE）
-- 7. 谁在用：MLA 的工程现状
-- 小结
-- 作业
-
----
-
-
-### 10-model-config.ipynb — 读懂大模型的配置文件
+### 09-model-config.ipynb — 读懂大模型的配置文件
 
 
 - 仓库文件地图：一张表看懂 HuggingFace 仓库
@@ -147,7 +130,7 @@ Notebook 总数：31
 - 参考资料
 
 
-### 11-training-loss.ipynb — 完成第一次预训练与微调
+### 10-training-loss.ipynb — 完成第一次预训练与微调
 
 
 - 0. 先建立直觉：Trainer 到底帮你省了什么？
@@ -165,16 +148,32 @@ Notebook 总数：31
 - 小结（checklist）
 
 
-### 12-distributed-training.ipynb — 分布式训练基础
+### 11-mla-kv-cache.ipynb — KV Cache 及架构演进
 
 
-- 1. 单卡的极限：再算一遍显存账单
-- 2. 数据并行（DDP）
-- 3. ZeRO：把冗余切到多卡
-- 4. FSDP：PyTorch 原生的 ZeRO-3
-- 5. DeepSpeed：配置驱动的 ZeRO
-- 6. Accelerate：统一封装
-- 7. 三层关系总结
+- 本节要点
+- 1. 生成时到底在重复计算什么（代码验证历史 K 不变）
+- 2. 第一代方案：少存几份 K/V（MQA 与 GQA）
+- 3. 第二代方案：不存 K/V，存压缩向量（MLA）
+- 4. 从零实现简化 MLA
+- 5. 实验：三代方案放在一起比
+- 6. 绕不开的麻烦：RoPE（decoupled RoPE）
+- 7. 谁在用：MLA 的工程现状
+- 小结
+- 作业
+
+---
+
+
+### 12-distributed-training.ipynb — 分布式训练：工业界的标准工具链
+
+
+- 1. 先算一笔账：单卡为什么不够
+- 2. ZeRO：把冗余切到多卡
+- 3. Accelerate：一份训练脚本，切换所有后端
+- 4. ZeRO 的常用参数：显存不够时动哪几个旋钮
+- 5. Megatron-LM：预训练大模型的重型武器
+- 6. 微调时代的标配装备
 - 小结
 - 作业
 - 参考资料
