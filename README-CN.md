@@ -257,12 +257,12 @@ Modern LLM Notebook
 │
 ├── Part 3: Inference
 │   ├── 解码策略
-│   ├── 推理加速
-│   ├── 模型量化
-│   ├── 投机解码
+│   ├── 推理加速与优化
+│   ├── 模型量化方法
+│   ├── 投机解码机制
 │   ├── 现代推理系统
 │   ├── 评测方法论
-│   └── 模型部署
+│   └── 模型部署与服务化
 │
 └── Part 4: Frontiers
     ├── 长上下文
@@ -311,12 +311,12 @@ Modern LLM Notebook
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
 | 20 | [解码策略](notebooks/part3-inference/20-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
-| 21 | [推理加速](notebooks/part3-inference/21-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
-| 22 | [模型量化](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
-| 23 | [投机解码](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
+| 21 | [推理加速与优化](notebooks/part3-inference/21-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
+| 22 | [模型量化方法](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
+| 23 | [投机解码机制](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
 | 24 | [现代推理系统](notebooks/part3-inference/24-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
 | 25 | [评测方法论](notebooks/part3-inference/25-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
-| 26 | [模型部署](notebooks/part3-inference/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
+| 26 | [模型部署与服务化](notebooks/part3-inference/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
 
 ### Part 4: Frontiers
 
