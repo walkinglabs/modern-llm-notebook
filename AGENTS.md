@@ -1,5 +1,7 @@
 # AGENTS.md — Modern LLM Notebook 项目规范
 
+> 本仓库同时维护 `CLAUDE.md`（Claude Code 读取）。两份规范内容需保持同步：改了任意一份的规则，同步更新另一份。
+
 ## 项目定位
 
 这是一套**从零实现大模型核心组件**的 Jupyter Notebook 教程。
@@ -29,14 +31,26 @@
 - 每个 Notebook 结尾有小结 checklist，确认读者懂了
 - 开头要像高中生教程：先告诉读者“今天要解决什么困惑”，再说会怎么一步步解决
 - 不要一上来用抽象判断压读者；先给定义，再给例子，再给反例或注意事项
+- 中文引号统一用「」，不用弯引号 “”；英文例句用反引号或直引号
+- 避免未经解释的数学黑话：如「正交」写成「互相独立」，读者不是数学系学生
+
+### 开头写作规范
+
+每个 notebook 的开头 blockquote 是全文的门面，规则如下：
+
+- **不用粗体标签**（不要写 `**前情回顾**：`/`**本节目标**：`），直接写成 2-4 段普通引用；段落之间用一个空 `>` 行分隔（web 渲染器已支持分段渲染）
+- **叙事结构必须多样化**：禁止连续几本都用「回顾 → 矛盾 → 答案」同款骨架。可用的骨架举例：疑问开场、数字冲击、场景沉浸、反常现象、比喻开场、需求倒推、工程进度视角、机制链条、视角切换、缺陷反转
+- **每段只装一个意思**；问句、反差、列举轮换着用，不要每篇都以同一个句式收尾（如都用「这一节就来回答这个问题」）
+- **meta 套话限量**：「上一节」「这一节」每篇开头最多各出现一次
+- **具体例子优先于抽象数字**：「这家餐厅味道不……」好过「写到第 10 个 token 时只能看到前 9 个」；相邻章节讲相近话题时，例子必须错开
+- **话直说**：短句陈述为主，少用双破折号插入语（「——……——」），不堆比喻；口语但不要电报体
 
 ### Notebook 结构模版
 
 ```
 # 中文标题
 
-> **前情回顾**：[一句话回顾上一节学了什么]
-> **本节目标**：[一句话说清本节要达成什么]
+> [开头 blockquote：2-4 段，不用粗体标签，写法见「开头写作规范」]
 
 ## 0. 先建立直觉（可选，复杂概念必须有）
 ## 1. 第一个问题/方案一（最朴素的想法）
@@ -109,19 +123,33 @@
 ## 目录结构
 
 ```
-notebooks/
-├── part1-foundation/    # 01-04: Tokenizer → Embedding → Mini-GPT
-├── part2-training/      # 05-12: 架构优化 → MoE → BERT → 训练 → 缩放 → 数据 → LoRA → RLHF
-├── part3-inference/     # 13-15: 生成 → 推理加速 → 投机解码
-├── part4-frontiers/     # 16-18: 长上下文 → CoT → VLM
-└── part5-production/    # 19-21: 评测 → 蒸馏 → OPD
+notebooks/               # 中文版教程
+├── part1-foundation/    # 01-07: Tokenizer/BPE → Embedding → 位置编码 → Transformer Block → Mini-GPT → BERT
+├── part2-training/      # 08-19: 架构演进 → 模型配置 → 训练 → KV Cache/MLA → 分布式 → MoE → 缩放 → 数据 → LoRA → 蒸馏 → 函数调用 → RLHF
+├── part3-inference/     # 20-26: 生成 → 推理加速 → 量化 → 投机解码 → 推理系统 → 评测 → 部署
+├── part4-frontiers/     # 27-31: 长上下文 → CoT → VLM → 高效 Attention → OPD
+└── appendix-advanced/   # A-H: 概率信息 → FLOPs/显存 → 混合精度 → FlashAttention → 集合通信 → 并行策略 → Kernel 源码 → GPU 硬件
+
+notebooks-en/            # 英文版，目录结构与中文版一一对应（改中文内容时注意是否需要同步）
+web/                     # React + Vite 网页端
+scripts/                 # 审计/校验脚本（如作业审计）
 ```
+
+编号调整过多次（最近一次把 model-config/training-loss/mla-kv-cache 重排为 09/10/11），**重编号后必须全局搜索 `\d\d 节` 核对交叉引用是否过时**。
 
 ## Notebook 间引用规范
 
 - 前情回顾只引用上一节的核心概念，不给具体代码行号
+- 交叉引用优先用「上一节」或 notebook 主题名（如「推理加速一节」），**避免裸章号**（「19 节」这种数字在重编号后会过时）
+- 指某本 notebook 内部的小节时写「本章第 X 节」，避免和章号混淆
 - 预告下一节时只用一句话激发兴趣
 - 每个 Notebook 自包含，不依赖其他 Notebook 的运行时状态
+
+## ipynb 编辑注意
+
+- source 数组的行格式有两种：常见的是每行内容**行尾**带 `\n`；个别文件（如 12-distributed-training）是**行首** `\n` 前缀 + 独立的 `"\n"` 分隔元素。编辑前先看该文件原格式，按原格式插入
+- 直接改 JSON 文本时，换行必须是转义 `\n`（反斜杠 + n 两个字符），写成真实换行会破坏 JSON；**每次改完必须用 `json.load` 校验**
+- 优先用「整行内容精确匹配 → 替换」的方式改，不要凭记忆拼跨行结构
 
 ## 网页端运行与构建
 
@@ -130,3 +158,7 @@ notebooks/
 - 直接读取 Notebook 原文并启动网页端开发服务器：`npm run dev`
 - 直接读取 Notebook 原文并构建静态网页：`npm run build`
 - 预览构建的静态网页：`npm run preview`
+
+网页端细节：
+- Markdown 渲染器是**手写的**，在 `web/src/data/notebooks.js`（无 marked/react-markdown 等库）：blockquote 分段、表格、KaTeX 公式、代码高亮都在这里处理。改 notebook 的渲染行为改这个文件
+- `web/vite.config.js` 里的插件扫描 `notebooks/` 与 `notebooks-en/` 生成目录（标题取自各 notebook 的 H1），notebook 文件增删/改名会触发整页刷新

@@ -343,7 +343,7 @@ Notebook 总数：31
 - 参考资料
 
 
-### 23-speculative-decoding.ipynb — 投机解码
+### 23-speculative-decoding.ipynb — 投机解码机制
 
 
 - 1. 自回归生成的串行瓶颈
@@ -395,7 +395,7 @@ Notebook 总数：31
 - 作业
 
 
-### 26-llm-deployment.ipynb — 模型部署
+### 26-llm-deployment.ipynb — 模型部署与服务化
 
 
 - 1. 为什么不直接用 HuggingFace transformers
