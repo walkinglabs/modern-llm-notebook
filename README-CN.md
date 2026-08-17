@@ -266,7 +266,7 @@ Modern LLM Notebook
 │
 └── Part 4: Frontiers
     ├── 长上下文
-    ├── 推理链与 CoT
+    ├── 推理模型与推理时计算
     ├── 视觉语言模型
     ├── 高效 Attention
     └── 在线策略蒸馏（OPD）
@@ -323,7 +323,7 @@ Modern LLM Notebook
 | # | Notebook | 核心问题 | 实现重点 |
 |:---:|:---|:---|:---|
 | 27 | [长上下文](notebooks/part4-frontiers/27-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
-| 28 | [推理链与 CoT](notebooks/part4-frontiers/28-cot-thinking.ipynb) | 推理链为什么能改善答案？ | Self-Consistency、reward 设计 |
+| 28 | [推理模型与推理时计算](notebooks/part4-frontiers/28-cot-thinking.ipynb) | 先想再答为什么更准？推理时多花算力还能提升多少？ | R1-Zero、Test-Time Scaling、思考预算控制 |
 | 29 | [视觉语言模型](notebooks/part4-frontiers/29-vlm.ipynb) | 图像信息如何进入语言模型？ | Patch Embedding、Cross-Attention |
 | 30 | [高效 Attention](notebooks/part4-frontiers/30-efficient-attention.ipynb) | 怎么把 attention 复杂度从 O(N²) 压到 O(N)？ | Linear attention、SSM/Mamba、稀疏注意力、Hybrid 架构 |
 | 31 | [在线策略蒸馏（OPD）](notebooks/part4-frontiers/31-opd.ipynb) | 蒸馏如何减少 exposure bias？ | OPSD、KL 估计器分类 |

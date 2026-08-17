@@ -440,22 +440,20 @@ Notebook 总数：31
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
 
-### 28-cot-thinking.ipynb — 推理链与 CoT
+### 28-cot-thinking.ipynb — 推理模型与推理时计算
 
 
-- 1. LLM 的推理缺陷
-- 2. Chain-of-Thought（CoT）
-- 3. 从 CoT 到 Thinking 模型
-- 4. Thinking 模型的训练方法
-- 5. 训练自己的 Thinking 模型
-- 6. Thinking 模型的「啊哈时刻」
-- 7. Thinking 模型的局限性
-- 8. 主流 Thinking 模型对比
-- 9. 实操：启动与切换 Thinking 模式
-- 10. 实战：训练 Thinking 模型
-- 11. 另一条路：不训练模型，只在推理时多花算力
+- 1. 从语言模型到推理模型
+- 2. R1-Zero：纯强化学习推理
+- 3. Test-Time Scaling
+- 4. Hybrid Thinking 与预算控制
+- 5. 自适应思考
+- 6. 推理链的展示与对齐
+- 7. 实操：训练自己的 Thinking 模型
+- 8. 推理时搜索：ToT、PRM 与自我修正
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
+- 参考资料
 
 
 ### 29-vlm.ipynb — 视觉语言模型（VLM）
