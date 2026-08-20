@@ -130,22 +130,28 @@ Notebook 总数：31
 - 参考资料
 
 
-### 10-training-loss.ipynb — 完成第一次预训练与微调
+### 10-training-loss.ipynb — 语言模型的预训练与微调
 
 
-- 0. 先建立直觉：Trainer 到底帮你省了什么？
-- 1. 一条文本样本如何变成训练样本？
-- 2. Chat Template 为什么会影响 loss？
-- 3. 手算 Cross-Entropy：loss 到底怎么算？
-- 4. 一个 batch 进入模型后发生了什么？
-- 5. 模型 forward：为什么 labels 可以直接传给 model？
-- 6. 实现一个迷你 Trainer：工业库的核心骨架
-- 7. 把迷你 Trainer 映射到 Hugging Face Transformers
-- 8. 把同一条链路映射到 ModelScope ms-swift
-- 9. 工业训练 loop 的完整流程图
-- 10. 一个容易混淆的问题：模型内部 shift 还是数据里 shift？
-- 11. 作业
-- 小结（checklist）
+- 最小训练样本与右移一位的标签
+- Token 级 Cross-Entropy Loss 与 Batch 训练
+- MiniGPT 的完整训练循环与 loss 曲线
+- 梯度、Gradient Clipping 与 Gradient Accumulation
+- Chat Template、多轮对话与 Loss Mask
+- Warmup、Muon 与 Multi-Token Prediction
+- 小结与作业
+
+
+### 10a-training-frameworks-and-optimizers.ipynb — 训练框架与优化器
+
+
+- 训练样本、Chat Template、Batch 与 Padding
+- 迷你 Trainer 与完整参数更新
+- Adam、AdamW、Gradient Clipping 与 Muon
+- Lion、Shampoo 与 SOAP
+- Hugging Face Transformers 与 ModelScope SWIFT
+- Perplexity、Entropy、KL Divergence 与标签偏移
+- 小结与作业
 
 
 ### 11-mla-kv-cache.ipynb — KV Cache 及架构演进
@@ -512,4 +518,3 @@ Notebook 总数：31
 - 15. 从训练到上线：模型格式与部署工具
 - 小结
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
-

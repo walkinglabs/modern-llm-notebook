@@ -244,7 +244,8 @@ Modern LLM Notebook
 ├── Part 2: Training
 │   ├── 现代语言模型架构演进
 │   ├── 读懂大模型的配置文件
-│   ├── 完成第一次预训练与微调
+│   ├── 语言模型的预训练与微调
+│   ├── 训练框架与优化器
 │   ├── KV Cache 及架构演进
 │   ├── 分布式训练：工业界的标准工具链
 │   ├── 从 dense 到 MoE 架构
@@ -295,7 +296,8 @@ Modern LLM Notebook
 |:---:|:---|:---|:---|
 | 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
 | 09 | [读懂大模型的配置文件](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 10 | [完成第一次预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | 语言模型如何从预测错误中学习？ | 训练循环、loss、梯度、Multi-Token Prediction |
+| 10 | [语言模型的预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | MiniGPT 如何完成一次完整预训练？ | 训练循环、loss 曲线、梯度、Chat Template、MTP |
+| 10A | [训练框架与优化器](notebooks/part2-training/10a-training-frameworks-and-optimizers.ipynb) | 从零实现的训练循环如何映射到工业训练接口？ | Trainer、Data Collator、AdamW、Muon、PPL、KL |
 | 11 | [KV Cache 及架构演进](notebooks/part2-training/11-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
 | 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
 | 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |

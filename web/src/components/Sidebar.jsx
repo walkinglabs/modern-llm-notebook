@@ -31,6 +31,8 @@ function getSectionKey(partDir) {
 
 function getLessonNumber(id) {
   const str = String(id || '')
+  const sublesson = str.match(/^(\d+)([a-z])(?=-)/i)
+  if (sublesson) return `${sublesson[1]}${sublesson[2].toUpperCase()}`
   const digits = str.match(/^\d+/)?.[0]
   if (digits) return digits
   return str.match(/^[A-Z](?=-)/)?.[0] || ''
