@@ -92,21 +92,26 @@ function notebookCatalogPlugin() {
       for (const dir of watchedDirs) {
         server.watcher.add(dir)
       }
-      const rebuild = (event) => (file) => {
+
+      // chokidar 的监听器是全局的，只注册一组；并合并原子保存产生的连续事件。
+      let reloadTimer = null
+      const scheduleRebuild = (event) => (file) => {
         if (!file || !file.endsWith('.ipynb')) return
-        const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
-        if (!mod) return
-        server.moduleGraph.invalidateModule(mod)
-        server.ws.send({ type: 'full-reload' })
-        server.config.logger.info(`[notebook-catalog] ${event}: ${path.basename(file)}`, {
-          timestamp: true,
-        })
+        clearTimeout(reloadTimer)
+        reloadTimer = setTimeout(() => {
+          const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
+          if (!mod) return
+          server.moduleGraph.invalidateModule(mod)
+          server.ws.send({ type: 'full-reload' })
+          server.config.logger.info(`[notebook-catalog] ${event}: ${path.basename(file)}`, {
+            timestamp: true,
+          })
+        }, 100)
       }
-      for (const dir of watchedDirs) {
-        server.watcher.on('change', rebuild('change'))
-        server.watcher.on('add', rebuild('add'))
-        server.watcher.on('unlink', rebuild('unlink'))
-      }
+      server.watcher.on('change', scheduleRebuild('change'))
+      server.watcher.on('add', scheduleRebuild('add'))
+      server.watcher.on('unlink', scheduleRebuild('unlink'))
+      server.httpServer?.once('close', () => clearTimeout(reloadTimer))
     },
     buildStart() {
       // Also add individual files for build-mode watching

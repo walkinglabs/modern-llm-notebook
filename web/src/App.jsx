@@ -225,6 +225,11 @@ function getInitialNotebookId() {
   return hash ? normalizeNotebookId(hash) : null
 }
 
+function resolveNotebookId(id, catalog) {
+  if (!id || id === NOTES_SENTINEL) return id
+  return catalog.some(notebook => notebook.id === id) ? id : null
+}
+
 function getInitialSidebarOpen() {
   return window.innerWidth >= 768
 }
@@ -232,7 +237,9 @@ function getInitialSidebarOpen() {
 function AppContent() {
   const [lang, setLang] = useState(() => getInitialLang())
   const [catalog, setCatalog] = useState(() => getCatalog(lang))
-  const [currentId, setCurrentId] = useState(() => getInitialNotebookId())
+  const [currentId, setCurrentId] = useState(() => (
+    resolveNotebookId(getInitialNotebookId(), catalog)
+  ))
   const [notebook, setNotebook] = useState(null)
   const [loading, setLoading] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(() => getInitialSidebarOpen())
@@ -343,13 +350,15 @@ function AppContent() {
 
   useEffect(() => {
     const syncFromHash = () => {
-      const nextId = getInitialNotebookId()
+      const requestedId = getInitialNotebookId()
+      const nextId = resolveNotebookId(requestedId, getCatalog(lang))
       if (nextId === NOTES_SENTINEL) return
       setCurrentId((prev) => {
         if (prev === nextId) return prev
         return nextId
       })
-      if (nextId && window.location.hash !== `#${nextId}`) {
+      const needsCanonicalHash = nextId && window.location.hash !== `#${nextId}`
+      if (requestedId !== nextId || needsCanonicalHash) {
         replaceUrlWithHash(nextId, lang)
       }
     }
