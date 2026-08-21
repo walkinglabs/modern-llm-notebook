@@ -691,7 +691,9 @@ export async function getNotebook(id, lang = 'zh') {
   if (cached) return cached
 
   const entry = NOTEBOOKS_BY_LANG[safeLang].find(item => item.id === id)
-  if (!entry) return null
+  if (!entry) {
+    throw new Error(`Notebook not found: ${safeLang}:${id}`)
+  }
   const raw = await entry.load()
   const parsed = parseNotebook(entry, raw, safeLang)
   notebookCache.set(key, parsed)

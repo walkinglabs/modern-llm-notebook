@@ -1314,6 +1314,27 @@
   animation: spin 0.85s linear infinite;
 }
 
+.notebook-load-error {
+  padding: 24px;
+  text-align: center;
+}
+
+.notebook-load-error button {
+  padding: 8px 16px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-sidebar);
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.notebook-load-error button:hover,
+.notebook-load-error button:focus-visible {
+  border-color: #1d6bf3;
+  color: #1d6bf3;
+}
+
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Guided tour */

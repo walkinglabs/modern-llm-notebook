@@ -695,7 +695,18 @@ function getHighlightSideCenterY(mark, side) {
   return rect ? rect.top + rect.height / 2 : null
 }
 
-function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark, notes, saveNote, deleteNote, updateNoteSection }) {
+function NotebookViewer({
+  notebook,
+  meta,
+  loadError,
+  onRetry,
+  isBookmarked,
+  toggleBookmark,
+  notes,
+  saveNote,
+  deleteNote,
+  updateNoteSection,
+}) {
   const contentRef = useRef(null)
   const notebookContentRef = useRef(null)
   const revealFrameRef = useRef(null)
@@ -1727,9 +1738,9 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
     openSrc(image.currentSrc || image.src, image.alt || 'notebook output')
   }
 
-  // 只有"既没 notebook 又在 loading"(首次进入应用还没加载过任何 notebook)才用全屏 spinner
-  // 切换时保留旧 notebook 显示,新 notebook 就绪后无缝替换,避免每次切换都看到 spinner
-  if (loading && !notebook) {
+  // NotebookViewer 只会在已选中章节时挂载。首次渲染时 effect 还没开始加载，
+  // 此时 notebook 为 null 也应属于加载态，否则会闪现「选择一个 Notebook」的误导提示。
+  if (!notebook && !loadError) {
     return (
       <div className="viewer" ref={contentRef}>
         <div className="loading">
@@ -1743,8 +1754,15 @@ function NotebookViewer({ notebook, meta, loading, isBookmarked, toggleBookmark,
   if (!notebook) {
     return (
       <div className="viewer" ref={contentRef}>
-        <div className="loading">
-          <span>{lang === 'en' ? 'Choose a notebook to start learning' : '选择一个 Notebook 开始学习'}</span>
+        <div className="loading notebook-load-error" role="alert">
+          <span>
+            {lang === 'en'
+              ? 'This notebook could not be loaded. Please refresh and try again.'
+              : '这个 Notebook 加载失败，请刷新后重试。'}
+          </span>
+          <button type="button" onClick={onRetry}>
+            {lang === 'en' ? 'Refresh' : '刷新页面'}
+          </button>
         </div>
       </div>
     )

@@ -241,7 +241,7 @@ function AppContent() {
     resolveNotebookId(getInitialNotebookId(), catalog)
   ))
   const [notebook, setNotebook] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(() => getInitialSidebarOpen())
   const [tourActive, setTourActive] = useState(false)
   const [tourStepIndex, setTourStepIndex] = useState(0)
@@ -303,7 +303,7 @@ function AppContent() {
 
     if (!currentId || currentId === NOTES_SENTINEL) {
       setNotebook(null)
-      setLoading(false)
+      setLoadError(false)
       return () => {
         cancelled = true
       }
@@ -313,7 +313,7 @@ function AppContent() {
     const cached = getCachedNotebook(currentId, lang)
     if (cached) {
       setNotebook(cached)
-      setLoading(false)
+      setLoadError(false)
       schedulePrefetch(currentId, lang)
       return () => {
         cancelled = true
@@ -322,12 +322,13 @@ function AppContent() {
 
     // 缓存未命中:第一次访问,只能走异步
     // 不清空旧 notebook —— 保留它直到新 notebook 就绪,避免全屏 spinner 闪一下
-    setLoading(true)
+    setLoadError(false)
 
     getNotebook(currentId, lang)
       .then((nextNotebook) => {
         if (!cancelled) {
           setNotebook(nextNotebook)
+          setLoadError(false)
           schedulePrefetch(currentId, lang)
         }
       })
@@ -335,14 +336,9 @@ function AppContent() {
         console.error(`Failed to load notebook ${currentId}`, error)
         if (!cancelled) {
           setNotebook(null)
+          setLoadError(true)
         }
       })
-      .finally(() => {
-        if (!cancelled) {
-          setLoading(false)
-        }
-      })
-
     return () => {
       cancelled = true
     }
@@ -381,8 +377,21 @@ function AppContent() {
   }, [lang])
 
   const handleLanguageChange = useCallback((nextLang) => {
-    setLang(normalizeLang(nextLang))
-  }, [])
+    const safeLang = normalizeLang(nextLang)
+    const nextId = resolveNotebookId(currentId, getCatalog(safeLang))
+
+    // 中英文目录并非始终一一对应。当前章节没有译文时直接回到新语言首页，
+    // 不让一个已经失效的 currentId 进入 NotebookViewer 的空状态。
+    flushSync(() => {
+      setLang(safeLang)
+      if (nextId !== currentId) {
+        setCurrentId(nextId)
+        setNotebook(null)
+        setLoadError(false)
+      }
+    })
+    replaceUrlWithHash(nextId === NOTES_SENTINEL ? null : nextId, safeLang)
+  }, [currentId])
 
   const handleHome = useCallback(() => {
     flushSync(() => setCurrentId(null))
@@ -721,7 +730,8 @@ function AppContent() {
           <NotebookViewer
             notebook={notebook}
             meta={currentMeta}
-            loading={loading}
+            loadError={loadError}
+            onRetry={() => window.location.reload()}
             isBookmarked={nbm.isBookmarked}
             toggleBookmark={nbm.toggleBookmark}
             notes={nbm.notes}
