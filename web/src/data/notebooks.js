@@ -190,6 +190,48 @@ function flushParagraph(blocks, paragraph) {
   paragraph.length = 0
 }
 
+// 渲染引用内的一个段落：普通行合并成 <p>，连续的有序/无序列表行渲染成 <ol>/<ul>
+function renderQuoteGroup(group, inline) {
+  const parts = []
+  let text = []
+  let listItems = null
+  let listOrdered = false
+
+  const flushText = () => {
+    if (text.length > 0) {
+      parts.push(`<p>${inline(text.join(' '))}</p>`)
+      text = []
+    }
+  }
+  const flushList = () => {
+    if (listItems && listItems.length > 0) {
+      const tag = listOrdered ? 'ol' : 'ul'
+      parts.push(`<${tag}>${listItems.map(item => `<li>${inline(item)}</li>`).join('')}</${tag}>`)
+    }
+    listItems = null
+  }
+
+  for (const line of group) {
+    const m = line.trim().match(/^([-*+]|\d+\.)\s+(.+)$/)
+    if (m) {
+      flushText()
+      const ordered = /\d+\./.test(m[1])
+      if (listItems === null || ordered !== listOrdered) {
+        flushList()
+        listItems = []
+        listOrdered = ordered
+      }
+      listItems.push(m[2])
+    } else {
+      flushList()
+      text.push(line)
+    }
+  }
+  flushText()
+  flushList()
+  return parts.join('')
+}
+
 function renderMarkdown(source) {
   const lines = source.split(/\r?\n/)
   const blocks = []
@@ -288,7 +330,7 @@ function renderMarkdown(source) {
       blocks.push(
         `<blockquote>${quoteParagraphs
           .filter((group) => group.length > 0)
-          .map((group) => `<p>${inlineMarkdown(group.join(' '))}</p>`)
+          .map((group) => renderQuoteGroup(group, inlineMarkdown))
           .join('')}</blockquote>`
       )
       continue

@@ -521,6 +521,8 @@
 }
 
 .rendered_html blockquote p:last-child { margin-bottom: 0; }
+.rendered_html blockquote ol:last-child,
+.rendered_html blockquote ul:last-child { margin-bottom: 0; }
 
 .rendered_html hr {
   height: 1px;

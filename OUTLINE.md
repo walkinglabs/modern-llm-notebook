@@ -1,6 +1,6 @@
 # Modern LLM Notebook 课程大纲
 
-更新日期：2026-06-23
+更新日期：2026-08-22
 
 Part 总数：5
 Notebook 总数：31
@@ -301,121 +301,98 @@ Notebook 总数：31
 ### 20-generation.ipynb — 解码策略
 
 
-- 1. 推理和训练的根本区别
-- 2. 训练一个能看到效果的模型
-- 3. Greedy Decoding
-- 4. Temperature：控制随机性
-- 5. 采样截断：Top-k 和 Top-p
+- 1. 从 Logits 到概率
+- 2. Greedy 解码
+- 3. Temperature 与分布形状
+- 4. Top-k 与 Top-p 截断
+- 5. Repetition Penalty
 - 6. Beam Search
-- 7. Repetition Penalty
-- 8. 对话模板与 System Prompt
-- 9. 完整生成 Pipeline
+- 7. 一次完整的采样流程
+- 8. 常用生成参数
 - 小结
 - 作业
-- 参考资料
+
+### 21-inference-acceleration.ipynb — LLM 推理的计算与显存开销
 
 
-### 21-inference-acceleration.ipynb — 推理加速
-
-
-- 1. 推理慢的根源
-- 2. KV Cache
-- 3. KV Cache 的内存开销
-- 4. MHA、MQA、GQA：少存一点 K/V
-- 5. 模型量化：用更少的位存储权重
-- 6. GGUF 格式详解
-- 7. PagedAttention (vLLM)
-- 8. FlashAttention
-- 9. 推理的两阶段：Prefill vs Decode
-- 10. Continuous Batching
-- 11. 加速手段总结
+- 1. Prefill 与 Decode
+- 2. 重复计算的问题
+- 3. KV Cache 的原理
+- 4. KV Cache 的显存开销
+- 5. MHA、GQA 与 MQA
+- 6. Decode 的带宽瓶颈
 - 小结
 - 作业
-- 参考资料
+
+### 22-quantization.ipynb — 大语言模型低比特量化
 
 
-### 22-quantization.ipynb — 模型量化
-
-
-- 1. 对称量化的回顾与局限
-- 2. 非对称量化：引入 zero point
-- 3. 量化粒度：per-tensor / per-channel / per-group
-- 4. Activation 量化的难点：outlier channels
-- 5. GPTQ 的直觉：用二阶信息补偿误差
-- 6. AWQ 的直觉：保护重要通道
-- 7. 主流量化方案对比
+- 1. 模型大小与精度
+- 2. 从浮点到 INT4
+- 3. 量化粒度
+- 4. 权重与 Activation
+- 5. GPTQ、AWQ 与 SmoothQuant
+- 6. PTQ、QAT、FP8 与 KV Cache 量化
+- 7. 量化方案的选择
 - 小结
 - 作业
-- 参考资料
+
+### 23-speculative-decoding.ipynb — 投机解码
 
 
-### 23-speculative-decoding.ipynb — 投机解码机制
-
-
-- 1. 自回归生成的串行瓶颈
-- 2. 投机解码的完整流程
-- 3. 接受与拒绝的判定
-- 4. 多次实验：实际接受率
-- 5. 实现 Draft 和 Target 模型
-- 6. 投机解码的完整实现
-- 7. 加速比分析
-- 8. 加速比可视化
-- 9. 投机解码的变体
-- 10. 适用场景分析
+- 1. 自回归的串行瓶颈
+- 2. 投机解码的基本流程
+- 3. 接受与校正规则
+- 4. 投机解码的完整实现
+- 5. 加速比分析
+- 6. 分布一致性实验
+- 7. 投机解码的变体
 - 小结
 - 作业
-- 参考资料
+
+### 24-inference-systems.ipynb — 现代 LLM 推理系统
 
 
-### 24-inference-systems.ipynb — 现代推理系统
-
-
-- 1. 服务指标：吞吐、延迟、并发
-- 2. KV Cache 碎片问题
-- 3. PagedAttention：把 OS 分页搬到 KV Cache
-- 4. Continuous batching：动态拼 batch
-- 5. Prefix caching：相同前缀的 KV Cache 复用
+- 1. 吞吐、TTFT 与 TPOT
+- 2. 从 Static Batching 到 Continuous Batching
+- 3. PagedAttention 与 KV Cache 分页
+- 4. Prefix Caching 与 RadixAttention
+- 5. Chunked Prefill
 - 6. Prefill / Decode 分离
-- 7. 主流推理引擎横评
+- 7. FlashAttention、FlashInfer 与 CUDA Graph
+- 8. TP、PP、DP、EP 与 CP
+- 9. 术语地图
 - 小结
 - 作业
-
----
-
 
 ### 25-evaluation.ipynb — 评测方法论
 
 
-- 1. 评测全景
-- 2. 核心评测框架 & Repo 推荐
-- 3. OpenAI-Compatible API 评测实战
-- 4. LLM-as-Judge：用 强模型当裁判
-- 5. 评测结果的汇总与对比
-- 6. AlpacaEval 实战
-- 7. 专项评测
-- 8. LLM-as-Judge 的偏差与一致性
-- 9. 评测指标体系
-- 10. 常见坑与最佳实践
-- 11. 实战速查
+- 1. 评测流水线
+- 2. 评测对象的分类
+- 3. Benchmark 与 Metric
+- 4. LLM-as-Judge 的偏差
+- 5. 置信区间
+- 6. 最小评测流水线实战
+- 7. 评测工具地图
+- 8. 上线前的最小对比
 - 小结
 - 作业
-
 
 ### 26-llm-deployment.ipynb — 模型部署与服务化
 
 
-- 1. 为什么不直接用 HuggingFace transformers
-- 2. PagedAttention 与 RadixAttention：两种 KV Cache 管理思路
-- 3. 准备模型：Qwen2.5-0.6B
-- 4. vLLM 离线推理：LLM 类
-- 5. vLLM 启动 OpenAI 兼容服务
+- 1. 从 Checkpoint 到 Serving Engine
+- 2. vLLM 的最小启动
+- 3. 健康检查与第一次请求
+- 4. 流式输出
+- 5. 测量 TTFT 与 TPOT
 - 6. 用 SGLang 部署同一个模型
-- 7. vLLM 与 SGLang 选型
-- 8. 部署自训练模型：核心障碍
-- 9. 路径 A：通过 transformers 注册
-- 10. 路径 B：在 vLLM 内部直接注册
-- 11. 自定义词表
-- 12. 端到端：把 MiniGPT 部署起来
+- 7. 启动参数与原理对照
+- 8. 常见问题排查
+- 9. 最小 Benchmark
+- 10. 部署视角的 PD 分离
+- 11. 招聘 JD 解读
 - 小结
 - 作业
 
