@@ -46,6 +46,22 @@
 
 ---
 
+## 更新日志
+
+### 2026-08 · 推理篇（20-26）全面重写
+
+第三部分「推理与部署」按照 Part 1 的叙事风格整体重建：每章开头先建立直觉再给方案，正文用问题链推进，结尾配小结 checklist 和 3 个可自测的作业。主要内容：
+
+- **生成与解码（20）**：从贪心解码到采样策略的完整实现与实验
+- **推理加速（21）**：KV Cache、算子融合、连续批处理等手段的效果观察
+- **量化（22）**：扩展 FP8/FP4 浮点格式（含网格可视化实验）、GGUF 与 K-quant 细节、格式选择对照表；新增端到端实操——用 llm-compressor 产出 GPTQ/FP8、AutoAWQ 产出 AWQ、llama.cpp 转换并量化 GGUF，再逐个部署起来跑
+- **投机解码（23）**：可运行的 speculative sampling 循环，亲手验证接受率与加速比
+- **推理系统（24）**：batching 甘特图、paging、prefix caching 的模拟器实验；vLLM / SGLang 部署流程刷新
+- **评测（25）**：评测流水线视角 + 常见 benchmark 的真实例题（MMLU / C-Eval / CMMLU / GSM8K / HumanEval）+ 评测库地图（lm-evaluation-harness / OpenCompass / 阿里 EvalScope）+ 置信区间；新增实战——把一套自制中文题库用 YAML 注册进 lm-eval，用 GPT-2 和 Qwen2.5-0.5B 真跑分，并画出技术报告风格的跑分图
+- **部署（26）**：量化 checkpoint 直接上线（GPTQ/AWQ 离线、FP8 在线、llama-server），与上线前评测清单衔接
+
+---
+
 ## 项目概览
 
 Modern LLM Notebook 是一套以 Jupyter Notebook 为主线的现代大语言模型课程。它不是把模型当成
