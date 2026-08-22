@@ -332,8 +332,11 @@ Notebook 总数：31
 - 3. 量化粒度
 - 4. 权重与 Activation
 - 5. GPTQ、AWQ 与 SmoothQuant
-- 6. PTQ、QAT、FP8 与 KV Cache 量化
-- 7. 量化方案的选择
+- 6. PTQ、QAT 与 KV Cache 量化
+- 7. 浮点格式 FP8 与 FP4
+- 8. GGUF 与 llama.cpp 生态
+- 9. 量化方案的选择
+- 10. 量化的收益与代价
 - 小结
 - 作业
 
@@ -365,7 +368,7 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 25-evaluation.ipynb — 评测方法论
+### 25-evaluation.ipynb — 一致 vs 翻转的对比：judge 的结论并没有想象中稳定
 
 
 - 1. 评测流水线
@@ -374,7 +377,7 @@ Notebook 总数：31
 - 4. LLM-as-Judge 的偏差
 - 5. 置信区间
 - 6. 最小评测流水线实战
-- 7. 评测工具地图
+- 7. 评测库与工具地图
 - 8. 上线前的最小对比
 - 小结
 - 作业
