@@ -220,16 +220,12 @@ Notebook 总数：31
 ### 15-data-engineering.ipynb — LLM 数据工程
 
 
-- 0. 数据 Pipeline 总览
-- 1. 文本提取：从 HTML 里提取正文
-- 2. 质量过滤
-- 3. 去重
-- 4. 数据混合
-- 5. 完整 Pipeline 实战：为一个 1B 模型准备数据
-- 6. 数据质量 > 数量
-- 7. 工业案例和工具地图
-- 8. 从 Tokenize 到训练流
-- 9. 后训练数据：从真实标注到合成数据
+- 0. 预训练数据都包含哪些类型
+- 1. 打开流行的数据集看结构（PT jsonl / SFT 三种格式）
+- 2. 数据过滤实战：从手写规则到 Data-Juicer（提取、过滤、去重、去污染、算子链、数据漏斗）
+- 3. 造自己的数据：从 recipe 到合成（混合配比、benchmark 验证、领域补数据、自制 SFT 数据集、合成四法与飞轮）
+- 4. 从数据到训练流（Sequence Packing、block-diagonal mask、FIM）
+- 5. 数据量评估：有效 Token 数
 - 小结
 - 作业
 

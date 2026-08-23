@@ -48,3 +48,6 @@ web/public/notebooks/
 
 # Auto-generated web builds
 docs/
+
+# Notebook 数据缓存
+notebooks/**/*.parquet
