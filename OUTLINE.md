@@ -138,19 +138,9 @@ Notebook 总数：31
 - MiniGPT 的完整训练循环与 loss 曲线
 - 梯度、Gradient Clipping 与 Gradient Accumulation
 - Chat Template、多轮对话与 Loss Mask
-- Warmup、Muon 与 Multi-Token Prediction
-- 小结与作业
-
-
-### 10a-training-frameworks-and-optimizers.ipynb — 训练框架与优化器
-
-
-- 训练样本、Chat Template、Batch 与 Padding
-- 迷你 Trainer 与完整参数更新
-- Adam、AdamW、Gradient Clipping 与 Muon
-- Lion、Shampoo 与 SOAP
+- Warmup 与 Multi-Token Prediction
 - Hugging Face Transformers 与 ModelScope SWIFT
-- Perplexity、Entropy、KL Divergence 与标签偏移
+- TrainingArguments、等效 Batch Size 与标签偏移
 - 小结与作业
 
 
@@ -294,7 +284,7 @@ Notebook 总数：31
 
 ## Part 3 · Inference（推理）
 
-### 20-generation.ipynb — 解码策略
+### 20-generation.ipynb — 自回归生成与解码
 
 
 - 1. 从 Logits 到概率
@@ -308,7 +298,7 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 21-inference-acceleration.ipynb — LLM 推理的计算与显存开销
+### 21-inference-acceleration.ipynb — 推理加速与 KV Cache
 
 
 - 1. Prefill 与 Decode
@@ -320,7 +310,7 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 22-quantization.ipynb — 大语言模型低比特量化
+### 22-quantization.ipynb — 低比特量化
 
 
 - 1. 模型大小与精度
@@ -337,20 +327,20 @@ Notebook 总数：31
 - 小结
 - 作业
 
-### 23-speculative-decoding.ipynb — 投机解码
+### 23-speculative-decoding.ipynb — 投机解码的验证机制
 
 
 - 1. 自回归的串行瓶颈
-- 2. 投机解码的基本流程
+- 2. 投机解码的验证机制的基本流程
 - 3. 接受与校正规则
-- 4. 投机解码的完整实现
+- 4. 投机解码的验证机制的完整实现
 - 5. 加速比分析
 - 6. 分布一致性实验
-- 7. 投机解码的变体
+- 7. 投机解码的验证机制的变体
 - 小结
 - 作业
 
-### 24-inference-systems.ipynb — 现代 LLM 推理系统
+### 24-inference-systems.ipynb — 现代推理引擎
 
 
 - 1. 吞吐、TTFT 与 TPOT

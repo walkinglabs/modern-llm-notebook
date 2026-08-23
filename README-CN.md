@@ -55,8 +55,8 @@
 - **生成与解码（20）**：从贪心解码到采样策略的完整实现与实验
 - **推理加速（21）**：KV Cache、算子融合、连续批处理等手段的效果观察
 - **量化（22）**：扩展 FP8/FP4 浮点格式（含网格可视化实验）、GGUF 与 K-quant 细节、格式选择对照表；新增端到端实操——用 llm-compressor 产出 GPTQ/FP8、AutoAWQ 产出 AWQ、llama.cpp 转换并量化 GGUF，再逐个部署起来跑
-- **投机解码（23）**：可运行的 speculative sampling 循环，亲手验证接受率与加速比
-- **推理系统（24）**：batching 甘特图、paging、prefix caching 的模拟器实验；vLLM / SGLang 部署流程刷新
+- **投机解码的验证机制（23）**：可运行的 speculative sampling 循环，亲手验证接受率与加速比
+- **现代推理引擎（24）**：batching 甘特图、paging、prefix caching 的模拟器实验；vLLM / SGLang 部署流程刷新
 - **评测（25）**：评测流水线视角 + 常见 benchmark 的真实例题（MMLU / C-Eval / CMMLU / GSM8K / HumanEval）+ 评测库地图（lm-evaluation-harness / OpenCompass / 阿里 EvalScope）+ 置信区间；新增实战——把一套自制中文题库用 YAML 注册进 lm-eval，用 GPT-2 和 Qwen2.5-0.5B 真跑分，并画出技术报告风格的跑分图
 - **部署（26）**：量化 checkpoint 直接上线（GPTQ/AWQ 离线、FP8 在线、llama-server），与上线前评测清单衔接
 
@@ -94,7 +94,7 @@ Modern LLM Notebook 是一套以 Jupyter Notebook 为主线的现代大语言模
 | Transformer 核心 | Self-Attention、Multi-Head Attention、Transformer Block、Mini-GPT | 亲手还原核心 forward pass |
 | 训练系统 | Cross-Entropy、batch、梯度流动、Scaling Laws 直觉 | 把 loss 曲线和模型行为连接起来 |
 | 适配与对齐 | LoRA、CPT、Reward Model、PPO/DPO 风格目标 | 理解 base model 如何变成 assistant |
-| 推理系统 | Sampling、Beam Search、KV Cache、Speculative Decoding | 明白为什么推理是系统工程问题 |
+| 现代推理引擎 | Sampling、Beam Search、KV Cache、Speculative Decoding | 明白为什么推理是系统工程问题 |
 | 前沿方向 | 长上下文、CoT 实验、VLM patch embedding 和 cross-attention | 把新论文拆成可运行的小实验 |
 | 生产闭环 | 评测、胜率矩阵、蒸馏、OPD | 学会衡量、压缩和改进模型行为 |
 
@@ -261,7 +261,6 @@ Modern LLM Notebook
 │   ├── 现代语言模型架构演进
 │   ├── 读懂大模型的配置文件
 │   ├── 语言模型的预训练与微调
-│   ├── 训练框架与优化器
 │   ├── KV Cache 及架构演进
 │   ├── 分布式训练：工业界的标准工具链
 │   ├── 从 dense 到 MoE 架构
@@ -273,11 +272,11 @@ Modern LLM Notebook
 │   └── 从偏好到对齐：RLHF
 │
 ├── Part 3: Inference
-│   ├── 解码策略
+│   ├── 自回归生成与解码
 │   ├── 推理加速与优化
-│   ├── 模型量化方法
-│   ├── 投机解码机制
-│   ├── 现代推理系统
+│   ├── 低比特量化
+│   ├── 投机解码的验证机制
+│   ├── 现代推理引擎
 │   ├── 评测方法论
 │   └── 模型部署与服务化
 │
@@ -312,8 +311,7 @@ Modern LLM Notebook
 |:---:|:---|:---|:---|
 | 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
 | 09 | [读懂大模型的配置文件](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 10 | [语言模型的预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | MiniGPT 如何完成一次完整预训练？ | 训练循环、loss 曲线、梯度、Chat Template、MTP |
-| 10A | [训练框架与优化器](notebooks/part2-training/10a-training-frameworks-and-optimizers.ipynb) | 从零实现的训练循环如何映射到工业训练接口？ | Trainer、Data Collator、AdamW、Muon、PPL、KL |
+| 10 | [语言模型的预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | MiniGPT 如何完成训练，并映射到工业训练接口？ | 训练循环、Chat Template、MTP、Trainer、SWIFT、标签偏移 |
 | 11 | [KV Cache 及架构演进](notebooks/part2-training/11-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
 | 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
 | 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
@@ -330,9 +328,9 @@ Modern LLM Notebook
 |:---:|:---|:---|:---|
 | 20 | [解码策略](notebooks/part3-inference/20-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
 | 21 | [推理加速与优化](notebooks/part3-inference/21-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
-| 22 | [模型量化方法](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
-| 23 | [投机解码机制](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
-| 24 | [现代推理系统](notebooks/part3-inference/24-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
+| 22 | [低比特量化](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
+| 23 | [投机解码的验证机制](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
+| 24 | [现代现代推理引擎](notebooks/part3-inference/24-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
 | 25 | [评测方法论](notebooks/part3-inference/25-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
 | 26 | [模型部署与服务化](notebooks/part3-inference/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
 
