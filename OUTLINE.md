@@ -430,19 +430,18 @@ Notebook 总数：31
 ### 28-cot-thinking.ipynb — 推理模型与推理时计算
 
 
-- 1. 从语言模型到推理模型
-- 2. R1-Zero：纯强化学习推理
-- 3. Test-Time Scaling
-- 4. Hybrid Thinking 与预算控制
-- 5. 自适应思考
-- 6. 推理链的展示与对齐
-- 7. 实操：训练自己的 Thinking 模型
-- 8. 推理时搜索：ToT、PRM 与自我修正
+- 1. 从一次前向传播到思维链
+- 2. Thinking 模型与 <think> 符号
+- 3. R1-Zero 与强化学习推理
+- 4. Test-Time Scaling
+- 5. Hybrid Thinking 与预算控制
+- 6. 自适应思考
+- 7. 推理链的展示与对齐
+- 8. Thinking 模型的训练
+- 9. 推理时搜索
 - 小结
-- 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
+- 作业
 - 参考资料
-
-
 ### 29-vlm.ipynb — 视觉语言模型（VLM）
 
 
@@ -460,42 +459,29 @@ Notebook 总数：31
 - 作业
 
 
-### 30-efficient-attention.ipynb — 高效 Attention：O(N²) 问题的两条路线
+### 30-efficient-attention.ipynb — 高效 Attention 的演进
 
 
-- 1. $O(N^2)$ 瓶颈：手算 attention 计算量
-- 2. 路线 A：Linear Attention（换计算顺序）
-- 3. 路线 B：Sparse Attention（保留 softmax，少算对）
-- 4. 两条路线的横向对比
-- 5. Hybrid 架构：linear + softmax 混合
+- 1. 上下文越长，Attention 越贵
+- 2. 路线一 Sparse Attention
+- 3. 路线二 Linear Attention
+- 4. 路线三 SSM 与 Mamba
+- 5. 三条路线的合流
+- 6. 三条路线的对比
 - 小结
 - 作业
-
----
-
-
 ### 31-opd.ipynb — 在线策略蒸馏（OPD）
 
 
-- 模型输出分布
-- SFT：向外部数据分布模仿
-- RL：在自身行为中筛选高价值方向
-- OPD：在自身轨迹上接受教师纠偏
-- 三者核心区别
-- 1. 知识蒸馏回顾
-- 2. 四种训练方式对比
-- 3. 问题根源：Exposure Bias（暴露偏差）
-- 4. OPD 的解决方案：在自己的轨迹上学习
-- 5. 数学本质：Forward KL vs Reverse KL
-- 6. OPSD：不需要外部 Teacher 的 OPD
-- 7. 三种信号粒度：老师告诉你多少信息
-- 8. 当只能用 sampled-token：KL 估计器
-- 9. 完整 OPD 训练流程（串起来）
-- 10. OPD 为什么现在才火
-- 11. 论文速览（截至 2026-05）
-- 12. 论文全景：怎么分类看 OPD
-- 13. 分类维度：从两个角度理解 OPD 生态
-- 14. OPD 的工业落地
-- 15. 从训练到上线：模型格式与部署工具
+- 1. 后训练的范式演进
+- 2. Exposure Bias
+- 3. OPD 的机制
+- 4. Forward KL 与 Reverse KL
+- 5. 无外部 Teacher 的 OPSD
+- 6. 三种监督信号粒度
+- 7. Sampled-Token KL 估计器
+- 8. 完整训练流程
+- 9. 发展条件与工业落地
+- 10. 论文地图
 - 小结
-- 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
+- 作业
