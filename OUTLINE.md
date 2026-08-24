@@ -238,7 +238,7 @@ Notebook 总数：31
 - 作业> 可以让 AI 帮忙解释思路，但不建议直接让 AI "做完这道题"。
 
 
-### 17-distillation.ipynb — 从大模型到小模型：知识蒸馏
+### 17-distillation.ipynb — 知识蒸馏
 
 
 - 1. 蒸馏的本质
@@ -252,7 +252,7 @@ Notebook 总数：31
 - 作业
 
 
-### 18-function-calling.ipynb — 从对话到工具：函数调用
+### 18-function-calling.ipynb — 函数调用与 Agent：函数调用
 
 
 - 本节要点
@@ -266,7 +266,7 @@ Notebook 总数：31
 - 作业
 
 
-### 19-rlhf-alignment.ipynb — 从偏好到对齐：RLHF
+### 19-rlhf-alignment.ipynb — 偏好对齐与 RLHF
 
 
 - 1. 为什么需要对齐

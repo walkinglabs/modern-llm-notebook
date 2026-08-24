@@ -14,7 +14,7 @@ export const RUNNABLE_NOTEBOOKS = [
   { id: "nb-6", lessonId: "16-lora", title: "LoRA 低秩微调", titleEn: "LoRA", desc: "参数高效微调方法", descEn: "Parameter-efficient fine-tuning", section: "training", duration: 20 },
   { id: "nb-7", lessonId: "20-generation", title: "生成策略", titleEn: "Generation Strategies", desc: "贪心、采样与束搜索", descEn: "Greedy, sampling, and beam search", section: "inference", duration: 18 },
   { id: "nb-8", lessonId: "28-cot-thinking", title: "CoT 思维链", titleEn: "Chain-of-Thought", desc: "链式推理的机制", descEn: "Mechanics of chain reasoning", section: "frontiers", duration: 16 },
-  { id: "nb-9", lessonId: "19-rlhf-alignment", title: "从偏好到对齐：RLHF", titleEn: "From Preferences to Alignment: RLHF", desc: "人类反馈强化学习", descEn: "Reinforcement learning from human feedback", section: "training", duration: 36 },
-  { id: "nb-10", lessonId: "17-distillation", title: "从大模型到小模型：知识蒸馏", titleEn: "From Large to Small: Knowledge Distillation", desc: "模型压缩与传递", descEn: "Model compression and knowledge transfer", section: "training", duration: 20 },
+  { id: "nb-9", lessonId: "19-rlhf-alignment", title: "偏好对齐与 RLHF", titleEn: "From Preferences to Alignment: RLHF", desc: "人类反馈强化学习", descEn: "Reinforcement learning from human feedback", section: "training", duration: 36 },
+  { id: "nb-10", lessonId: "17-distillation", title: "知识蒸馏", titleEn: "From Large to Small: Knowledge Distillation", desc: "模型压缩与传递", descEn: "Model compression and knowledge transfer", section: "training", duration: 20 },
   { id: "nb-11", lessonId: "26-llm-deployment", title: "vLLM 与 SGLang 部署", titleEn: "vLLM & SGLang Deployment", desc: "从现成模型到自训练模型的部署", descEn: "Deploy off-the-shelf and custom-trained models", section: "inference", duration: 35 },
 ]

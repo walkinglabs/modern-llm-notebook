@@ -267,9 +267,9 @@ Modern LLM Notebook
 │   ├── 缩放定律与算力预算
 │   ├── 预训练数据工程
 │   ├── LoRA 低秩微调
-│   ├── 从大模型到小模型：知识蒸馏
-│   ├── 从对话到工具：函数调用
-│   └── 从偏好到对齐：RLHF
+│   ├── 知识蒸馏
+│   ├── 函数调用与 Agent
+│   └── 偏好对齐与 RLHF
 │
 ├── Part 3: Inference
 │   ├── 自回归生成与解码
@@ -318,9 +318,9 @@ Modern LLM Notebook
 | 14 | [缩放定律与算力预算](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | 幂律、Kaplan/Chinchilla/过度训练、FLOPs/GPU-hours/显存估算 |
 | 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
 | 16 | [LoRA 低秩微调](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
-| 17 | [从大模型到小模型：知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
-| 18 | [从对话到工具：函数调用](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
-| 19 | [从偏好到对齐：RLHF](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
+| 17 | [知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
+| 18 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
+| 19 | [偏好对齐与 RLHF](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
 
 ### Part 3: Inference
 

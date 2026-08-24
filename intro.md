@@ -50,7 +50,7 @@ jupyter notebook notebooks/part1-foundation/01-tokenizer-basics.ipynb
 | Part | 范围 | 你会写出 |
 |:---|:---|:---|
 | **Part 1 — Foundation** | 01-07 | Tokenizer, BPE, Embedding, Position Encoding, Transformer Block, Mini-GPT, BERT |
-| **Part 2 — Training** | 08-19 | 现代语言模型架构演进, 语言模型的预训练与微调, KV Cache 及架构演进, 分布式训练：工业界的标准工具链, 从 dense 到 MoE, Scaling Laws, 数据工程, LoRA 低秩微调, 从大模型到小模型, 从对话到工具, 从偏好到对齐 |
+| **Part 2 — Training** | 08-19 | 现代语言模型架构演进, 语言模型的预训练与微调, KV Cache 及架构演进, 分布式训练：工业界的标准工具链, 从 dense 到 MoE, Scaling Laws, 数据工程, LoRA 低秩微调, 知识蒸馏, 函数调用与 Agent, 偏好对齐与 RLHF |
 | **Part 3 — Inference** | 20-26 | 生成与解码, 推理开销, 量化, 投机解码, 推理系统, 评测, 部署与服务化 |
 | **Part 4 — Frontiers** | 27-31 | 长上下文 (YaRN), 推理链与 CoT, VLM, 高效 Attention, 在线策略蒸馏 |
 
