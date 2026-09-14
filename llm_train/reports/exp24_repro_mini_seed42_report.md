@@ -63,3 +63,19 @@
 - HF 导出：`llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft_hf_export/`
 - 评测原始结果：`llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft_lm_eval/`
 - 数据：`/home/devpod/data/ufw_mini/`（bin + manifest）
+
+## 附：Notebook 实战版 64M 短程验证（2026-09-14）
+
+应教程需求，`11-training-loss.ipynb` 实战部分已改为直接使用 64M 模型与真实数据：
+
+- 模型：TeachingLM（8层/768d/8Q/4KV/2304 FFN，tied），61,551,360 参数，配置读自
+  `llm_train/configs/firstllm_64m_exp24.yaml`
+- PT：ufw_mini train.bin（2.69 亿 token，block 512），batch 16，lr 2e-3，bf16，500 步
+  → loss 8.92 → 5.94（GPU 单卡几十秒）
+- SFT：belle_sft.jsonl 91.7 万条，assistant-only mask，lr 1e-4，500 步
+  → loss 6.93 → 5.37
+- 生成验证已存入 notebook 输出；64M 短程生成仍生硬（符合预期），完整实验样例见
+  station2 报告
+
+与完整复现的关系：Notebook 验证「模型/数据/loss 链路」三者的真实性和正确性；
+5120 步 PT + 28,668 步 SFT + 双 seed + lm-eval 的完整数字以上方正式复现记录为准。
