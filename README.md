@@ -60,6 +60,10 @@
   <a href="#contributing">Contributing</a>
 </p>
 
+## News
+
+**2026-08**: Rebuilt Part 3 (notebooks 20–26) with experiments on decoding, inference acceleration, quantization, speculative decoding, evaluation, and deployment.
+
 ## Quick Start
 
 ### Read Online
@@ -413,27 +417,6 @@ The notebook explains **Self-Instruct, Evol-Instruct, teacher distillation, and 
 </p>
 
 </details>
-
-## What's New
-
-**Aug 2026 — Part 3 (Inference, notebooks 20-26) fully rebuilt.** All seven inference
-notebooks were rewritten in the Part 1 house style: intuition first, problem-chain
-narrative, summary checklists, and 3 self-checking homework problems each. Highlights:
-
-- **Quantization (22)**: FP8/FP4 formats with a grid experiment, GGUF/K-quant details,
-  and an end-to-end walkthrough producing GPTQ/FP8 (llm-compressor), AWQ (AutoAWQ),
-  and GGUF (llama.cpp with imatrix), then serving each one
-- **Speculative decoding (23)**: a runnable speculative-sampling loop with measured
-  acceptance and speedup
-- **Inference systems (24)**: batching/paging/prefix-caching simulators; refreshed
-  vLLM and SGLang deployment workflows
-- **Evaluation (25)**: pipeline view of an eval run, real example items from
-  MMLU/C-Eval/CMMLU/GSM8K/HumanEval, a tooling map (lm-evaluation-harness /
-  OpenCompass / EvalScope), confidence intervals, plus a hands-on lab that registers
-  a custom Chinese benchmark into lm-eval via YAML, scores GPT-2 vs Qwen2.5-0.5B,
-  and reproduces a tech-report-style bar chart
-- **Deployment (26)**: serving quantized checkpoints and tying back to the
-  pre-launch evaluation checklist
 
 ## Papers and Systems
 
