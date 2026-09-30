@@ -60,6 +60,43 @@
   <a href="#contributing">Contributing</a>
 </p>
 
+## Quick Start
+
+### Read Online
+
+The easiest way to explore the course is through the published reader:
+
+**[walkinglabs.github.io/modern-llm-notebook](https://walkinglabs.github.io/modern-llm-notebook/)**
+
+You can also open the first English notebook directly in
+[Google Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb).
+
+### Run Online through Partner Platforms
+
+<p align="center">
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
+      <img src="assets/partners/modelscope.svg" alt="ModelScope — open a notebook" height="32">
+    </picture>
+  </a>
+  &emsp;&emsp;
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
+      <img src="assets/partners/amd.png" alt="AMD — open the GPU project template" height="32">
+    </picture>
+  </a>
+</p>
+
+Everyone is welcome to open this project at any time, run the notebooks, change the code, and test the experiments. The [online reader](https://walkinglabs.github.io/modern-llm-notebook/) provides partner launch buttons at the top of each chapter, so you can get started without setting up a local environment:
+
+- [Open in ModelScope](https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb): open and run a notebook online. Use the chapter buttons for other notebooks.
+- [Open in AMD](https://developer.amd.com.cn/radeon/templates/4015/preview): use the project template on AMD Radeon Cloud to run and test with a GPU.
+- [Open in Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb): run notebooks in your browser and select a GPU when the platform provides one.
+
+Thank you to our partners for online execution and compute support. Sign-in requirements, GPU availability, and usage quotas follow each platform's current rules.
+
 > [!NOTE]
 > Modern LLM Notebook is under active development. The Chinese course is the source edition;
 > the English mirror is being updated alongside it. Corrections, suggestions, and focused pull
@@ -96,10 +133,10 @@ Follow the main path from raw text to a trained model. The lower strip shows the
 
 ## Models & Benchmarks
 
-**FirstLLM · 64M-class Dense** is the course's modern small-model training baseline: pretrain from random weights on cleaned Chinese text, then continue with assistant-only SFT. The chart and tables present the recorded mini-tier seed 42 results.
+**FirstLLM · 64M-class Dense** is the course's modern small-model training baseline: pretrain from random weights on cleaned Chinese text, then continue with assistant-only SFT. The tables present the recorded mini-tier seed 42 results. The chart also includes two small Base models' published scores as references.
 
 <p align="center">
-  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="FirstLLM 64M-class zero-shot evaluation after SFT: acc and acc_norm for eight tasks. Blue and teal identify metrics; dashes indicate unreported metrics." width="920"></a>
+  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="Kimi K3-style two-column horizontal score groups: FirstLLM 61.55M SFT in blue and published SmolLM Base references in gray. See text for frameworks and model stages." width="920"></a>
 </p>
 
 ### Model Summary
@@ -127,9 +164,20 @@ The experiment used one AMD MI300X GPU. PPL values use packed-sequence and docum
 
 ### Evaluation Results
 
-Results below are for the **SFT checkpoint · 0-shot**, in percent. `acc` is choice accuracy; `acc_norm` chooses answers using length-normalized scores. The chart's two colors identify metrics, not different models.
+FirstLLM's eight benchmarks are evaluated with **EleutherAI's [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)**. The repository entry point is [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh): export the `.pt` checkpoint to Hugging Face format, then evaluate through the `hf` backend.
 
-| Category | Benchmark | acc (%) | acc_norm (%) |
+| Item | FirstLLM evaluation protocol |
+|:---|:---|
+| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`, after SFT |
+| Few-shot | **0-shot**, `--num_fewshot 0` |
+| Current script backend | `--model hf`, `trust_remote_code=True` |
+| Current script settings | Defaults: `--batch_size auto`, `--device cuda`; MI300X runs through PyTorch ROCm |
+| Metrics | `acc`: choice accuracy; `acc_norm`: choose answers using length-normalized scores; results in % |
+| PPL tool | Repository [run_ppl.py](llm_train/scripts/run_ppl.py), with packed-validation and document-independent protocols; the PPL results above are for the PT checkpoint |
+
+The table retains both FirstLLM metrics. The chart uses `acc_norm` for HellaSwag / PIQA / OpenBookQA and `acc` for WinoGrande. Gray bars are published **SmolLM Base reference scores**, evaluated with **lighteval**, from the [official SmolLM2-135M model card](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model). The publisher's [task definitions](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py) use `loglikelihood_acc_norm_nospace`, which differs from FirstLLM's metric implementations. Model stages, sizes, and corpora also differ. Rows are ordered by published scores; these models have not been rerun under one shared protocol.
+
+| Category | Benchmark | FirstLLM SFT acc (%) | FirstLLM SFT acc_norm (%) |
 |:---|:---|---:|---:|
 | Knowledge | CEval-valid | **25.78** | — |
 | Knowledge | MMLU | **24.21** | — |
@@ -140,7 +188,24 @@ Results below are for the **SFT checkpoint · 0-shot**, in percent. `acc` is cho
 | Commonsense | HellaSwag | 26.95 | 27.73 |
 | Commonsense | WinoGrande | 51.30 | — |
 
-Source: [mini-tier seed 42 report](llm_train/reports/exp24_repro_mini_seed42_report.md). `—` means the metric was not reported. CMMLU and Social IQa were not run; GSM8K did not complete. These results help study educational models, and the reports still document incoherent and repetitive generations. Cross-model comparisons require matching tokenizers, data, and evaluation protocols.
+Source: [mini-tier seed 42 report](llm_train/reports/exp24_repro_mini_seed42_report.md). `—` means the metric was not reported. CMMLU and Social IQa were not run; GSM8K did not complete. The formal report does not record an exact lm-eval version / commit; save the tool version and result JSON when reproducing it. The report also documents incoherent and repetitive generations.
+
+<details>
+<summary>Reproduce the eight completed benchmarks</summary>
+
+Prepare the report's SFT checkpoint and matching tokenizer, and install compatible lm-evaluation-harness / Hugging Face dependencies. This command uses the current repository script and excludes the unfinished tasks:
+
+```bash
+CKPT=llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft.pt \
+TOKENIZER=notebooks/part1-foundation/mini_tokenizer.json \
+TASKS=ceval-valid,mmlu,arc_easy,arc_challenge,piqa,openbookqa,hellaswag,winogrande \
+NUM_FEWSHOT=0 \
+bash llm_train/scripts/run_lm_eval.sh
+```
+
+The script writes an HF export directory and lm-eval result JSON. Changes to evaluation versions, task definitions, or dataset versions may affect the scores.
+
+</details>
 
 <details>
 <summary>Other teaching models and experiment status</summary>
@@ -208,42 +273,7 @@ can follow the full sequence or jump directly to a topic.
 
 Advanced appendices cover probability and information, FLOPs and memory, mixed precision, FlashAttention, communication, parallelism, kernels, GPU hardware, and diffusion language models. See the [appendix directory](notebooks-en/appendix-advanced/).
 
-## Quick Start
-
-### Read Online
-
-The easiest way to explore the course is through the published reader:
-
-**[walkinglabs.github.io/modern-llm-notebook](https://walkinglabs.github.io/modern-llm-notebook/)**
-
-You can also open the first English notebook directly in
-[Google Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb).
-
-### Run Online through Partner Platforms
-
-<p align="center">
-  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
-      <img src="assets/partners/modelscope.svg" alt="ModelScope — open a notebook" height="32">
-    </picture>
-  </a>
-  &emsp;&emsp;
-  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
-      <img src="assets/partners/amd.png" alt="AMD — open the GPU project template" height="32">
-    </picture>
-  </a>
-</p>
-
-Everyone is welcome to open this project at any time, run the notebooks, change the code, and test the experiments. The [online reader](https://walkinglabs.github.io/modern-llm-notebook/) provides partner launch buttons at the top of each chapter, so you can get started without setting up a local environment:
-
-- [Open in ModelScope](https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb): open and run a notebook online. Use the chapter buttons for other notebooks.
-- [Open in AMD](https://developer.amd.com.cn/radeon/templates/4015/preview): use the project template on AMD Radeon Cloud to run and test with a GPU.
-- [Open in Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb): run notebooks in your browser and select a GPU when the platform provides one.
-
-Thank you to our partners for online execution and compute support. Sign-in requirements, GPU availability, and usage quotas follow each platform's current rules.
+## Local Setup
 
 ### Run the Notebooks Locally
 

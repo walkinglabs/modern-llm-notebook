@@ -59,6 +59,38 @@
   <a href="#贡献">贡献</a>
 </p>
 
+## 快速开始
+
+### 在线阅读
+
+直接进入[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)浏览教程，或在 [Google Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb)运行第一本 Notebook。
+
+### 通过合作伙伴入口在线运行
+
+<p align="center">
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
+      <img src="assets/partners/modelscope.svg" alt="ModelScope — 在线打开 Notebook" height="32">
+    </picture>
+  </a>
+  &emsp;&emsp;
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
+      <img src="assets/partners/amd.png" alt="AMD — 打开 GPU 项目模板" height="32">
+    </picture>
+  </a>
+</p>
+
+欢迎随时打开这个项目，运行 Notebook、修改代码并测试实验结果。进入[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)后，可以使用章节顶部的合作伙伴运行入口，无需先配置本地环境：
+
+- [在 ModelScope 打开](https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb)：在线打开 Notebook 并运行代码；其他章节可以使用页面顶部对应的入口。
+- [在 AMD 打开](https://developer.amd.com.cn/radeon/templates/4015/preview)：通过 AMD Radeon Cloud 的项目模板使用 GPU 运行和测试。
+- [在 Colab 打开](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb)：在浏览器中运行 Notebook，也可按平台提供的资源选择 GPU。
+
+感谢合作伙伴提供在线运行与计算资源支持。登录、GPU 可用性及使用额度以各平台当前规则为准。
+
 ## 教程特色
 
 从几个词开始，逐次合并 BPE 字符对；用小矩阵算出 Attention 分数；观察第一次梯度更新前后的 loss。教程把这些过程拆成细小步骤，配合中间数值、张量形状和可运行实验，让每一步的结果都能看清。
@@ -90,10 +122,10 @@
 
 ## 模型与评测
 
-**FirstLLM · 64M 级 Dense** 是这套教程的现代小模型训练基线：从随机权重出发，在清洗后的中文语料上完成预训练，再接续 assistant-only SFT。下图与成绩表展示 mini 档 seed 42 的已有实验结果。
+**FirstLLM · 64M 级 Dense** 是这套教程的现代小模型训练基线：从随机权重出发，在清洗后的中文语料上完成预训练，再接续 assistant-only SFT。成绩表展示 mini 档 seed 42 的已有实验结果；图中同时列出两个小参数基模型的公开成绩，便于建立参考。
 
 <p align="center">
-  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="FirstLLM 64M 级模型 SFT 后的 0-shot 评测：8 项任务的 acc 与 acc_norm。蓝色和绿色区分两种指标，缺少指标以横线表示。" width="920"></a>
+  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="Kimi K3 式两列横向分数组：FirstLLM 61.55M SFT 用蓝色，SmolLM Base 公开参考成绩用灰色。评测框架和模型阶段见正文说明。" width="920"></a>
 </p>
 
 ### 模型规格
@@ -121,9 +153,20 @@
 
 ### 评测成绩
 
-以下为 **SFT checkpoint · 0-shot** 结果，单位为百分比。`acc` 是选择准确率，`acc_norm` 按答案长度归一化后选答案；图中两种颜色代表指标，不代表不同模型。
+FirstLLM 的 8 项 benchmark 使用 **EleutherAI [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 评测。仓库入口是 [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh)：先将 `.pt` checkpoint 导出为 Hugging Face 格式，再通过 `hf` 后端运行任务。
 
-| 类别 | Benchmark | acc (%) | acc_norm (%) |
+| 评测项 | FirstLLM 的口径 |
+|:---|:---|
+| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`，SFT 后模型 |
+| Few-shot | **0-shot**，`--num_fewshot 0` |
+| 当前脚本后端 | `--model hf`，`trust_remote_code=True` |
+| 当前脚本运行设置 | 默认 `--batch_size auto`、`--device cuda`；MI300X 通过 PyTorch ROCm 运行 |
+| 指标 | `acc`：选择准确率；`acc_norm`：按答案长度归一化打分后选择答案，结果单位为 % |
+| PPL 工具 | 仓库 [run_ppl.py](llm_train/scripts/run_ppl.py)，分别计算打包验证集与单文档独立口径；PPL 表中的数字来自 PT checkpoint |
+
+下表保留 FirstLLM 的 `acc` 与 `acc_norm` 两种记录；上图采用 HellaSwag / PIQA / OpenBookQA 的 `acc_norm` 和 WinoGrande 的 `acc`。灰色条为 Hugging Face 发布的 **SmolLM Base 模型参考成绩**，使用 **lighteval**，来自 [SmolLM2-135M 官方模型卡](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model)。发布方的[任务定义](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py)采用 `loglikelihood_acc_norm_nospace`，与 FirstLLM 的指标实现不同。模型阶段、参数量和语料也不同，图中顺序只按公开分数排列，尚未做同协议复测。
+
+| 类别 | Benchmark | FirstLLM SFT acc (%) | FirstLLM SFT acc_norm (%) |
 |:---|:---|---:|---:|
 | 学科知识 | CEval-valid | **25.78** | — |
 | 学科知识 | MMLU | **24.21** | — |
@@ -134,7 +177,24 @@
 | 常识推理 | HellaSwag | 26.95 | 27.73 |
 | 常识推理 | WinoGrande | 51.30 | — |
 
-来源：[mini 档 seed 42 实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)。`—` 表示该指标未报告；CMMLU、Social IQa 未运行，GSM8K 未完成。上述结果用于观察教学模型的表现，报告仍记录了语义混乱和重复生成。跨模型比较需要统一 Tokenizer、数据与评测协议。
+来源：[mini 档 seed 42 实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)。`—` 表示该指标未报告；CMMLU、Social IQa 未运行，GSM8K 未完成。正式报告未记录 lm-eval 的精确版本 / commit，复现时需保存工具版本和结果 JSON。报告仍记录了语义混乱和重复生成。
+
+<details>
+<summary>复现已完成的 8 项 benchmark</summary>
+
+先准备报告对应的 SFT checkpoint 与 Tokenizer，并安装兼容的 lm-evaluation-harness / Hugging Face 依赖。以下命令调用当前仓库脚本，不包含报告中未完成的任务：
+
+```bash
+CKPT=llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft.pt \
+TOKENIZER=notebooks/part1-foundation/mini_tokenizer.json \
+TASKS=ceval-valid,mmlu,arc_easy,arc_challenge,piqa,openbookqa,hellaswag,winogrande \
+NUM_FEWSHOT=0 \
+bash llm_train/scripts/run_lm_eval.sh
+```
+
+脚本会生成 HF 导出目录与 lm-eval 结果 JSON。评测版本、任务定义或数据集版本变化时，分数可能随之变化。
+
+</details>
 
 <details>
 <summary>其他教学模型与实验状态</summary>
@@ -239,33 +299,7 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 
 概率与信息论、FLOPs 与显存、混合精度、FlashAttention、集合通信、并行策略、Kernel、GPU 硬件与 Diffusion LM，见 [进阶附录目录](notebooks/appendix-advanced/)。
 
-## 快速开始
-
-### 通过合作伙伴入口在线运行
-
-<p align="center">
-  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
-      <img src="assets/partners/modelscope.svg" alt="ModelScope — 在线打开 Notebook" height="32">
-    </picture>
-  </a>
-  &emsp;&emsp;
-  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
-      <img src="assets/partners/amd.png" alt="AMD — 打开 GPU 项目模板" height="32">
-    </picture>
-  </a>
-</p>
-
-欢迎随时打开这个项目，运行 Notebook、修改代码并测试实验结果。进入[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)后，可以使用章节顶部的合作伙伴运行入口，无需先配置本地环境：
-
-- [在 ModelScope 打开](https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb)：在线打开 Notebook 并运行代码；其他章节可以使用页面顶部对应的入口。
-- [在 AMD 打开](https://developer.amd.com.cn/radeon/templates/4015/preview)：通过 AMD Radeon Cloud 的项目模板使用 GPU 运行和测试。
-- [在 Colab 打开](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb)：在浏览器中运行 Notebook，也可按平台提供的资源选择 GPU。
-
-感谢合作伙伴提供在线运行与计算资源支持。登录、GPU 可用性及使用额度以各平台当前规则为准。
+## 本地运行
 
 ### Python Notebook
 
