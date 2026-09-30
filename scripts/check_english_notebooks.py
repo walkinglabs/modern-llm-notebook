@@ -11,6 +11,37 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 ZH_DIR = REPO / "notebooks"
 EN_DIR = REPO / "notebooks-en"
+CJK = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+
+
+def untranslated_source(source, cell, zh_cell, errors, label):
+    """Exclude only explicitly preserved data excerpts present in the source edition."""
+    fragments = cell.get("metadata", {}).get("translation", {}).get(
+        "preserved_source_fragments", []
+    )
+    if not isinstance(fragments, list):
+        errors.append(f"{label}: preserved_source_fragments must be a list")
+        return source
+    zh_source = cell_source(zh_cell)
+    for fragment in fragments:
+        if not isinstance(fragment, str) or not fragment or not CJK.search(fragment):
+            errors.append(f"{label}: invalid preserved data excerpt")
+            continue
+        if fragment not in zh_source or fragment not in source:
+            errors.append(f"{label}: preserved excerpt must occur in both language sources")
+            continue
+        source = source.replace(fragment, "")
+    return source
+
+
+def syntax_source(source, zh_source):
+    """Validate operator blanks without filling the student's answer in the notebook."""
+    # A comparison-operator exercise deliberately uses `rand ___ t` in both editions.
+    # Validate the surrounding Python using an arbitrary syntactic operator.
+    pattern = r"(?m)^(\s*mask = rand )___( t\b)"
+    if re.search(pattern, source) and re.search(pattern, zh_source):
+        return re.sub(pattern, r"\1+\2", source)
+    return source
 
 def cell_source(cell):
     source = cell.get("source", "")
@@ -57,21 +88,22 @@ def notebook_errors(path):
     if en_types != zh_types:
         errors.append(f"{rel}: cell type sequence differs from Chinese source")
 
-    full_source = "\n".join(cell_source(cell) for cell in en_nb.get("cells", []))
-    if re.search(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]", full_source):
-        errors.append(f"{rel}: CJK characters remain in cell sources")
-
     for index, cell in enumerate(en_nb.get("cells", [])):
+        zh_cell = zh_nb.get("cells", [])[index] if index < len(zh_types) else {}
+        label = f"{rel}: cell {index}"
+        source = cell_source(cell)
+        remaining = untranslated_source(source, cell, zh_cell, errors, label)
+        if CJK.search(remaining):
+            errors.append(f"{label}: untranslated CJK characters remain in source")
         if cell.get("cell_type") != "code":
             continue
-        source = cell_source(cell)
         try:
-            ast.parse(source, filename=f"{rel}:cell-{index}")
+            ast.parse(syntax_source(source, cell_source(zh_cell)), filename=label)
         except SyntaxError as exc:
             errors.append(f"{rel}: code cell {index} syntax error: {exc.msg}")
 
         output_source = "\n".join(output_text(output) for output in cell.get("outputs", []))
-        if re.search(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]", output_source):
+        if CJK.search(output_source):
             errors.append(f"{rel}: code cell {index} output still contains CJK characters")
 
         for output in cell.get("outputs", []):

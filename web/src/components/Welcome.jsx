@@ -231,7 +231,7 @@ function ReaderLetterModal({ isOpen, onClose, lang }) {
   const eyebrow = isZh ? '开始之前，先看清这条路会带你去哪' : 'Before you start, see where this path leads'
   const intro = isZh
     ? '亲爱的读者：你好。在正式开始之前，我想简单聊聊，做这套教程的初衷。'
-    : 'This tutorial answers one concrete question: how does a large model grow from data, code, and training instead of mysterious terminology?'
+    : 'Dear reader, welcome. Before we begin, I would like to share why I created this course.'
   const sections = isZh ? [
     {
       heading: null,
@@ -271,33 +271,39 @@ function ReaderLetterModal({ isOpen, onClose, lang }) {
     },
   ] : [
     {
-      heading: 'What you will walk through',
+      heading: null,
       items: [
-        'Start from Token, Tokenizer, BPE, and Embedding: how text becomes numbers a model can compute.',
-        'Hand-build Position Encoding, Self-Attention, Transformer Blocks, Mini-GPT, and a BERT Encoder.',
-        'Upgrade toward modern GPT architecture: RMSNorm, RoPE, GQA, SwiGLU, KV Cache, MLA, and more.',
-        'Understand model configs, training loss, scaling laws, data engineering, distributed training, LoRA, function calling, and RLHF.',
-        'Implement MoE routers, experts, and load-balancing loss to see why sparse models can grow stronger under similar compute.',
-        'Move into inference: generation, acceleration, quantization, speculative decoding, and inference systems.',
-        'Then study long context, CoT, VLM, efficient attention, evaluation, distillation, deployment, and online OPD.',
+        'More people want to learn about language models, and terms such as Token, Transformer, RLHF, and MoE appear every day. Reading and searching can leave you with fragments rather than a connected understanding. Many tutorials focus on theory or isolated code examples. I wanted a detailed course connecting the underlying principles, complete training, and deployment, while also covering modern architectures and engineering practice.',
       ],
     },
     {
-      heading: 'What you will have at the end',
+      heading: null,
       items: [
-        'A complete from-zero model path: clean data yourself, then run PT and SFT training yourself.',
-        'Working dense and MoE model implementations, with an understanding of why each module exists.',
-        'A practical sense of how to train models near the advanced level for the same parameter scale, beyond toy demos.',
-        'A mental map for new papers and systems: whether they change data, architecture, optimization, inference, or evaluation.',
-        'After this, foundational questions should no longer block you from learning deeper LLM internals.',
+        'That gap leaves many learners able to run code and use open models, but unsure how a language model is built from scratch, trained, and improved step by step.',
       ],
     },
     {
-      heading: 'How to study it',
+      heading: null,
       items: [
-        'Read the intuition first, verify with small numbers, then run the code and inspect the output.',
-        'When stuck, ask what problem the component solves and what shapes flow in and out.',
-        'Use AI for hints and direction checks, but still edit code, run experiments, and observe behavior yourself.',
+        'We will follow a connected path through the foundations and current ideas: Token, Embedding, and Transformer structure; RoPE, GQA, SwiGLU, and KV Cache; MoE routing and load balancing; multi-token prediction and OPD distillation. The purpose is careful understanding rather than a shortcut.',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        'The goal is to move beyond simply using a model. With a 24 GB GPU and suitable small-model configurations, you can work through data cleaning, PT, and SFT, build Dense and MoE architectures, and investigate performance at a fixed parameter scale. You can learn how to make a complete language model of your own.',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        'Thank you for taking the time to read this introduction and understand the foundations. Perhaps you will help develop a future architecture, discover a new use for AI, or contribute to how machines reason. These advances begin with people willing to examine how things work.',
+      ],
+    },
+    {
+      heading: null,
+      items: [
+        'Language models will change how people live and think. I hope we can approach that change with curiosity and courage. Good luck to both of us as we explore.',
       ],
     },
   ]
@@ -342,13 +348,6 @@ function ReaderLetterModal({ isOpen, onClose, lang }) {
               </section>
             ))}
 
-            {!isZh && (
-              <div className="rounded-2xl border border-blue-200/70 bg-blue-50/80 p-4 text-blue-900">
-                <p className="font-bold">
-                  In one sentence: this is not an API tour, but a path to open up, modify, train, and evaluate an LLM system from the inside.
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -423,17 +422,17 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     amdDesc: 'GPU 计算资源支持',
     modelscopeDesc: '模型托管与开源支持',
   } : {
-    bannerBadge: 'Future-Ready LLM Learning Method',
-    bannerTitleLine1: 'Practice Large Models,',
-    bannerTitleLine2: 'From Theory to App.',
-    bannerDesc: 'Modern LLM Notebook guides you deep into core LLM concepts and breakthrough applications via interactive Notebooks.',
+    bannerBadge: 'LLM learning for the future',
+    bannerTitleLine1: 'Build and explore LLMs,',
+    bannerTitleLine2: 'from principles to practice.',
+    bannerDesc: 'Modern LLM Notebook uses interactive Notebooks to explain core LLM techniques and modern applications.',
     startBtn: 'Start Learning',
     browsePath: 'Browse Pathways',
     readerLetter: 'A Letter to Readers',
-    readerLetterDesc: 'See the full route, final builds, and skills you will gain',
+    readerLetterDesc: 'A letter to our readers',
     runHintTitle: 'Run every Notebook online',
     runHintDesc: 'Open a notebook in ModelScope or Colab, or use the AMD template for free GPU testing.',
-    check1: 'Interactive Notebook', check2: 'Step-by-step Knowledge', check3: 'Code as Document', check4: 'Understand via Experiments',
+    check1: 'Interactive Notebooks', check2: 'Build knowledge step by step', check3: 'Code as documentation', check4: 'Learn through experiments',
     learningPathTitle: 'Learning Paths',
     learningPathSub: 'Structured curriculum, progress step-by-step',
     viewAllPaths: 'View All Paths',
@@ -444,8 +443,8 @@ export default function Welcome({ catalog, lang, onLanguageChange, onSelect, onS
     feature1: 'Runnable Notebooks', feature1d: 'Rendered in browser, no setup needed',
     feature2: 'Theory to Practice', feature2d: 'Step-by-step progress',
     feature3: 'Structure Visuals', feature3d: 'Code-level diagrams, intuitive',
-    feature4: 'Bilingual Support', feature4d: 'Bilingual toggle & index',
-    feature5: 'Future Oriented', feature5d: 'Up-to-date documentation',
+    feature4: 'Bilingual Support', feature4d: 'Compare terminology and switch languages',
+    feature5: 'Looking Ahead', feature5d: 'Current topics, with continued updates',
     sponsorsTitle: 'Partners',
     sponsorsSub: 'Compute resources and technical support provided by our partners',
     amdDesc: 'GPU Compute Resources',

@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://walkinglabs.github.io/modern-llm-notebook/">
+  <a href="https://walkinglabs.github.io/modern-llm-notebook/?lang=en">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/brand/modern-llm-wordmark-dark.svg">
       <img src="assets/brand/modern-llm-wordmark.svg" alt="Modern LLM Notebook" width="880" height="132">
@@ -21,7 +21,7 @@
   ·
   <a href="README-CN.md"><strong>中文文档</strong></a>
   ·
-  <a href="https://walkinglabs.github.io/modern-llm-notebook/"><strong>Read Online</strong></a>
+  <a href="https://walkinglabs.github.io/modern-llm-notebook/?lang=en"><strong>Read Online</strong></a>
   ·
   <a href="https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb"><strong>Start in Colab</strong></a>
   ·
@@ -74,7 +74,7 @@
 
 The easiest way to explore the course is through the published reader:
 
-**[walkinglabs.github.io/modern-llm-notebook](https://walkinglabs.github.io/modern-llm-notebook/)**
+**[walkinglabs.github.io/modern-llm-notebook](https://walkinglabs.github.io/modern-llm-notebook/?lang=en)**
 
 You can also open the first English notebook directly in
 [Google Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb).
@@ -97,7 +97,7 @@ You can also open the first English notebook directly in
   </a>
 </p>
 
-Everyone is welcome to open this project at any time, run the notebooks, change the code, and test the experiments. The [online reader](https://walkinglabs.github.io/modern-llm-notebook/) provides partner launch buttons at the top of each chapter, so you can get started without setting up a local environment:
+Everyone is welcome to open this project at any time, run the notebooks, change the code, and test the experiments. The [online reader](https://walkinglabs.github.io/modern-llm-notebook/?lang=en) provides partner launch buttons at the top of each chapter, so you can get started without setting up a local environment:
 
 - [Open in ModelScope](https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb): open and run a notebook online. Use the chapter buttons for other notebooks.
 - [Open in AMD](https://developer.amd.com.cn/radeon/templates/4015/preview): use the project template on AMD Radeon Cloud to run and test with a GPU.
@@ -258,26 +258,63 @@ Topics covered:
 
 ## Curriculum
 
-The curriculum is organized into four progressive parts. Each notebook is self-contained, so you
-can follow the full sequence or jump directly to a topic.
+The main course is organized into four parts. Each notebook is intended to be self-contained: follow the sequence or look up a topic directly.
 
-| Part | Focus | Main topics |
-|:---|:---|:---|
-| I. Foundations | Build the model core | Tokenizer, BPE, Embedding, position encoding, Self-Attention, Transformer, GPT from scratch, BERT |
-| II. Training | Learn how models improve | Modern architecture evolution, configuration, pretraining and fine-tuning, KV cache evolution, distributed training, MoE, scaling laws, data engineering, LoRA, distillation, function calling, RLHF |
-| III. Inference | Generate, evaluate, and deploy | Decoding strategies, inference acceleration, quantization, speculative decoding, inference systems, evaluation, deployment |
-| IV. Frontiers | Explore newer capabilities | Long context, CoT and reasoning, VLMs, efficient attention, on-policy distillation |
+### Part 1: Foundation
 
-### Recommended Learning Path
+| # | Notebook | Main question | Implementation focus |
+|:---:|:---|:---|:---|
+| 01 | [Text and Tokenizers](notebooks-en/part1-foundation/01-tokenizer-basics.ipynb) | Why does a model need a tokenizer? | Character-level and word-level tokenizers |
+| 02 | [BPE: Learning a Subword Vocabulary](notebooks-en/part1-foundation/02-bpe-tokenizer.ipynb) | How does BPE learn a vocabulary from text? | Merge rules, encode, decode |
+| 03 | [Token Embeddings and Distributed Representations](notebooks-en/part1-foundation/03-embedding.ipynb) | How do token IDs become vectors? | Token embeddings, distributed representations |
+| 04 | [Position Encoding](notebooks-en/part1-foundation/04-position-encoding.ipynb) | How does the model represent word order? | Sinusoidal encoding, input assembly |
+| 05 | [Self-Attention and Transformer Blocks](notebooks-en/part1-foundation/05-transformer-block.ipynb) | How does attention pass contextual information? | MHA, residual connections, normalization |
+| 06 | [Build GPT from Scratch](notebooks-en/part1-foundation/06-mini-gpt.ipynb) | How are the components assembled into a GPT-style model? | Decoder-only model, LM head |
+| 07 | [The BERT Encoder](notebooks-en/part1-foundation/07-bert-encoder.ipynb) | Why can an encoder read context in both directions? | MiniBERT, MLM head |
 
-1. Start with Tokenizer and BPE to see how text becomes model input.
-2. Build Embedding, position encoding, and Self-Attention before assembling Mini-GPT.
-3. Follow [loss and the first parameter update](notebooks-en/part2-training/09a-loss-and-first-update.ipynb), then data engineering before moving to scaling and distributed training.
-4. Learn LoRA and alignment only after the base training loop is clear.
-5. Continue with generation, KV Cache, and speculative decoding to connect modeling with systems.
-6. Treat frontier and production notebooks as extensions once the core path feels comfortable.
+### Part 2: Training
 
-Advanced appendices cover probability and information, FLOPs and memory, mixed precision, FlashAttention, communication, parallelism, kernels, GPU hardware, and diffusion language models. See the [appendix directory](notebooks-en/appendix-advanced/).
+| # | Notebook | Main question | Implementation focus |
+|:---:|:---|:---|:---|
+| 08 | [Modern Language Model Architecture Evolution](notebooks-en/part2-training/08-gpt2-to-modern-models.ipynb) | What changed in model architecture after GPT-2? | RMSNorm, SwiGLU, RoPE, GQA, QK-Norm, MLA |
+| 09 | [Reading a Language Model's Configuration](notebooks-en/part2-training/09-model-config.ipynb) | What does each field in a real config.json mean? | vocab_size, hidden_size, layers, heads |
+| 09a | [Loss and the First Parameter Update](notebooks-en/part2-training/09a-loss-and-first-update.ipynb) | How does a model learn from its first error? | Logits, cross-entropy, gradients, parameter updates |
+| 10 | [Language Model Pretraining and Fine-tuning](notebooks-en/part2-training/10-training-loss.ipynb) | How does MiniGPT train, and how does that map to production interfaces? | Training loop, chat templates, MTP, Trainer, SWIFT, label shifting |
+| 11 | [KV Cache and Architecture Evolution](notebooks-en/part2-training/11-mla-kv-cache.ipynb) | How can KV-cache memory be reduced for long contexts? | MHA/GQA/MQA, MLA latent compression, decoupled RoPE |
+| 12 | [Distributed Training: The Production Toolchain](notebooks-en/part2-training/12-distributed-training.ipynb) | What if a model does not fit on one GPU? | Accelerate, ZeRO settings, Megatron-LM 3D parallelism, fine-tuning tools |
+| 13 | [From Dense to MoE Architectures](notebooks-en/part2-training/13-moe.ipynb) | How does sparse expert routing work? | Router gates, top-k experts, auxiliary-loss-free balancing |
+| 14 | [Scaling Laws and Compute Budgets](notebooks-en/part2-training/14-scaling-laws.ipynb) | How should model size, data, and compute be balanced? | Power laws, Kaplan/Chinchilla/overtraining, FLOPs/GPU-hours/memory estimates |
+| 15 | [Pretraining Data Engineering](notebooks-en/part2-training/15-data-engineering.ipynb) | Where does training data come from, and how is it cleaned, synthesized, and mixed? | Corpus sources, Data-Juicer, deduplication, synthesis, mixtures, packing, FIM |
+| 16 | [LoRA: Low-Rank Fine-tuning](notebooks-en/part2-training/16-lora.ipynb) | Why does low-rank adaptation work? | `LoraLinear`, merging for inference |
+| 17 | [Knowledge Distillation](notebooks-en/part2-training/17-distillation.ipynb) | How can a small model learn from a larger one? | Soft labels, temperature, logit distillation |
+| 18 | [Function Calling and Agents](notebooks-en/part2-training/18-function-calling.ipynb) | How does a model call external tools? | Structured output, tool calls, training-data construction |
+| 19 | [Preference Alignment and RLHF](notebooks-en/part2-training/19-rlhf-alignment.ipynb) | How do preferences become optimization objectives? | Reward models, PPO, DPO |
+
+### Part 3: Inference
+
+| # | Notebook | Main question | Implementation focus |
+|:---:|:---|:---|:---|
+| 20 | [Decoding Strategies](notebooks-en/part3-inference/20-generation.ipynb) | How do decoding strategies change model behavior? | Greedy, top-k, top-p, beam search |
+| 21 | [Inference Acceleration and Optimization](notebooks-en/part3-inference/21-inference-acceleration.ipynb) | Why is generation often limited by memory access? | KV cache, FlashAttention, PagedAttention |
+| 22 | [Low-Bit Quantization](notebooks-en/part3-inference/22-quantization.ipynb) | How can 4-bit quantization retain accuracy? | Symmetric/asymmetric, per-channel/group, GPTQ, AWQ |
+| 23 | [Verification in Speculative Decoding](notebooks-en/part3-inference/23-speculative-decoding.ipynb) | How can a small model accelerate a larger one? | Draft-then-verify acceptance |
+| 24 | [Modern Inference Engines](notebooks-en/part3-inference/24-inference-systems.ipynb) | How are throughput and latency balanced with concurrent requests? | PagedAttention, continuous batching, prefix caching, prefill/decode disaggregation |
+| 25 | [Model Evaluation Methodology](notebooks-en/part3-inference/25-evaluation.ipynb) | How do we know whether a model is really better? | Win-rate matrices, RAGAS, judge metrics |
+| 26 | [Model Deployment and Serving](notebooks-en/part3-inference/26-llm-deployment.ipynb) | How does a trained model become a callable service? | vLLM, SGLang, custom architecture registration |
+
+### Part 4: Frontiers
+
+| # | Notebook | Main question | Implementation focus |
+|:---:|:---|:---|:---|
+| 27 | [Long Context](notebooks-en/part4-frontiers/27-long-context.ipynb) | How can a model extend beyond its training context length? | RoPE extrapolation, YaRN, sliding-window attention |
+| 28 | [Reasoning Models and Inference-Time Compute](notebooks-en/part4-frontiers/28-cot-thinking.ipynb) | Why can thinking before answering improve accuracy, and how does extra inference compute help? | R1-Zero, test-time scaling, thinking-budget control |
+| 29 | [Vision-Language Models](notebooks-en/part4-frontiers/29-vlm.ipynb) | How does visual information enter a language model? | Patch embeddings, cross-attention |
+| 30 | [Efficient Attention](notebooks-en/part4-frontiers/30-efficient-attention.ipynb) | How can attention complexity fall from O(N²) to O(N)? | Linear attention, SSM/Mamba, sparse attention, hybrid architectures |
+| 31 | [On-Policy Distillation (OPD)](notebooks-en/part4-frontiers/31-opd.ipynb) | How can distillation reduce exposure bias? | OPSD, KL estimator categories |
+
+### Advanced Appendices
+
+Probability and information theory, FLOPs and memory, mixed precision, FlashAttention, collective communication, parallelism, kernels, GPU hardware, and diffusion language models. See the [advanced appendix directory](notebooks-en/appendix-advanced/).
 
 ## Local Setup
 
@@ -287,7 +324,7 @@ Requirements:
 
 - Python 3.9+
 - PyTorch 2.0+
-- Jupyter Notebook
+- NumPy, Matplotlib, and Jupyter
 - 16 GB RAM recommended
 
 ```bash
@@ -306,10 +343,16 @@ python -m ipykernel install --user \
 jupyter notebook notebooks-en/part1-foundation/01-tokenizer-basics.ipynb
 ```
 
-If `jupyter: command not found` appears, reactivate the virtual environment:
+If `jupyter: command not found` appears, the virtual environment may not be active. Run:
 
 ```bash
 source .venv/bin/activate
+```
+
+You can also invoke Jupyter directly from the virtual environment:
+
+```bash
+.venv/bin/jupyter notebook notebooks-en/part1-foundation/01-tokenizer-basics.ipynb
 ```
 
 Most notebooks run on CPU. Experiments involving larger training workloads are easier with a GPU.
@@ -320,7 +363,7 @@ Language layout:
 - English notebook mirror: `notebooks-en/`
 
 <details>
-<summary>Develop the web reader locally</summary>
+<summary>Web reader development and execution in restricted environments</summary>
 
 ### Run the Web Reader Locally
 
@@ -337,6 +380,14 @@ Build and preview the static site:
 ```bash
 npm run build
 npm run preview
+```
+
+### Batch-Execute English Notebooks in Restricted Environments
+
+Some sandbox or CI environments prohibit opening local sockets, which can prevent the standard Jupyter kernel protocol, `nbclient`, and `nbconvert --execute` from working. The repository provides a kernel-free runner for this case. It executes code cells sequentially in Python and writes their outputs back to the English notebook files:
+
+```bash
+python scripts/execute_notebooks_en_no_kernel.py
 ```
 
 </details>
@@ -431,10 +482,10 @@ The course connects readable implementations to influential papers and productio
 | Attention Is All You Need | Multi-Head Attention, position encoding |
 | BERT | Encoder-only models, masked language modeling |
 | LLaMA | RMSNorm, SwiGLU, RoPE, Pre-Norm |
-| DeepSeek-V2 / DeepSeek-V3 | MLA, Multi-Token Prediction, MoE load balancing |
-| Mixtral / Qwen | MoE, shared experts, efficient attention patterns |
+| DeepSeek-V2 / DeepSeek-V3 | MLA, multi-token prediction, auxiliary-loss-free MoE load balancing |
+| Mixtral / Qwen3 | Sliding-window attention, MoE with shared experts |
 | Scaling Laws / Chinchilla | Parameter, data, and compute trade-offs |
-| LoRA | Parameter-efficient adaptation |
+| LoRA | Low-rank adaptation |
 | RLHF / PPO / DPO | Preference alignment |
 | Code Llama / DeepSeek-Coder | Fill-in-the-Middle |
 | FlashAttention / vLLM | Inference acceleration and memory management |
@@ -455,9 +506,15 @@ modern-llm-notebook/
 │   ├── part4-frontiers/
 │   └── appendix-advanced/
 ├── notebooks-en/        # English notebook mirror
+│   ├── part1-foundation/
+│   ├── part2-training/
+│   ├── part3-inference/
+│   ├── part4-frontiers/
+│   └── appendix-advanced/
 ├── llm_train/           # Data processing, training, evaluation, and experiment reports
 ├── assets/              # README and course assets
 ├── web/                 # React/Vite course reader
+├── docs/                # Static website build output
 ├── scripts/             # Notebook maintenance and verification scripts
 ├── requirements.txt
 ├── package.json
@@ -472,11 +529,11 @@ or easier to navigate.
 
 Good contributions include:
 
-- Correcting conceptual errors, formulas, broken cells, links, or typos.
-- Improving explanations without hiding the underlying algorithm.
-- Adding focused, reproducible experiments or exercises.
-- Improving bilingual coverage and terminology consistency.
-- Proposing a well-scoped notebook for an important architecture, training method, or system.
+- Fixing incorrect explanations, broken cells, or outdated APIs.
+- Improving hand calculations and visualizations.
+- Adding small exercises with assertions.
+- Improving the Chinese and English documentation.
+- Proposing a notebook for an important model architecture, training method, or system.
 
 Please keep pull requests focused and read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting one.
 
@@ -504,12 +561,12 @@ Please keep pull requests focused and read [CONTRIBUTING.md](CONTRIBUTING.md) be
 If Modern LLM Notebook helps your research, teaching, or work, please cite:
 
 ```bibtex
-@misc{modern_llm_notebook,
-  title        = {Modern LLM Notebook: Building Modern LLM Systems from Scratch},
-  author       = {WalkingLabs},
-  year         = {2025},
-  howpublished = {\url{https://github.com/walkinglabs/modern-llm-notebook}},
-  note         = {Open courseware repository}
+@misc{modern-llm-notebook,
+  title   = {Modern LLM Notebook: Build Modern LLMs from Scratch},
+  author  = {WalkingLabs},
+  year    = {2025},
+  url     = {https://github.com/walkinglabs/modern-llm-notebook},
+  note    = {GitHub repository, accessed 2026}
 }
 ```
 
