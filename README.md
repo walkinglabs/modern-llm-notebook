@@ -63,7 +63,10 @@
 
 ## News
 
-**2026-08**: Rebuilt Part 3 (notebooks 20–26) with experiments on decoding, inference acceleration, quantization, speculative decoding, evaluation, and deployment.
+- **2026-09**: Added from-scratch training labs covering BPE tokenization, data cleaning, 64M-class DotLM pretraining, SFT, and evaluation, with reproduction scripts and experiment reports.
+- **2026-08**: Reorganized the course into four parts, rebuilt the inference labs on decoding, acceleration, quantization, and deployment, and expanded post-training and diffusion LM topics.
+- **2026-06**: Expanded MLA, distributed training, quantization, tool calling, and systems appendices, with runnable exercises and saved experiment outputs.
+- **2026-05**: Launched bilingual notebooks and the online reader, covering the foundations from tokenization and Transformers to Mini-GPT.
 
 ## Quick Start
 
