@@ -96,7 +96,7 @@
 从几个词开始，逐次合并 BPE 字符对；用小矩阵算出 Attention 分数；观察第一次梯度更新前后的 loss。教程把这些过程拆成细小步骤，配合中间数值、张量形状和可运行实验，让每一步的结果都能看清。
 
 - **细致的从零教学。** 按「直觉理解 → 手算验证 → 代码实现 → 实验观察」推进，用 PyTorch 从零实现核心组件。有 Python 和基本矩阵运算基础即可开始。
-- **真实的数据与训练。** 提供数据处理管线、64M 级 Dense 模型的预训练与监督微调（SFT）脚本，以及已有的 AMD MI300X 实验报告。
+- **数据工程与真实训练。** 讲清语料来源、Data-Juicer 清洗、合成数据与配比，提供 DotLM 的 64M 级 Dense 预训练与监督微调（SFT）脚本，以及已有的 AMD MI300X 实验报告。
 - **覆盖现代 LLM 的主要环节。** 从基础组件延伸到 RoPE、GQA、MLA、MoE、LoRA、工具调用、偏好对齐、蒸馏、量化与推理系统。
 
 仓库是一套教学型参考实现：Notebook 用小例子解释机制，训练脚本与报告记录较完整的实验。中文是源版本，同时维护英文镜像；[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)支持中英文切换。
@@ -104,7 +104,7 @@
 ## 从零到一个训练好的模型
 
 <p align="center">
-  <a href="assets/readme/training-workflow-cn.svg"><img src="assets/readme/training-workflow-cn.png" alt="Modern LLM Notebook 总览：原始文本、数据准备、BPE Tokenizer 训练、64M 级 Dense 预训练、SFT、评测与推理。学习扩展包括 MoE、工具调用、LoRA 与合并、偏好对齐和蒸馏。" width="920"></a>
+  <a href="assets/readme/training-workflow-cn.svg"><img src="assets/readme/training-workflow-cn.png" alt="训练路线：Ultra-FineWeb 语料、Data-Juicer 清洗、BPE Tokenizer 训练、DotLM Dense 预训练、Belle SFT、评测与推理。扩展包括 MoE、工具调用、LoRA 与合并、对齐和蒸馏。" width="920"></a>
 </p>
 
 沿主线可以学习从原始文本到模型训练的各个环节。底部展示 Dense 基线之外的扩展主题；下表分别说明可运行的训练脚本、Notebook 教学实现，以及待补齐的训练配方。
@@ -122,15 +122,15 @@
 
 ## 模型与评测
 
-**FirstLLM · 64M 级 Dense** 是这套教程的现代小模型训练基线：从随机权重出发，在清洗后的中文语料上完成预训练，再接续 assistant-only SFT。成绩表展示 mini 档 seed 42 的已有实验结果；图中同时列出两个小参数基模型的公开成绩，便于建立参考。
+**DotLM · 64M 级 Dense** 是这套教程的现代小模型训练基线：从随机权重出发，在清洗后的中文语料上完成预训练，再接续 assistant-only SFT。成绩表展示 mini 档 seed 42 的已有实验结果；图中同时列出两个小参数基模型的公开成绩，便于建立参考。
 
 <p align="center">
-  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="Kimi K3 式两列横向分数组：FirstLLM 61.55M SFT 用蓝色，SmolLM Base 公开参考成绩用灰色。评测框架和模型阶段见正文说明。" width="920"></a>
+  <a href="assets/readme/dotlm-benchmarks.svg"><img src="assets/readme/dotlm-benchmarks.png" alt="DotLM 61.55M SFT 评测成绩用蓝色，SmolLM Base 公开参考成绩用灰色；各模型评测协议不同。" width="920"></a>
 </p>
 
 ### 模型规格
 
-| 配置 | FirstLLM · 64M 级 Dense |
+| 配置 | DotLM · 64M 级 Dense |
 |:---|:---|
 | 架构 / 参数量 | Decoder-only Dense / **约 61.55M**（报告口径） |
 | 层数 / Hidden size | 8 / 768 |
@@ -153,20 +153,11 @@
 
 ### 评测成绩
 
-FirstLLM 的 8 项 benchmark 使用 **EleutherAI [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 评测。仓库入口是 [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh)：先将 `.pt` checkpoint 导出为 Hugging Face 格式，再通过 `hf` 后端运行任务。
+使用 **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 评测 **DotLM 的 SFT 模型，0-shot**。分数单位为 %：`acc` 是选择准确率，`acc_norm` 按答案长度归一化打分后选择答案。
 
-| 评测项 | FirstLLM 的口径 |
-|:---|:---|
-| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`，SFT 后模型 |
-| Few-shot | **0-shot**，`--num_fewshot 0` |
-| 当前脚本后端 | `--model hf`，`trust_remote_code=True` |
-| 当前脚本运行设置 | 默认 `--batch_size auto`、`--device cuda`；MI300X 通过 PyTorch ROCm 运行 |
-| 指标 | `acc`：选择准确率；`acc_norm`：按答案长度归一化打分后选择答案，结果单位为 % |
-| PPL 工具 | 仓库 [run_ppl.py](llm_train/scripts/run_ppl.py)，分别计算打包验证集与单文档独立口径；PPL 表中的数字来自 PT checkpoint |
+图中蓝色为 DotLM，灰色为 SmolLM Base 的公开参考成绩（[来源](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model)）。评测协议不同，尚未做同协议复测。
 
-下表保留 FirstLLM 的 `acc` 与 `acc_norm` 两种记录；上图采用 HellaSwag / PIQA / OpenBookQA 的 `acc_norm` 和 WinoGrande 的 `acc`。灰色条为 Hugging Face 发布的 **SmolLM Base 模型参考成绩**，使用 **lighteval**，来自 [SmolLM2-135M 官方模型卡](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model)。发布方的[任务定义](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py)采用 `loglikelihood_acc_norm_nospace`，与 FirstLLM 的指标实现不同。模型阶段、参数量和语料也不同，图中顺序只按公开分数排列，尚未做同协议复测。
-
-| 类别 | Benchmark | FirstLLM SFT acc (%) | FirstLLM SFT acc_norm (%) |
+| 类别 | Benchmark | acc (%) | acc_norm (%) |
 |:---|:---|---:|---:|
 | 学科知识 | CEval-valid | **25.78** | — |
 | 学科知识 | MMLU | **24.21** | — |
@@ -177,12 +168,26 @@ FirstLLM 的 8 项 benchmark 使用 **EleutherAI [lm-evaluation-harness](https:/
 | 常识推理 | HellaSwag | 26.95 | 27.73 |
 | 常识推理 | WinoGrande | 51.30 | — |
 
-来源：[mini 档 seed 42 实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)。`—` 表示该指标未报告；CMMLU、Social IQa 未运行，GSM8K 未完成。正式报告未记录 lm-eval 的精确版本 / commit，复现时需保存工具版本和结果 JSON。报告仍记录了语义混乱和重复生成。
+来源：[mini 档 seed 42 实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)。`—` 表示该指标未报告。
 
 <details>
-<summary>复现已完成的 8 项 benchmark</summary>
+<summary>评测口径与复现方法</summary>
 
-先准备报告对应的 SFT checkpoint 与 Tokenizer，并安装兼容的 lm-evaluation-harness / Hugging Face 依赖。以下命令调用当前仓库脚本，不包含报告中未完成的任务：
+实验记录使用旧名 FirstLLM；下方脚本与 checkpoint 路径对应同一个模型。
+
+| 评测项 | 口径 |
+|:---|:---|
+| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`，SFT 后模型 |
+| 入口 | [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh)：将 `.pt` 导出为 Hugging Face 格式，再通过 `hf` 后端评测 |
+| Few-shot / 后端 | `--num_fewshot 0`、`--model hf`、`trust_remote_code=True` |
+| 当前脚本默认设置 | `--batch_size auto`、`--device cuda`；MI300X 通过 PyTorch ROCm 运行 |
+| PPL 工具 | [run_ppl.py](llm_train/scripts/run_ppl.py)；使用 PT checkpoint，分别计算打包验证集与单文档独立口径 |
+
+图中采用 DotLM 的 HellaSwag / PIQA / OpenBookQA `acc_norm` 和 WinoGrande `acc`。SmolLM 的公开成绩使用 **lighteval**，发布方的[任务定义](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py)采用 `loglikelihood_acc_norm_nospace`。模型阶段、参数量、语料和指标实现不同，图中顺序只按公开分数排列。
+
+CMMLU、Social IQa 未运行，GSM8K 未完成；报告仍记录了语义混乱和重复生成。正式报告未记录 lm-eval 的精确版本 / commit，复现时需保存工具版本和结果 JSON。
+
+先准备报告对应的 SFT checkpoint 与 Tokenizer，并安装兼容的 lm-evaluation-harness / Hugging Face 依赖。以下命令运行已完成的 8 项任务：
 
 ```bash
 CKPT=llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft.pt \
@@ -211,29 +216,46 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 
 ## 数据清洗与训练数据准备
 
+### 数据来源与清洗
+
+DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) 的中文分片**做预训练，使用 **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** 做 SFT。[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)先介绍网页、百科、书籍、代码和领域语料，再讲数据筛选、清洗、合成与配比。
+
 [preprocess_ufw.py](llm_train/preprocess_ufw.py)提供 `download`、`clean`、`truncate`、`pack` 四个命令，串起从原始语料到训练文件的流程。
 
 | 步骤 | 具体操作 | 应检查的产物 |
 |:---|:---|:---|
 | 下载语料 | 从 `openbmb/Ultra-FineWeb` 获取中文分片 | 原始文本、质量分数、来源标签 |
-| 质量筛选 | 将质量分数转成数值，按 mini / full 档阈值过滤 | 保留文档及其分数分布 |
+| 质量筛选 | 将质量分数转成数值；mini 保留 `score ≥ 0.8`，full 保留 `≥ 0.7` | 保留文档及其分数分布 |
 | 文本清洗 | 用 Data-Juicer 去除 HTML、修复 Unicode、规范空白、过滤长度 | 清洗后的 JSONL 与保留文档数 |
 | 控制 Token 预算 | 用真实 BPE Token 计数，按分数顺序累加到预算 | 来源统计、截断 manifest |
 | 准备训练文件 | 按文档划分训练/验证集，加入 EOS 边界并打包 Token 序列 | `train.bin`、`val.bin`、`val.jsonl` 与打包 manifest |
 
-[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)还会解释去重与数据质量。这条 Ultra-FineWeb 实战管线依赖上游去重，明确跳过额外的 SimHash 去重；代码注释记录了实验中观察到的误删问题。语料规模和最终保留量以运行生成的 manifest 为准。
+脚本生成 Data-Juicer YAML 配方，依次运行 `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter`（100–8,000 字符）。这条管线依赖上游去重，跳过额外的 SimHash 去重。语料规模和最终保留量以生成的 manifest 为准。
+
+### 合成数据与数据配比
+
+教程讲解 **Self-Instruct、Evol-Instruct、教师蒸馏和 STaR**，用小例子展示生成与过滤。将这些方法接到 Data-Juicer 上，可以参考下面的路线：
+
+| 步骤 | 具体做法 | 参考入口 |
+|:---|:---|:---|
+| 生成问答 | 从清洗后的文档出发，配置教师模型生成问题与答案 | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
+| 过滤与整理 | 去重、检查长度和答案质量、抽样复核，再将保留问答转成 SFT 对话格式 | [数据工程](notebooks/part2-training/15-data-engineering.ipynb) · [SFT 数据加载](llm_train/train_sft.py) |
+| 配比与验证 | 将合成样本与真实数据混合，记录比例，用小规模训练和独立评测集检查效果 | [数据配方与采样](notebooks/part2-training/15-data-engineering.ipynb) |
+
+**当前进度：**教程已有合成流程演示，训练管线已实现语料清洗。Data-Juicer 合成部分是扩展参考路线；DotLM 已发布的 SFT 成绩来自 Belle 数据。生成依赖和 YAML 执行方式可参考 [Data-Juicer 官方入门文档](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md)。
 
 ## 课程学习地图
 
 <p align="center">
-  <a href="assets/readme/learning-roadmap-cn.svg"><img src="assets/readme/learning-roadmap-cn.png" alt="课程学习地图：共同基础、架构与训练、后训练、推理与评测，以及前沿专题和硬件系统附录" width="920"></a>
+  <a href="assets/readme/learning-roadmap-cn.svg"><img src="assets/readme/learning-roadmap-cn.png" alt="课程学习地图：共同基础；数据来源、Data-Juicer、清洗、合成与配比；架构与训练；后训练；推理与评测；前沿与硬件系统扩展。" width="920"></a>
 </p>
 
-四个阶段从共同基础连接到架构与训练、后训练、推理与评测。前沿专题和硬件系统附录在这条主线之外继续展开。
+五个阶段从共同基础连接到数据工程、架构与训练、后训练、推理与评测。前沿专题和硬件系统附录在这条主线之外继续展开。
 
 建议先走共同基础，再选择感兴趣的路线：
 
 - **训练一个模型：** BPE → Mini-GPT → loss 与第一次更新 → 数据准备 → Dense 预训练 → SFT → 评测。
+- **制作训练数据：** 语料来源 → Data-Juicer 清洗 → 合成与过滤 → 数据配比 → 训练验证。
 - **理解现代架构：** 现代模型组件 → GQA / MLA → MoE → 缩放定律与并行训练。
 - **改进并运行模型：** LoRA / 对齐 / 蒸馏 → 解码 → KV Cache → 量化 → 推理系统。
 
@@ -267,7 +289,7 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 | 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
 | 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
 | 14 | [缩放定律与算力预算](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | 幂律、Kaplan/Chinchilla/过度训练、FLOPs/GPU-hours/显存估算 |
-| 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
+| 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 训练数据从哪里来，怎样清洗、合成和配比？ | 语料来源、Data-Juicer、去重、合成、配比、Packing、FIM |
 | 16 | [LoRA 低秩微调](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
 | 17 | [知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
 | 18 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |

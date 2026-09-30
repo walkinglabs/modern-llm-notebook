@@ -107,7 +107,7 @@ Thank you to our partners for online execution and compute support. Sign-in requ
 Start with a few words, follow a BPE merge by hand, trace an attention score, and observe the first gradient update. The notebooks break these steps into small examples, with intermediate values, tensor shapes, and experiments that explain the result.
 
 - **Detailed from-scratch teaching.** Build the core components in PyTorch through intuition, hand calculation, implementation, and observation. Basic Python and matrix operations are enough to begin.
-- **Real data and training.** Follow the data preparation pipeline and the 64M-class Dense pretraining → supervised fine-tuning (SFT) scripts, with an existing AMD MI300X experiment report.
+- **Data engineering and real training.** Learn where corpora come from, how Data-Juicer cleans them, and how synthetic data and data mixtures work. Follow DotLM's 64M-class Dense pretraining → supervised fine-tuning (SFT) scripts, with an existing AMD MI300X experiment report.
 - **Modern LLM topics in one course.** Extend the foundations to RoPE, GQA, MLA, MoE, LoRA, tool calling, preference alignment, distillation, quantization, and inference systems.
 
 This is an educational reference: notebooks explain each mechanism, while the training scripts and reports document larger experiments. The Chinese notebooks are the source edition, with an English mirror and a bilingual [web reader](https://walkinglabs.github.io/modern-llm-notebook/?lang=en).
@@ -115,7 +115,7 @@ This is an educational reference: notebooks explain each mechanism, while the tr
 ## From Zero to a Trained Model
 
 <p align="center">
-  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="Modern LLM Notebook overview: raw text, data preparation, BPE tokenizer training, 64M-class Dense pretraining, SFT, and evaluation and inference. Learning extensions cover MoE, tool calling, LoRA and merging, alignment, and distillation." width="920"></a>
+  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="Training path: Ultra-FineWeb, Data-Juicer cleaning, BPE tokenizer training, DotLM Dense pretraining, Belle SFT, and evaluation and inference. Extensions cover MoE, tool calling, LoRA and merging, alignment, and distillation." width="920"></a>
 </p>
 
 Follow the main path from raw text to a trained model. The lower strip shows the topics to explore beyond the Dense baseline; the table distinguishes runnable training scripts from notebook implementations and planned training recipes.
@@ -133,15 +133,15 @@ Follow the main path from raw text to a trained model. The lower strip shows the
 
 ## Models & Benchmarks
 
-**FirstLLM · 64M-class Dense** is the course's modern small-model training baseline: pretrain from random weights on cleaned Chinese text, then continue with assistant-only SFT. The tables present the recorded mini-tier seed 42 results. The chart also includes two small Base models' published scores as references.
+**DotLM · 64M-class Dense** is the course's modern small-model training baseline: pretrain from random weights on cleaned Chinese text, then continue with assistant-only SFT. The tables present the recorded mini-tier seed 42 results. The chart also includes two small Base models' published scores as references.
 
 <p align="center">
-  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="Kimi K3-style two-column horizontal score groups: FirstLLM 61.55M SFT in blue and published SmolLM Base references in gray. See text for frameworks and model stages." width="920"></a>
+  <a href="assets/readme/dotlm-benchmarks.svg"><img src="assets/readme/dotlm-benchmarks.png" alt="DotLM 61.55M SFT benchmark scores in blue and published SmolLM Base reference scores in gray; evaluation protocols differ." width="920"></a>
 </p>
 
 ### Model Summary
 
-| Setting | FirstLLM · 64M-class Dense |
+| Setting | DotLM · 64M-class Dense |
 |:---|:---|
 | Architecture / parameters | Decoder-only Dense / **about 61.55M** (reported count) |
 | Layers / hidden size | 8 / 768 |
@@ -164,20 +164,11 @@ The experiment used one AMD MI300X GPU. PPL values use packed-sequence and docum
 
 ### Evaluation Results
 
-FirstLLM's eight benchmarks are evaluated with **EleutherAI's [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)**. The repository entry point is [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh): export the `.pt` checkpoint to Hugging Face format, then evaluate through the `hf` backend.
+Evaluated with **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** on the **DotLM SFT checkpoint · 0-shot**. Scores are percentages: `acc` is choice accuracy; `acc_norm` uses length-normalized answer scores.
 
-| Item | FirstLLM evaluation protocol |
-|:---|:---|
-| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`, after SFT |
-| Few-shot | **0-shot**, `--num_fewshot 0` |
-| Current script backend | `--model hf`, `trust_remote_code=True` |
-| Current script settings | Defaults: `--batch_size auto`, `--device cuda`; MI300X runs through PyTorch ROCm |
-| Metrics | `acc`: choice accuracy; `acc_norm`: choose answers using length-normalized scores; results in % |
-| PPL tool | Repository [run_ppl.py](llm_train/scripts/run_ppl.py), with packed-validation and document-independent protocols; the PPL results above are for the PT checkpoint |
+The chart shows DotLM in blue and published SmolLM Base references in gray ([source](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model)). Evaluation protocols differ; these are reference scores, not a shared-protocol rerun.
 
-The table retains both FirstLLM metrics. The chart uses `acc_norm` for HellaSwag / PIQA / OpenBookQA and `acc` for WinoGrande. Gray bars are published **SmolLM Base reference scores**, evaluated with **lighteval**, from the [official SmolLM2-135M model card](https://huggingface.co/HuggingFaceTB/SmolLM2-135M#base-pre-trained-model). The publisher's [task definitions](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py) use `loglikelihood_acc_norm_nospace`, which differs from FirstLLM's metric implementations. Model stages, sizes, and corpora also differ. Rows are ordered by published scores; these models have not been rerun under one shared protocol.
-
-| Category | Benchmark | FirstLLM SFT acc (%) | FirstLLM SFT acc_norm (%) |
+| Category | Benchmark | acc (%) | acc_norm (%) |
 |:---|:---|---:|---:|
 | Knowledge | CEval-valid | **25.78** | — |
 | Knowledge | MMLU | **24.21** | — |
@@ -188,12 +179,26 @@ The table retains both FirstLLM metrics. The chart uses `acc_norm` for HellaSwag
 | Commonsense | HellaSwag | 26.95 | 27.73 |
 | Commonsense | WinoGrande | 51.30 | — |
 
-Source: [mini-tier seed 42 report](llm_train/reports/exp24_repro_mini_seed42_report.md). `—` means the metric was not reported. CMMLU and Social IQa were not run; GSM8K did not complete. The formal report does not record an exact lm-eval version / commit; save the tool version and result JSON when reproducing it. The report also documents incoherent and repetitive generations.
+Source: [mini-tier seed 42 report](llm_train/reports/exp24_repro_mini_seed42_report.md). `—` means the metric was not reported.
 
 <details>
-<summary>Reproduce the eight completed benchmarks</summary>
+<summary>Evaluation protocol and reproduction</summary>
 
-Prepare the report's SFT checkpoint and matching tokenizer, and install compatible lm-evaluation-harness / Hugging Face dependencies. This command uses the current repository script and excludes the unfinished tasks:
+The experiment records use the former name FirstLLM; the script and checkpoint paths below refer to the same model.
+
+| Item | Protocol |
+|:---|:---|
+| Checkpoint | `firstllm_64m_exp24_sft/mini_seed42_sft.pt`, after SFT |
+| Entry point | [run_lm_eval.sh](llm_train/scripts/run_lm_eval.sh): export `.pt` to Hugging Face format, then evaluate through the `hf` backend |
+| Few-shot / backend | `--num_fewshot 0`, `--model hf`, `trust_remote_code=True` |
+| Current script defaults | `--batch_size auto`, `--device cuda`; MI300X runs through PyTorch ROCm |
+| PPL tool | [run_ppl.py](llm_train/scripts/run_ppl.py); PT checkpoint, with packed-validation and document-independent protocols |
+
+The chart uses DotLM's `acc_norm` for HellaSwag / PIQA / OpenBookQA and `acc` for WinoGrande. SmolLM's published scores use **lighteval**; its [task definitions](https://github.com/huggingface/smollm/blob/main/text/evaluation/smollm2/tasks.py) use `loglikelihood_acc_norm_nospace`. Model stages, sizes, corpora, and metric implementations differ. Rows are ordered by published scores.
+
+CMMLU and Social IQa were not run; GSM8K did not complete. The report also documents incoherent and repetitive generations. It does not record an exact lm-eval version / commit; save the tool version and result JSON when reproducing it.
+
+Prepare the report's SFT checkpoint and matching tokenizer, and install compatible lm-evaluation-harness / Hugging Face dependencies. Run the eight completed tasks with:
 
 ```bash
 CKPT=llm_train/checkpoints/firstllm_64m_exp24_sft/mini_seed42_sft.pt \
@@ -222,29 +227,46 @@ nanoGPT's total includes 4,096 position-embedding parameters; the notebook's def
 
 ## Data Preparation
 
+### Data Sources and Cleaning
+
+DotLM's recorded run uses the Chinese shards of **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)** for pretraining and **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** for SFT. The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) introduces web, encyclopedic, book, code, and domain-specific corpora, then explains selection, cleaning, synthesis, and mixing.
+
 The executable path in [preprocess_ufw.py](llm_train/preprocess_ufw.py) has four commands: `download`, `clean`, `truncate`, and `pack`.
 
 | Step | Operation | Result to inspect |
 |:---|:---|:---|
 | Download | Fetch Chinese shards from `openbmb/Ultra-FineWeb` | Raw text, quality scores, and source labels |
-| Quality filtering | Convert quality scores to numbers and apply the tier threshold | Retained documents and their score distribution |
+| Quality filtering | Parse quality scores; keep `score ≥ 0.8` for mini or `≥ 0.7` for full | Retained documents and their score distribution |
 | Cleaning | Use Data-Juicer for HTML removal, Unicode repair, whitespace normalization, and length filtering | Cleaned JSONL and retained document counts |
 | Token budget | Count actual BPE tokens and retain documents in score order up to the tier budget | Per-source statistics and a truncation manifest |
 | Training preparation | Split documents into training/validation sets, add EOS boundaries, and pack token sequences | `train.bin`, `val.bin`, `val.jsonl`, and a packing manifest |
 
-The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) also explains deduplication and data quality. This particular Ultra-FineWeb pipeline relies on upstream deduplication and deliberately skips an additional SimHash pass; its code comments document the observed false deletions. Dataset scale and retained counts should always come from the generated manifests.
+The script writes a Data-Juicer YAML recipe with `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter` (100–8,000 characters). It relies on upstream deduplication and skips an additional SimHash pass. Dataset scale and retained counts come from the generated manifests.
+
+### Synthetic Data and Data Mixtures
+
+The notebook explains **Self-Instruct, Evol-Instruct, teacher distillation, and STaR**, with small examples of generation and filtering. To extend this into a Data-Juicer synthesis pipeline, use the following reference route:
+
+| Step | What to do | Reference |
+|:---|:---|:---|
+| Generate QA pairs | Start from cleaned documents; configure a teacher model to generate questions and answers | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
+| Filter and format | Deduplicate, check length and answer quality, inspect samples, and convert retained pairs into the SFT conversation format | [Data engineering](notebooks-en/part2-training/15-data-engineering.ipynb) · [SFT data loader](llm_train/train_sft.py) |
+| Mix and validate | Mix retained synthetic examples with real data, record the proportions, and compare a small training run on held-out tasks | [Data recipes and sampling](notebooks-en/part2-training/15-data-engineering.ipynb) |
+
+**Current status:** the notebook contains synthesis demonstrations; the training pipeline implements corpus cleaning. Data-Juicer synthesis is an extension reference, and DotLM's reported SFT results use Belle data. Consult the official [Data-Juicer quick start](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md) for generation dependencies and YAML execution.
 
 ## Learning Roadmap
 
 <p align="center">
-  <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="Learning roadmap across foundations, data and training, post-training, inference, frontier topics, and hardware appendices" width="920"></a>
+  <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="Learning roadmap: foundations; data sources, Data-Juicer, cleaning, synthesis and mixing; architecture and training; post-training; inference and evaluation; frontier and hardware extensions." width="920"></a>
 </p>
 
-The four stages connect the shared foundations to architecture and training, post-training, and inference and evaluation. Frontier topics and hardware appendices extend this path.
+The five stages connect the shared foundations to data engineering, architecture and training, post-training, and inference and evaluation. Frontier topics and hardware appendices extend this path.
 
 Follow the foundations first, then choose a route:
 
 - **Train a model:** BPE → Mini-GPT → loss and first update → data preparation → Dense pretraining → SFT → evaluation.
+- **Build training data:** corpus sources → Data-Juicer cleaning → synthesis and filtering → data mixtures → training validation.
 - **Understand modern architectures:** modern blocks → GQA / MLA → MoE → scaling and parallelism.
 - **Improve and serve a model:** LoRA / alignment / distillation → generation → KV Cache → quantization → inference systems.
 

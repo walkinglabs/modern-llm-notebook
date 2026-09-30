@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-30T21:15:28.975597</dc:date>
+    <dc:date>2026-09-30T22:22:45.853929</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -319,7 +319,7 @@ z
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="563.733694" y="183.304953" transform="rotate(-0 563.733694 183.304953)">41.2</text>
   </g>
   <g id="text_8">
-   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="36.288" y="216.091036" transform="rotate(-0 36.288 216.091036)">FirstLLM-61.55M SFT</text>
+   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="36.288" y="216.091036" transform="rotate(-0 36.288 216.091036)">DotLM-61.55M SFT</text>
   </g>
   <g id="text_9">
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="464.592632" y="215.586153" transform="rotate(-0 464.592632 215.586153)">27.7</text>
@@ -340,7 +340,7 @@ z
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="1231.317818" y="183.304953" transform="rotate(-0 1231.317818 183.304953)">68.4</text>
   </g>
   <g id="text_15">
-   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="697.248" y="216.091036" transform="rotate(-0 697.248 216.091036)">FirstLLM-61.55M SFT</text>
+   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="697.248" y="216.091036" transform="rotate(-0 697.248 216.091036)">DotLM-61.55M SFT</text>
   </g>
   <g id="text_16">
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="1162.731445" y="215.586153" transform="rotate(-0 1162.731445 215.586153)">53.3</text>
@@ -361,7 +361,7 @@ z
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="570.357818" y="361.645353" transform="rotate(-0 570.357818 361.645353)">51.3</text>
   </g>
   <g id="text_22">
-   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="36.288" y="394.431436" transform="rotate(-0 36.288 394.431436)">FirstLLM-61.55M SFT</text>
+   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="36.288" y="394.431436" transform="rotate(-0 36.288 394.431436)">DotLM-61.55M SFT</text>
   </g>
   <g id="text_23">
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="570.357818" y="393.926553" transform="rotate(-0 570.357818 393.926553)">51.3</text>
@@ -382,16 +382,16 @@ z
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="1225.944492" y="361.645353" transform="rotate(-0 1225.944492 361.645353)">34.0</text>
   </g>
   <g id="text_29">
-   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="697.248" y="394.431436" transform="rotate(-0 697.248 394.431436)">FirstLLM-61.55M SFT</text>
+   <text style="font-size: 15px; font-family: 'Arial'; text-anchor: start" x="697.248" y="394.431436" transform="rotate(-0 697.248 394.431436)">DotLM-61.55M SFT</text>
   </g>
   <g id="text_30">
    <text style="font-size: 13px; font-family: 'DejaVu Sans Mono'; text-anchor: start" x="1156.09125" y="393.926553" transform="rotate(-0 1156.09125 393.926553)">26.2</text>
   </g>
   <g id="text_31">
-   <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #929292" x="36.288" y="478.926" transform="rotate(-0 36.288 478.926)">Note: Blue = FirstLLM SFT (lm-eval). Gray = published SmolLM Base results (lighteval).</text>
+   <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #929292" x="36.288" y="478.926" transform="rotate(-0 36.288 478.926)">Note: Blue = DotLM SFT (lm-eval). Gray = published SmolLM Base results (lighteval).</text>
   </g>
   <g id="text_32">
-   <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #929292" x="36.288" y="496.9188" transform="rotate(-0 36.288 496.9188)">Scores in %. Each panel scales from zero independently. FirstLLM metrics and sources are documented in README.</text>
+   <text style="font-size: 11px; font-family: 'Arial'; text-anchor: start; fill: #929292" x="36.288" y="496.9188" transform="rotate(-0 36.288 496.9188)">Scores in %. Each panel scales from zero independently. DotLM metrics and sources are documented in README.</text>
   </g>
  </g>
 </svg>
