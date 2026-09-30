@@ -1,8 +1,10 @@
 <p align="center">
   <a href="https://walkinglabs.github.io/modern-llm-notebook/">
     <picture>
+      <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/brand/modern-llm-wordmark-compact-dark.svg">
+      <source media="(max-width: 600px)" srcset="assets/brand/modern-llm-wordmark-compact.svg">
       <source media="(prefers-color-scheme: dark)" srcset="assets/brand/modern-llm-wordmark-dark.svg">
-      <img src="assets/brand/modern-llm-wordmark.svg" alt="Modern LLM Notebook" width="880" height="132">
+      <img src="assets/brand/modern-llm-wordmark.svg" alt="Modern LLM Notebook — From scratch. Into practice." width="880">
     </picture>
   </a>
 </p>
