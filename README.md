@@ -1,10 +1,11 @@
 <p align="center">
   <a href="https://walkinglabs.github.io/modern-llm-notebook/">
-    <img src="assets/brand/modern-llm-notebook.png" alt="Modern LLM Notebook logo: an open notebook with connected model nodes" width="128" height="128">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/brand/modern-llm-wordmark-dark.svg">
+      <img src="assets/brand/modern-llm-wordmark.svg" alt="Modern LLM Notebook" width="880" height="132">
+    </picture>
   </a>
 </p>
-
-<h1 align="center">Modern LLM Notebook</h1>
 
 <p align="center">
   <strong>Learn modern LLMs from scratch, one detailed example and experiment at a time.</strong>
