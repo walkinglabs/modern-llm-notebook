@@ -237,8 +237,6 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 - **模型架构**：RoPE、GQA、MLA、MoE、缩放定律与并行训练。
 - **后训练与推理**：LoRA、模型合并、对齐、蒸馏、解码、KV Cache、量化与推理系统。
 
-图示设计参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html)，课程组织参考 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course)。
-
 ## Notebook 目录
 
 主体课程按四个部分组织。每个 Notebook 尽量自包含，可以顺序学习，也可以按主题查阅。

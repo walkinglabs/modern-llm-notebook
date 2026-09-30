@@ -248,8 +248,6 @@ Topics covered:
 - **Model architectures**: RoPE, GQA, MLA, MoE, scaling laws, and parallel training.
 - **Post-training and inference**: LoRA, model merging, alignment, distillation, decoding, KV cache, quantization, and inference systems.
 
-Diagram design references [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); course organization references [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course).
-
 ## Curriculum
 
 The curriculum is organized into four progressive parts. Each notebook is self-contained, so you
