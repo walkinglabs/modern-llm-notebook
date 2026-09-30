@@ -117,13 +117,15 @@ The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.
   <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="Learning roadmap across foundations, data and training, post-training, inference, frontier topics, and hardware appendices" width="920"></a>
 </p>
 
+The four stages connect the shared foundations to architecture and training, post-training, and inference and evaluation. Frontier topics and hardware appendices extend this path.
+
 Follow the foundations first, then choose a route:
 
 - **Train a model:** BPE → Mini-GPT → loss and first update → data preparation → Dense pretraining → SFT → evaluation.
 - **Understand modern architectures:** modern blocks → GQA / MLA → MoE → scaling and parallelism.
 - **Improve and serve a model:** LoRA / alignment / distillation → generation → KV Cache → quantization → inference systems.
 
-The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. The training overview follows the horizontal organization of [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); the learning roadmap takes structural inspiration from [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course). Both are original diagrams of this repository's own content.
+The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. Both diagrams use a shared visual layout inspired by [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); the learning roadmap also draws on the course organization of [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course). Both are original diagrams of this repository's own content.
 
 ## Curriculum
 

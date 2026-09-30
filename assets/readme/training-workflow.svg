@@ -32,7 +32,7 @@
 <rect x="220" y="377" width="1160" height="38" fill="#1d6bf3"/>
 <text x="800" y="403" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700" fill="#fff">Modern LLM Notebook</text>
 <path d="M800 417V441" fill="none" stroke="#667085" stroke-width="1.8" marker-end="url(#arrow)"/>
-<g transform="translate(491 475) scale(0.8)" fill="none" stroke="#14b8a6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-20-14H-3L0-10L3-14H20V14H3L0 18L-3 14H-20Z"/><path d="M0-10V12M-13-5H-7M-13 2H-7M7-5H13M7 2H13"/></g>
+<g transform="translate(558 475) scale(0.8)" fill="none" stroke="#14b8a6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-20-14H-3L0-10L3-14H20V14H3L0 18L-3 14H-20Z"/><path d="M0-10V12M-13-5H-7M-13 2H-7M7-5H13M7 2H13"/></g>
 <text x="823" y="483" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#667085">PyTorch · Runnable notebooks · Training scripts</text>
 <text x="800" y="538" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Learning extensions</text>
 <rect x="60" y="558" width="1480" height="78" fill="#f5f7fa"/>

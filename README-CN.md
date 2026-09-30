@@ -108,8 +108,10 @@ Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：
 ## 课程学习地图
 
 <p align="center">
-  <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="课程学习地图：基础、数据与训练、后训练、推理，以及前沿专题和硬件系统附录" width="920"></a>
+  <a href="assets/readme/learning-roadmap-cn.svg"><img src="assets/readme/learning-roadmap-cn.png" alt="课程学习地图：共同基础、架构与训练、后训练、推理与评测，以及前沿专题和硬件系统附录" width="920"></a>
 </p>
+
+四个阶段从共同基础连接到架构与训练、后训练、推理与评测。前沿专题和硬件系统附录在这条主线之外继续展开。
 
 建议先走共同基础，再选择感兴趣的路线：
 
@@ -117,7 +119,7 @@ Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：
 - **理解现代架构：** 现代模型组件 → GQA / MLA → MoE → 缩放定律与并行训练。
 - **改进并运行模型：** LoRA / 对齐 / 蒸馏 → 解码 → KV Cache → 量化 → 推理系统。
 
-学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。训练总览图参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html) 的横向组织方式；学习地图参考 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的组织方式。两张图均按本仓库内容绘制。
+学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。两张图采用统一的横向视觉布局，参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html)；学习地图也参考了 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的课程组织方式。两张图均按本仓库内容绘制。
 
 ## Notebook 目录
 
