@@ -49,7 +49,7 @@
 <p align="center">
   <a href="#教程特色">教程特色</a> ·
   <a href="#从零到一个训练好的模型">训练流程</a> ·
-  <a href="#小参数模型卡">模型卡</a> ·
+  <a href="#模型与评测">模型与评测</a> ·
   <a href="#数据清洗与训练数据准备">数据清洗</a> ·
   <a href="#课程学习地图">学习地图</a> ·
   <a href="#notebook-目录">Notebook 目录</a> ·
@@ -88,17 +88,66 @@
 | 工具调用 | 已有 Tool Call 数据构造与执行循环示例；端到端工具调用 SFT 待补齐 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) |
 | 小模型后训练与合并 | 已有 LoRA、适配器合并、偏好目标与蒸馏讲解；小模型对照训练和更完整的合并配方待补齐 | [LoRA](notebooks/part2-training/16-lora.ipynb) · [偏好对齐](notebooks/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks/part4-frontiers/31-opd.ipynb) |
 
-## 小参数模型卡
+## 模型与评测
 
-| 模型 | 架构 / 参数量 | 已有结果 |
-|:---|:---|:---|
-| nanoGPT 字符级基线 | 2 层、64 hidden、2 heads；总参数 **108,352** | Tiny Shakespeare，500 步；val loss **2.2906** |
-| FirstLLM 64M 级 Dense | 8 层、768 hidden、GQA 8Q / 4KV、RoPE、SwiGLU；**约 61.55M** | mini 档 PT loss **8.93 → 2.74**；PPL **18.30（打包）/ 18.03（单文档）**；SFT loss **约 2.3 → 1.65** |
-| MoE 教学实现 | Top-k 路由 + 专家 FFN；完整模型参数量待补齐 | 已有组件教学，完整预训练配方与结果待补齐 |
+**FirstLLM · 64M 级 Dense** 是这套教程的现代小模型训练基线：从随机权重出发，在清洗后的中文语料上完成预训练，再接续 assistant-only SFT。下图与成绩表展示 mini 档 seed 42 的已有实验结果。
 
-[查看完整模型卡 →](MODEL_CARD-CN.md)：架构配置、数据与训练预算、8 项 SFT 后评测、参数统计口径、复现命令，以及 **9.34M 历史短程实验**。64M 级结果来自 mini 档 seed 42 报告；full 档目前只有训练配置。nanoGPT 总参数包含位置 Embedding，Notebook 默认打印的 104,256 不含该部分。
+<p align="center">
+  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="FirstLLM 64M 级模型 SFT 后的 0-shot 评测：8 项任务的 acc 与 acc_norm。蓝色和绿色区分两种指标，缺少指标以横线表示。" width="920"></a>
+</p>
 
-Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：报告使用已有的 MiniMind 6,400 词表。复现报告数字时，应采用报告指定的 Tokenizer 与数据口径；数据、中间产物和 checkpoint 需要自行准备。
+### 模型规格
+
+| 配置 | FirstLLM · 64M 级 Dense |
+|:---|:---|
+| 架构 / 参数量 | Decoder-only Dense / **约 61.55M**（报告口径） |
+| 层数 / Hidden size | 8 / 768 |
+| Attention | GQA，8 个 Query head / 4 个 KV head，head dim 96 |
+| FFN | SwiGLU，intermediate size 2304 |
+| 位置编码 / 归一化 | RoPE（θ = 10,000）/ Pre-Norm RMSNorm + QK-Norm |
+| 词表 / 权重共享 | 6,400 / Token Embedding 与 LM Head 共享 |
+| 训练序列长度 / 精度 | 512 / BF16 |
+
+[模型实现](llm_train/modeling_firstllm.py) · [训练配置](llm_train/configs/firstllm_64m_exp24.yaml) · [预训练](llm_train/train_pretrain.py) · [SFT](llm_train/train_sft.py) · [实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)
+
+### 训练结果
+
+| 阶段 | 数据 | 训练预算 | 已报告结果 |
+|:---|:---|:---|:---|
+| Pretraining | Ultra-FineWeb 中文，约 0.269B 训练集 Token | 5,120 步，batch 128；累计处理约 0.336B Token | Loss **8.93 → 2.74**；验证集 PPL **18.30 / 18.03** |
+| SFT | BelleGroup `train_1M_CN`，917,424 条 | 2 epochs，28,668 步；batch 64 | Assistant-only loss **约 2.3 → 1.65** |
+
+实验使用 AMD MI300X 单卡。两项 PPL 分别为打包序列与单文档独立评测口径；累计处理 Token 包含重复采样。此次训练沿用已有的 MiniMind 6,400 词表，教程中的从零 BPE 训练是独立实验。`mini` / `full` 使用相同架构；full 档目前提供配置，尚无完成报告。
+
+### 评测成绩
+
+以下为 **SFT checkpoint · 0-shot** 结果，单位为百分比。`acc` 是选择准确率，`acc_norm` 按答案长度归一化后选答案；图中两种颜色代表指标，不代表不同模型。
+
+| 类别 | Benchmark | acc (%) | acc_norm (%) |
+|:---|:---|---:|---:|
+| 学科知识 | CEval-valid | **25.78** | — |
+| 学科知识 | MMLU | **24.21** | — |
+| 科学问答 | ARC Easy | 25.51 | 26.77 |
+| 科学问答 | ARC Challenge | 19.97 | 21.76 |
+| 常识推理 | PIQA | 53.97 | 53.26 |
+| 科学问答 | OpenBookQA | 13.80 | 26.20 |
+| 常识推理 | HellaSwag | 26.95 | 27.73 |
+| 常识推理 | WinoGrande | 51.30 | — |
+
+来源：[mini 档 seed 42 实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)。`—` 表示该指标未报告；CMMLU、Social IQa 未运行，GSM8K 未完成。上述结果用于观察教学模型的表现，报告仍记录了语义混乱和重复生成。跨模型比较需要统一 Tokenizer、数据与评测协议。
+
+<details>
+<summary>其他教学模型与实验状态</summary>
+
+| 模型 / 实验 | 架构与参数量 | 已有结果 | 入口 |
+|:---|:---|:---|:---|
+| nanoGPT 字符级基线 | 2 层、64 hidden、2 heads；总参数 **108,352** | Tiny Shakespeare，500 步；train loss **2.2472**，val loss **2.2906** | [Mini-GPT](notebooks/part1-foundation/06-mini-gpt.ipynb) |
+| 紧凑 Dense（历史短程实验） | 4 层、384 hidden、6Q / 2KV、FFN 1152；**约 9.34M** | PT / SFT 各 150 步；前后 10 步平均 loss：PT **7.4355 → 2.2707**，SFT **2.5253 → 2.1588** | [历史报告](llm_train/reports/station2_pt_sft_report.md) |
+| MoE 教学实现 | Top-k 路由与专家 FFN | 已有组件实验；完整小参数模型预训练配方、参数量与成绩待补齐 | [MoE](notebooks/part2-training/13-moe.ipynb) |
+
+nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印的 104,256 不含该部分。9.34M 记录来自历史 Notebook 实验，当前没有独立 YAML 配置。这些实验使用不同数据和测量口径，loss 不适合直接横向比较。数据、中间产物与 checkpoint 需要自行准备，目前没有公开权重下载入口。
+
+</details>
 
 ## 数据清洗与训练数据准备
 

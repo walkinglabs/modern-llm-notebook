@@ -50,7 +50,7 @@
   <a href="#course-preview">Preview</a> ·
   <a href="#what-makes-this-course-different">Approach</a> ·
   <a href="#from-zero-to-a-trained-model">Training Path</a> ·
-  <a href="#small-model-cards">Model Cards</a> ·
+  <a href="#models--benchmarks">Models &amp; Benchmarks</a> ·
   <a href="#data-preparation">Data Pipeline</a> ·
   <a href="#learning-roadmap">Roadmap</a> ·
   <a href="#curriculum">Curriculum</a> ·
@@ -94,17 +94,66 @@ Follow the main path from raw text to a trained model. The lower strip shows the
 | Explore tool calling | Construct tool-use examples and study the execution loop; end-to-end tool-use SFT is planned | [Function calling](notebooks-en/part2-training/18-function-calling.ipynb) |
 | Extend post-training | Learn LoRA and adapter merging, preference objectives, and distillation; comparative small-model training and merging recipes are planned | [LoRA](notebooks-en/part2-training/16-lora.ipynb) · [Alignment](notebooks-en/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks-en/part4-frontiers/31-opd.ipynb) |
 
-## Small-Model Cards
+## Models & Benchmarks
 
-| Model | Architecture / parameters | Recorded results |
-|:---|:---|:---|
-| Character-level nanoGPT | 2 layers, hidden size 64, 2 heads; **108,352 total parameters** | Tiny Shakespeare, 500 steps; validation loss **2.2906** |
-| FirstLLM 64M-class Dense | 8 layers, hidden size 768, GQA 8Q / 4KV, RoPE, SwiGLU; **about 61.55M** | mini-tier PT loss **8.93 → 2.74**; PPL **18.30 (packed) / 18.03 (document-independent)**; SFT loss **about 2.3 → 1.65** |
-| MoE teaching implementation | Top-k routing + expert FFNs; full model parameter count pending | Component demonstrations available; complete pretraining recipe and results pending |
+**FirstLLM · 64M-class Dense** is the course's modern small-model training baseline: pretrain from random weights on cleaned Chinese text, then continue with assistant-only SFT. The chart and tables present the recorded mini-tier seed 42 results.
 
-[Read the complete model card →](MODEL_CARD.md): architecture, data and training budgets, 8 post-SFT evaluation tasks, parameter-count conventions, reproduction commands, and the **historical 9.34M short run**. The 64M-class results are from the mini-tier seed 42 report; full-tier training has a configuration but no completed report. nanoGPT's total includes position embeddings; the notebook's default printed count of 104,256 excludes them.
+<p align="center">
+  <a href="assets/readme/firstllm-benchmarks.svg"><img src="assets/readme/firstllm-benchmarks.png" alt="FirstLLM 64M-class zero-shot evaluation after SFT: acc and acc_norm for eight tasks. Blue and teal identify metrics; dashes indicate unreported metrics." width="920"></a>
+</p>
 
-The from-scratch tokenizer lab and this reported Dense run are separate experiments: the report uses an existing MiniMind 6,400-token vocabulary. Follow its tokenizer and data protocol when reproducing the reported numbers. Data files, intermediate artifacts, and checkpoints must be prepared locally.
+### Model Summary
+
+| Setting | FirstLLM · 64M-class Dense |
+|:---|:---|
+| Architecture / parameters | Decoder-only Dense / **about 61.55M** (reported count) |
+| Layers / hidden size | 8 / 768 |
+| Attention | GQA, 8 query heads / 4 KV heads, head dimension 96 |
+| FFN | SwiGLU, intermediate size 2304 |
+| Position encoding / normalization | RoPE (θ = 10,000) / Pre-Norm RMSNorm + QK-Norm |
+| Vocabulary / weight sharing | 6,400 / tied token embedding and LM head |
+| Training sequence length / precision | 512 / BF16 |
+
+[Model implementation](llm_train/modeling_firstllm.py) · [Configuration](llm_train/configs/firstllm_64m_exp24.yaml) · [Pretraining](llm_train/train_pretrain.py) · [SFT](llm_train/train_sft.py) · [Experiment report](llm_train/reports/exp24_repro_mini_seed42_report.md)
+
+### Training Results
+
+| Stage | Data | Training budget | Recorded results |
+|:---|:---|:---|:---|
+| Pretraining | Chinese Ultra-FineWeb, approximately 0.269B training-set tokens | 5,120 steps, batch 128; approximately 0.336B processed tokens | Loss **8.93 → 2.74**; validation PPL **18.30 / 18.03** |
+| SFT | BelleGroup `train_1M_CN`, 917,424 records | 2 epochs, 28,668 steps; batch 64 | Assistant-only loss **about 2.3 → 1.65** |
+
+The experiment used one AMD MI300X GPU. PPL values use packed-sequence and document-independent evaluation respectively; processed tokens include repeated sampling. This run uses an existing MiniMind tokenizer with a 6,400-token vocabulary; the from-scratch BPE lab is a separate experiment. `mini` and `full` share the architecture; the full tier currently has a configuration but no completed report.
+
+### Evaluation Results
+
+Results below are for the **SFT checkpoint · 0-shot**, in percent. `acc` is choice accuracy; `acc_norm` chooses answers using length-normalized scores. The chart's two colors identify metrics, not different models.
+
+| Category | Benchmark | acc (%) | acc_norm (%) |
+|:---|:---|---:|---:|
+| Knowledge | CEval-valid | **25.78** | — |
+| Knowledge | MMLU | **24.21** | — |
+| Science QA | ARC Easy | 25.51 | 26.77 |
+| Science QA | ARC Challenge | 19.97 | 21.76 |
+| Commonsense | PIQA | 53.97 | 53.26 |
+| Science QA | OpenBookQA | 13.80 | 26.20 |
+| Commonsense | HellaSwag | 26.95 | 27.73 |
+| Commonsense | WinoGrande | 51.30 | — |
+
+Source: [mini-tier seed 42 report](llm_train/reports/exp24_repro_mini_seed42_report.md). `—` means the metric was not reported. CMMLU and Social IQa were not run; GSM8K did not complete. These results help study educational models, and the reports still document incoherent and repetitive generations. Cross-model comparisons require matching tokenizers, data, and evaluation protocols.
+
+<details>
+<summary>Other teaching models and experiment status</summary>
+
+| Model / experiment | Architecture and parameters | Recorded results | Entry point |
+|:---|:---|:---|:---|
+| Character-level nanoGPT | 2 layers, hidden size 64, 2 heads; **108,352 total parameters** | Tiny Shakespeare, 500 steps; train loss **2.2472**, validation loss **2.2906** | [Mini-GPT](notebooks-en/part1-foundation/06-mini-gpt.ipynb) · [Saved source outputs](notebooks/part1-foundation/06-mini-gpt.ipynb) |
+| Compact Dense (historical short run) | 4 layers, hidden size 384, 6Q / 2KV, FFN 1152; **about 9.34M** | 150 steps each of PT / SFT; first-to-last 10-step mean loss: PT **7.4355 → 2.2707**, SFT **2.5253 → 2.1588** | [Historical report](llm_train/reports/station2_pt_sft_report.md) |
+| MoE teaching implementation | Top-k routing and expert FFNs | Component experiments available; complete small-model pretraining recipe, parameter count, and results pending | [MoE](notebooks-en/part2-training/13-moe.ipynb) |
+
+nanoGPT's total includes 4,096 position-embedding parameters; the notebook's default printed count of 104,256 excludes them. The 9.34M record comes from a historical notebook experiment and has no current standalone YAML recipe. These experiments use different data and measurement protocols, so their losses are not directly comparable. Data, intermediate artifacts, and checkpoints must be prepared locally; no public weight-download entry point is currently provided.
+
+</details>
 
 ## Data Preparation
 
