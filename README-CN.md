@@ -383,6 +383,10 @@ python scripts/execute_notebooks_en_no_kernel.py
 
 ### 数据来源与清洗
 
+<p align="center">
+  <a href="assets/readme/data-cleaning-cn.svg"><img src="assets/readme/data-cleaning-cn.png" alt="数据清洗详解：质量筛选后，Data-Juicer 依次移除 HTML、修复 Unicode、规范空白和过滤长度；再按质量排序、控制 BPE Token 预算、划分文档并加入 EOS 打包，生成训练文件与 manifest。" width="920"></a>
+</p>
+
 DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) 的中文分片**做预训练，使用 **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** 做 SFT。[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)先介绍网页、百科、书籍、代码和领域语料，再讲数据筛选、清洗、合成与配比。
 
 [preprocess_ufw.py](llm_train/preprocess_ufw.py)提供 `download`、`clean`、`truncate`、`pack` 四个命令，串起从原始语料到训练文件的流程。

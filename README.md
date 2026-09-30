@@ -340,6 +340,10 @@ npm run preview
 
 ### Data Sources and Cleaning
 
+<p align="center">
+  <a href="assets/readme/data-cleaning.svg"><img src="assets/readme/data-cleaning.png" alt="Data cleaning details: quality filtering, then Data-Juicer HTML removal, Unicode repair, whitespace normalization, and length filtering; followed by score ordering, an actual BPE token budget, document splitting, and EOS packing into training files and manifests." width="920"></a>
+</p>
+
 DotLM's recorded run uses the Chinese shards of **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)** for pretraining and **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** for SFT. The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) introduces web, encyclopedic, book, code, and domain-specific corpora, then explains selection, cleaning, synthesis, and mixing.
 
 The executable path in [preprocess_ufw.py](llm_train/preprocess_ufw.py) has four commands: `download`, `clean`, `truncate`, and `pack`.
