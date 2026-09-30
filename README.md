@@ -1,12 +1,12 @@
 # Modern LLM Notebook
 
 <p align="center">
-  <strong>A from-scratch, notebook-first course for understanding modern LLM systems.</strong>
+  <strong>Learn modern LLMs from scratch, one detailed example and experiment at a time.</strong>
 </p>
 
 <p align="center">
-  Build the core components yourself—from Tokenizer and Transformer to training,
-  inference, alignment, and production.
+  Train a BPE tokenizer, prepare real data, and pretrain a 64M-class model.
+  Continue with SFT, then explore MoE, tool calling, post-training, and inference.
 </p>
 
 <p align="center">
@@ -17,6 +17,10 @@
   <a href="https://walkinglabs.github.io/modern-llm-notebook/"><strong>Read Online</strong></a>
   ·
   <a href="https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb"><strong>Start in Colab</strong></a>
+  ·
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb"><strong>ModelScope</strong></a>
+  ·
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview"><strong>AMD GPU Template</strong></a>
   ·
   <a href="https://discord.gg/XU7DQmpqk"><strong>Join Discord</strong></a>
 </p>
@@ -33,14 +37,15 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-30%2B-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
 <p align="center">
   <a href="#course-preview">Preview</a> ·
-  <a href="#overview">Overview</a> ·
-  <a href="#design-principles">Principles</a> ·
+  <a href="#what-makes-this-course-different">Approach</a> ·
+  <a href="#from-zero-to-a-trained-model">Training Path</a> ·
+  <a href="#data-preparation">Data Pipeline</a> ·
+  <a href="#learning-roadmap">Roadmap</a> ·
   <a href="#curriculum">Curriculum</a> ·
   <a href="#quick-start">Quick Start</a> ·
   <a href="#project-status">Status</a> ·
@@ -52,133 +57,64 @@
 > the English mirror is being updated alongside it. Corrections, suggestions, and focused pull
 > requests are welcome.
 
-## What's New
+## What Makes This Course Different
 
-**Aug 2026 — Part 3 (Inference, notebooks 20-26) fully rebuilt.** All seven inference
-notebooks were rewritten in the Part 1 house style: intuition first, problem-chain
-narrative, summary checklists, and 3 self-checking homework problems each. Highlights:
+Start with a few words, follow a BPE merge by hand, trace an attention score, and observe the first gradient update. The notebooks break these steps into small examples, with intermediate values, tensor shapes, and experiments that explain the result.
 
-- **Quantization (22)**: FP8/FP4 formats with a grid experiment, GGUF/K-quant details,
-  and an end-to-end walkthrough producing GPTQ/FP8 (llm-compressor), AWQ (AutoAWQ),
-  and GGUF (llama.cpp with imatrix), then serving each one
-- **Speculative decoding (23)**: a runnable speculative-sampling loop with measured
-  acceptance and speedup
-- **Inference systems (24)**: batching/paging/prefix-caching simulators; refreshed
-  vLLM and SGLang deployment workflows
-- **Evaluation (25)**: pipeline view of an eval run, real example items from
-  MMLU/C-Eval/CMMLU/GSM8K/HumanEval, a tooling map (lm-evaluation-harness /
-  OpenCompass / EvalScope), confidence intervals, plus a hands-on lab that registers
-  a custom Chinese benchmark into lm-eval via YAML, scores GPT-2 vs Qwen2.5-0.5B,
-  and reproduces a tech-report-style bar chart
-- **Deployment (26)**: serving quantized checkpoints and tying back to the
-  pre-launch evaluation checklist
+- **Detailed from-scratch teaching.** Build the core components in PyTorch through intuition, hand calculation, implementation, and observation. Basic Python and matrix operations are enough to begin.
+- **Real data and training.** Follow the data preparation pipeline and the 64M-class Dense pretraining → supervised fine-tuning (SFT) scripts, with an existing AMD MI300X experiment report.
+- **Modern LLM topics in one course.** Extend the foundations to RoPE, GQA, MLA, MoE, LoRA, tool calling, preference alignment, distillation, quantization, and inference systems.
 
-## Course Preview
+This is an educational reference: notebooks explain each mechanism, while the training scripts and reports document larger experiments. The Chinese notebooks are the source edition, with an English mirror and a bilingual [web reader](https://walkinglabs.github.io/modern-llm-notebook/?lang=en).
+
+## From Zero to a Trained Model
 
 <p align="center">
-  <img src="assets/readme/home-en.png" alt="Modern LLM Notebook course map" width="920">
+  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="Training workflow: prepare data, train a tokenizer, pretrain a Dense model, continue with SFT, evaluate, and study inference; planned extensions include MoE and tool-use training" width="920"></a>
 </p>
 
-<p align="center">
-  <em>A bilingual course map connects foundations, training, inference, frontier topics,
-  and production systems.</em>
-</p>
-
-<p align="center">
-  <img src="assets/readme/notebook-reader-en.png" alt="Modern LLM Notebook reader" width="920">
-</p>
-
-<p align="center">
-  <em>Every notebook keeps the learning loop visible: intuition, hand calculation,
-  implementation, and experiment.</em>
-</p>
-
-## Overview
-
-Modern LLM Notebook is an open, hands-on course for engineers who want to understand large
-language models by rebuilding their essential machinery in PyTorch.
-
-Instead of treating an LLM as a black box, the course follows the complete path from raw text to a
-working model system. You will implement Tokenizer, Embedding, Self-Attention, Transformer blocks,
-training objectives, MoE, LoRA, RLHF, decoding, KV Cache, long-context techniques, VLM components,
-evaluation, and distillation through small, runnable notebooks.
-
-The goal is not to reproduce a production framework line by line. The goal is to build a durable
-mental model: what each component does, why it exists, how the numbers flow through it, and what
-changes when you run an experiment.
-
-Each notebook follows the same learning path:
-
-```text
-intuition -> hand calculation -> implementation -> experiment
-```
-
-This makes the repository useful both as a structured course and as an educational reference you
-can return to when reading papers or production code.
-
-## Design Principles
-
-The course is organized around six teaching principles:
-
-1. **Motivation before mechanics.** Every topic starts with the problem it solves.
-2. **Intuition before notation.** Concrete examples prepare the ground for formulas.
-3. **Hand calculation before abstraction.** Core algorithms are verified with small numbers before
-   they become code.
-4. **Readable implementations over black boxes.** Important components stay explicit and
-   inspectable.
-5. **Experiments explain behavior.** Printed observations, plots, and controlled comparisons turn
-   outputs into conclusions.
-6. **One concept at a time.** Notebooks progress in small steps and remain independently runnable.
-
-## Who This Course Is For
-
-Modern LLM Notebook is designed for:
-
-- Software engineers who know Python and want to move into LLM engineering.
-- Machine learning practitioners who use model libraries but want to understand what happens
-  underneath them.
-- Students and researchers preparing to read modern LLM papers and source code.
-- Self-learners who prefer concrete examples and runnable experiments before dense derivations.
-
-Recommended background:
-
-- Comfortable with basic Python.
-- Familiar with arrays, functions, classes, and simple matrix operations.
-- Basic calculus, probability, and PyTorch are helpful, but not required on day one.
-
-No prior knowledge of Tokenizer, Embedding, Self-Attention, or Transformer internals is assumed.
-
-## Learning Outcomes
-
-After completing the course, you should be able to:
-
-- Trace the full data flow from raw text to tokens, hidden states, logits, and generated text.
-- Implement and explain a compact GPT-style language model from first principles.
-- Connect Cross-Entropy, gradients, batching, data quality, and scaling laws to training behavior.
-- Explain how modern architectures use RoPE, RMSNorm, SwiGLU, GQA, MLA, and MoE.
-- Compare adaptation and alignment methods such as LoRA, reward modeling, PPO, and DPO.
-- Reason about generation quality, latency, memory, KV Cache, and speculative decoding.
-- Build small experiments for long context, reasoning, VLMs, evaluation, and distillation.
-- Read production libraries and research papers with a clearer model of the systems underneath.
-
-## What You Will Build
-
-| Stage | You build | Why it matters |
+| Stage | What is available | Start here |
 |:---|:---|:---|
-| Text to tokens | Character, word, and BPE tokenizers | See exactly how raw text becomes model input |
-| Tokens to vectors | Token Embedding and position encodings | Understand the representation the model computes over |
-| Transformer core | Self-Attention, Multi-Head Attention, Transformer blocks, Mini-GPT | Reconstruct the core forward pass |
-| Training system | Cross-Entropy, batching, gradient flow, scaling-law experiments | Connect loss curves to model behavior |
-| Modern architectures | RMSNorm, SwiGLU, RoPE, GQA, MLA, MoE | Understand how current models extend the original Transformer |
-| Adaptation and alignment | LoRA, reward modeling, PPO, DPO | See how base models become specialized and aligned |
-| Inference system | Sampling, beam search, KV Cache, speculative decoding | Understand why serving is also a systems problem |
-| Frontier experiments | Long context, reasoning, VLM components, efficient attention | Turn recent ideas into small runnable examples |
-| Production loop | Evaluation, distillation, deployment concepts | Measure, compress, and serve model behavior |
+| Train a tokenizer | Learn BPE merge rules, train a vocabulary, and save a tokenizer | [BPE notebook](notebooks-en/part1-foundation/02-bpe-tokenizer.ipynb) |
+| Prepare real data | Download, quality-filter, clean, count tokens, split, and pack a Chinese corpus | [Data pipeline](llm_train/preprocess_ufw.py) · [Data engineering](notebooks-en/part2-training/15-data-engineering.ipynb) |
+| Pretrain a Dense model | Train from random weights with RoPE, GQA, SwiGLU, and QK-Norm; 64M class, **61.55M measured parameters** in the reported run | [Configuration](llm_train/configs/firstllm_64m_exp24.yaml) · [Pretraining script](llm_train/train_pretrain.py) |
+| Continue with SFT | Load the pretrained checkpoint, format conversations, and compute loss on assistant answers | [SFT script](llm_train/train_sft.py) · [Training notebook](notebooks-en/part2-training/10-training-loss.ipynb) |
+| Evaluate and diagnose | Validation perplexity, benchmark results, generated examples, and documented failures | [Experiment report](llm_train/reports/exp24_repro_mini_seed42_report.md) · [Evaluation notebook](notebooks-en/part3-inference/25-evaluation.ipynb) |
+| Study small MoE models | Implement routing and expert computation in a notebook; full MoE pretraining recipe is planned | [MoE notebook](notebooks-en/part2-training/13-moe.ipynb) |
+| Explore tool calling | Construct tool-use examples and study the execution loop; end-to-end tool-use SFT is planned | [Function calling](notebooks-en/part2-training/18-function-calling.ipynb) |
+| Extend post-training | Learn LoRA and adapter merging, preference objectives, and distillation; comparative small-model training and merging recipes are planned | [LoRA](notebooks-en/part2-training/16-lora.ipynb) · [Alignment](notebooks-en/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks-en/part4-frontiers/31-opd.ipynb) |
 
-```text
-raw text -> tokens -> embeddings -> attention -> Transformer -> Mini-GPT
-         -> training -> alignment -> inference -> evaluation -> deployment
-```
+The [September 2026 report](llm_train/reports/exp24_repro_mini_seed42_report.md) records a mini-tier Dense run with pretraining loss **8.93 → 2.74**, followed by SFT loss **about 2.3 → 1.65**. It also records incomplete benchmark tasks. Follow the report for the exact model, data, and hardware protocol.
+
+The tokenizer training lab and this reported Dense run are separate experiments: the report uses an existing MiniMind 6,400-token vocabulary. Follow its tokenizer and data protocol when reproducing the reported numbers. Data files, intermediate artifacts, and checkpoints must be prepared locally.
+
+## Data Preparation
+
+The executable path in [preprocess_ufw.py](llm_train/preprocess_ufw.py) has four commands: `download`, `clean`, `truncate`, and `pack`.
+
+| Step | Operation | Result to inspect |
+|:---|:---|:---|
+| Download | Fetch Chinese shards from `openbmb/Ultra-FineWeb` | Raw text, quality scores, and source labels |
+| Quality filtering | Convert quality scores to numbers and apply the tier threshold | Retained documents and their score distribution |
+| Cleaning | Use Data-Juicer for HTML removal, Unicode repair, whitespace normalization, and length filtering | Cleaned JSONL and retained document counts |
+| Token budget | Count actual BPE tokens and retain documents in score order up to the tier budget | Per-source statistics and a truncation manifest |
+| Training preparation | Split documents into training/validation sets, add EOS boundaries, and pack token sequences | `train.bin`, `val.bin`, `val.jsonl`, and a packing manifest |
+
+The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) also explains deduplication and data quality. This particular Ultra-FineWeb pipeline relies on upstream deduplication and deliberately skips an additional SimHash pass; its code comments document the observed false deletions. Dataset scale and retained counts should always come from the generated manifests.
+
+## Learning Roadmap
+
+<p align="center">
+  <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="Learning roadmap across foundations, data and training, post-training, inference, frontier topics, and hardware appendices" width="920"></a>
+</p>
+
+Follow the foundations first, then choose a route:
+
+- **Train a model:** BPE → Mini-GPT → loss and first update → data preparation → Dense pretraining → SFT → evaluation.
+- **Understand modern architectures:** modern blocks → GQA / MLA → MoE → scaling and parallelism.
+- **Improve and serve a model:** LoRA / alignment / distillation → generation → KV Cache → quantization → inference systems.
+
+The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. The original diagrams take structural inspiration from [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course), and map this repository's own content.
 
 ## Curriculum
 
@@ -196,10 +132,12 @@ can follow the full sequence or jump directly to a topic.
 
 1. Start with Tokenizer and BPE to see how text becomes model input.
 2. Build Embedding, position encoding, and Self-Attention before assembling Mini-GPT.
-3. Study training loss and data engineering before moving to scaling and distributed training.
+3. Follow [loss and the first parameter update](notebooks-en/part2-training/09a-loss-and-first-update.ipynb), then data engineering before moving to scaling and distributed training.
 4. Learn LoRA and alignment only after the base training loop is clear.
 5. Continue with generation, KV Cache, and speculative decoding to connect modeling with systems.
 6. Treat frontier and production notebooks as extensions once the core path feels comfortable.
+
+Advanced appendices cover probability and information, FLOPs and memory, mixed precision, FlashAttention, communication, parallelism, kernels, GPU hardware, and diffusion language models. See the [appendix directory](notebooks-en/appendix-advanced/).
 
 ## Quick Start
 
@@ -260,6 +198,9 @@ Language layout:
 - Chinese source notebooks: `notebooks/`
 - English notebook mirror: `notebooks-en/`
 
+<details>
+<summary>Develop the web reader locally</summary>
+
 ### Run the Web Reader Locally
 
 The React/Vite reader renders the original `.ipynb` files directly, so the website and notebooks
@@ -277,54 +218,70 @@ npm run build
 npm run preview
 ```
 
-## Project Status
+</details>
 
-This repository is active courseware. Content is expanded and refined with an emphasis on clear
-explanations, runnable examples, and a stable learning path.
+## Project Status
 
 | Area | Current status |
 |:---|:---|
-| Chinese course | Source edition with 30+ notebooks across the complete learning path |
-| English course | Bilingual mirror available; translation and numbering continue to be synchronized |
-| Web reader | React/Vite course reader with language switching and direct Notebook rendering |
-| Static site | Published through GitHub Pages |
-| Quality checks | Notebook coverage, syntax, output-language checks, and web build |
+| Course | Chinese source notebooks, English mirror, four main parts, and advanced systems appendices |
+| Dense training | Data processing, pretraining, SFT, evaluation scripts, and a recorded 64M-class experiment in `llm_train/` |
+| Online access | Bilingual reader, Colab / ModelScope notebook links, and AMD project template |
+| Development | Active updates to explanations, bilingual consistency, and experiment reproduction |
 
-### Roadmap
+### Next Training Experiments
 
-- Deepen the data, training, systems, and evaluation material.
-- Continue polishing the progression from intuition to implementation.
-- Add a reproducible, end-to-end small-model pretraining workflow.
-- Expand evaluation coverage with benchmark design, judge prompts, aggregation, and failure
-  analysis.
+- Consolidate the Dense recipe with consistent tokenizer, data manifests, checkpoint export, and complete evaluation.
+- Add a small MoE pretraining recipe and publish both total and active parameter counts with its configuration.
+- Train and evaluate a small tool-calling model, including executable calls and recovery from errors.
+- Compare small-model preference training, distillation, and model merging against explicit baselines.
+- Continue refining the examples, hand calculations, and data / systems appendices.
 
-## Educational Scope
+## Course Preview
 
-Modern LLM Notebook is intentionally an educational reference implementation.
+<details>
+<summary>Preview the bilingual course reader</summary>
 
-It is not:
+<p align="center">
+  <img src="assets/readme/home-en.png" alt="Modern LLM Notebook course map" width="920">
+</p>
 
-- A production LLM training or serving framework.
-- A model zoo or a collection of pretrained weights.
-- A wrapper around hosted model APIs.
-- A substitute for optimized libraries used in large-scale production.
-- A shortcut that hides core implementations behind `transformers` imports.
+<p align="center">
+  <em>A bilingual course map connects foundations, training, inference, frontier topics,
+  and production systems.</em>
+</p>
 
-Dependencies such as `transformers` and `datasets` may appear for comparison or supporting tasks,
-but the teaching path keeps the important algorithms explicit.
+<p align="center">
+  <img src="assets/readme/notebook-reader-en.png" alt="Modern LLM Notebook reader" width="920">
+</p>
 
-## Quality Bar
+<p align="center">
+  <em>Every notebook keeps the learning loop visible: intuition, hand calculation,
+  implementation, and experiment.</em>
+</p>
 
-Course material follows a consistent standard:
+</details>
 
-- Concepts begin with motivation and a plain-language definition.
-- Core algorithms include a concrete example or hand calculation.
-- Code cells stay small, readable, and observable.
-- Comments explain why an operation exists and what its values or shapes mean.
-- Randomized experiments use fixed seeds when appropriate.
-- Visualizations use English labels for reliable rendering across environments.
-- Every notebook is self-contained and does not depend on hidden state from earlier notebooks.
-- Each notebook ends with a checklist that helps learners verify their understanding.
+## What's New
+
+**Aug 2026 — Part 3 (Inference, notebooks 20-26) fully rebuilt.** All seven inference
+notebooks were rewritten in the Part 1 house style: intuition first, problem-chain
+narrative, summary checklists, and 3 self-checking homework problems each. Highlights:
+
+- **Quantization (22)**: FP8/FP4 formats with a grid experiment, GGUF/K-quant details,
+  and an end-to-end walkthrough producing GPTQ/FP8 (llm-compressor), AWQ (AutoAWQ),
+  and GGUF (llama.cpp with imatrix), then serving each one
+- **Speculative decoding (23)**: a runnable speculative-sampling loop with measured
+  acceptance and speedup
+- **Inference systems (24)**: batching/paging/prefix-caching simulators; refreshed
+  vLLM and SGLang deployment workflows
+- **Evaluation (25)**: pipeline view of an eval run, real example items from
+  MMLU/C-Eval/CMMLU/GSM8K/HumanEval, a tooling map (lm-evaluation-harness /
+  OpenCompass / EvalScope), confidence intervals, plus a hands-on lab that registers
+  a custom Chinese benchmark into lm-eval via YAML, scores GPT-2 vs Qwen2.5-0.5B,
+  and reproduces a tech-report-style bar chart
+- **Deployment (26)**: serving quantized checkpoints and tying back to the
+  pre-launch evaluation checklist
 
 ## Papers and Systems
 
@@ -357,7 +314,9 @@ modern-llm-notebook/
 │   ├── part2-training/
 │   ├── part3-inference/
 │   ├── part4-frontiers/
+│   └── appendix-advanced/
 ├── notebooks-en/        # English notebook mirror
+├── llm_train/           # Data processing, training, evaluation, and experiment reports
 ├── assets/              # README and course assets
 ├── web/                 # React/Vite course reader
 ├── scripts/             # Notebook maintenance and verification scripts

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1320" viewBox="0 0 1440 1320" role="img" aria-labelledby="title desc">
+<title id="title">A roadmap for understanding modern LLMs</title>
+<desc id="desc">Build the foundations, then choose architecture, training, or inference topics.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#8796aa"/></marker></defs>
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="56" y="42" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="700">WALKINGLABS / MODERN LLM NOTEBOOK</text>
+<text x="56" y="93" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="35" font-weight="700">A roadmap for understanding modern LLMs</text>
+<text x="56" y="129" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="400">Build the foundations, then choose architecture, training, or inference topics.</text>
+<rect x="56" y="163" width="1328" height="72" rx="12" fill="#17253c" stroke="none" stroke-width="1.5"/>
+<text x="82" y="208" fill="#ffffff" font-family="DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="400">Learning path: a concrete example &gt; step-by-step calculation &gt; implementation &gt; experiment</text>
+<rect x="56" y="273" width="314" height="560" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="72" y="289" width="282" height="71" rx="9" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="86" y="315" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">01 / FOUNDATIONS</text>
+<text x="86" y="342" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">Build a small GPT</text>
+<text x="78" y="394" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Tokenizer + BPE</text>
+<text x="78" y="421" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Learn and inspect a vocabulary</text>
+<path d="M78 449 L348 449" stroke="#edf0f5"/>
+<text x="78" y="479" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Embedding + positions</text>
+<text x="78" y="506" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Trace IDs into vectors</text>
+<path d="M78 534 L348 534" stroke="#edf0f5"/>
+<text x="78" y="564" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Attention + masking</text>
+<text x="78" y="591" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Compute Q, K, V step by step</text>
+<path d="M78 619 L348 619" stroke="#edf0f5"/>
+<text x="78" y="649" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Transformer + Mini-GPT</text>
+<text x="78" y="676" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Assemble the forward pass</text>
+<path d="M78 704 L348 704" stroke="#edf0f5"/>
+<text x="78" y="734" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Loss + first update</text>
+<text x="78" y="761" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Observe one gradient step</text>
+<path d="M370 535 L386 535" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="394" y="273" width="314" height="560" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="410" y="289" width="282" height="71" rx="9" fill="#edf8f4" stroke="none" stroke-width="1.5"/>
+<text x="424" y="315" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">02 / DATA + TRAINING</text>
+<text x="424" y="342" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">Train from random weights</text>
+<text x="416" y="394" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Data preparation</text>
+<text x="416" y="421" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Filter, clean, count, split,</text>
+<text x="416" y="442" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">pack</text>
+<path d="M416 449 L686 449" stroke="#edf0f5"/>
+<text x="416" y="479" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Modern blocks</text>
+<text x="416" y="506" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">RMSNorm / SwiGLU / RoPE</text>
+<path d="M416 534 L686 534" stroke="#edf0f5"/>
+<text x="416" y="564" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">GQA / MLA / MoE</text>
+<text x="416" y="591" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Compare architecture choices</text>
+<path d="M416 619 L686 619" stroke="#edf0f5"/>
+<text x="416" y="649" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Pretraining</text>
+<text x="416" y="676" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Dense scripts + run reports</text>
+<path d="M416 704 L686 704" stroke="#edf0f5"/>
+<text x="416" y="734" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Scaling + parallelism</text>
+<text x="416" y="761" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Estimate resources and costs</text>
+<path d="M708 535 L724 535" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="732" y="273" width="314" height="560" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="748" y="289" width="282" height="71" rx="9" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="762" y="315" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">03 / POST-TRAINING</text>
+<text x="762" y="342" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">Adapt model behavior</text>
+<text x="754" y="394" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">SFT + LoRA</text>
+<text x="754" y="421" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Chat templates and loss masks</text>
+<path d="M754 449 L1024 449" stroke="#edf0f5"/>
+<text x="754" y="479" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Tool calling</text>
+<text x="754" y="506" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Examples, execution, agent</text>
+<text x="754" y="527" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">loop</text>
+<path d="M754 534 L1024 534" stroke="#edf0f5"/>
+<text x="754" y="564" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">RLHF / PPO / DPO</text>
+<text x="754" y="591" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Explain preference objectives</text>
+<path d="M754 619 L1024 619" stroke="#edf0f5"/>
+<text x="754" y="649" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Distillation / OPD</text>
+<text x="754" y="676" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Study teacher-student learning</text>
+<path d="M754 704 L1024 704" stroke="#edf0f5"/>
+<text x="754" y="734" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Model merging</text>
+<text x="754" y="761" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Merge adapters; explore</text>
+<text x="754" y="782" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">recipes</text>
+<path d="M1046 535 L1062 535" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1070" y="273" width="314" height="560" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="1086" y="289" width="282" height="71" rx="9" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="1100" y="315" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">04 / INFERENCE</text>
+<text x="1100" y="342" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">Measure speed and memory</text>
+<text x="1092" y="394" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Generation</text>
+<text x="1092" y="421" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Sampling and decoding choices</text>
+<path d="M1092 449 L1362 449" stroke="#edf0f5"/>
+<text x="1092" y="479" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">KV cache</text>
+<text x="1092" y="506" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Avoid repeated computation</text>
+<path d="M1092 534 L1362 534" stroke="#edf0f5"/>
+<text x="1092" y="564" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Quantization</text>
+<text x="1092" y="591" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Precision, memory, and quality</text>
+<path d="M1092 619 L1362 619" stroke="#edf0f5"/>
+<text x="1092" y="649" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Speculative decoding</text>
+<text x="1092" y="676" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Draft, verify, accept, correct</text>
+<path d="M1092 704 L1362 704" stroke="#edf0f5"/>
+<text x="1092" y="734" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="700">Systems + evaluation</text>
+<text x="1092" y="761" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Batching, serving, and metrics</text>
+<text x="56" y="878" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="700">FRONTIER TOPICS + SYSTEMS APPENDICES</text>
+<rect x="56" y="905" width="412" height="130" rx="12" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="78" y="943" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">Long context + reasoning</text>
+<text x="78" y="977" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">RoPE extrapolation / YaRN</text>
+<text x="78" y="1002" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">Test-time compute / thinking</text>
+<rect x="514" y="905" width="412" height="130" rx="12" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="536" y="943" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">Multimodal + efficient models</text>
+<text x="536" y="977" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">VLM components / efficient attention</text>
+<text x="536" y="1002" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">SSM and diffusion LM topics</text>
+<rect x="972" y="905" width="412" height="130" rx="12" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="994" y="943" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="19" font-weight="700">Hardware + distributed systems</text>
+<text x="994" y="977" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">FLOPs / memory / mixed precision</text>
+<text x="994" y="1002" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">Collectives / parallelism / kernels</text>
+<rect x="56" y="1070" width="1328" height="110" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<text x="80" y="1107" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">CHOOSE AN ENTRY POINT</text>
+<text x="80" y="1140" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="400">Read online  /  Open a chapter in Colab or ModelScope  /  Launch the AMD project template</text>
+<text x="56" y="1226" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">The learning scope includes topic notebooks, focused experiments, and planned full training recipes.</text>
+<text x="56" y="1258" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">For implementation status and reproduction details, follow the linked notebooks, scripts, and reports in the README.</text>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1190" viewBox="0 0 1440 1190" role="img" aria-labelledby="title desc">
+<title id="title">From raw text to a small language model</title>
+<desc id="desc">Follow the artifacts: cleaned data, tokenizer, checkpoints, and evaluation.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#8796aa"/></marker></defs>
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="56" y="42" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="700">WALKINGLABS / MODERN LLM NOTEBOOK</text>
+<text x="56" y="93" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="35" font-weight="700">From raw text to a small language model</text>
+<text x="56" y="129" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="400">Follow the artifacts: cleaned data, tokenizer, checkpoints, and evaluation.</text>
+<rect x="56" y="155" width="18" height="18" rx="4" fill="#edf8f4" stroke="#177b63" stroke-width="1.5"/>
+<text x="86" y="170" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">Training scripts + reports</text>
+<rect x="435" y="155" width="18" height="18" rx="4" fill="#edf3ff" stroke="#416cb5" stroke-width="1.5"/>
+<text x="465" y="170" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">Tutorials + focused experiments</text>
+<rect x="908" y="155" width="18" height="18" rx="4" fill="#fff7e9" stroke="#ac701c" stroke-width="1.5" stroke-dasharray="8 6"/>
+<text x="938" y="170" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400">Planned end-to-end training</text>
+<rect x="56" y="205" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="74" y="223" width="42" height="30" rx="8" fill="#edf8f4" stroke="none" stroke-width="1.5"/>
+<text x="84" y="244" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">01</text>
+<text x="129" y="244" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">SCRIPTS / REPORTS</text>
+<text x="78" y="286" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Prepare the data</text>
+<text x="78" y="322" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Download + quality-score filtering</text>
+<text x="78" y="349" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Data-Juicer: HTML / Unicode / length</text>
+<text x="78" y="376" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Inspect the data retained at each step</text>
+<rect x="514" y="205" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="532" y="223" width="42" height="30" rx="8" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="542" y="244" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">02</text>
+<text x="587" y="244" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">TOKENIZER TRAINING LAB</text>
+<text x="536" y="286" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Train a BPE tokenizer</text>
+<text x="536" y="322" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Learn vocabulary + merge rules</text>
+<text x="536" y="349" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Inspect token IDs and compression</text>
+<text x="536" y="376" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Save and reuse the tokenizer</text>
+<rect x="972" y="205" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="990" y="223" width="42" height="30" rx="8" fill="#edf8f4" stroke="none" stroke-width="1.5"/>
+<text x="1000" y="244" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">03</text>
+<text x="1045" y="244" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">SCRIPTS / REPORTS</text>
+<text x="994" y="286" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Pretrain the Dense model</text>
+<text x="994" y="322" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">64M class / 61.55M measured</text>
+<text x="994" y="349" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Random weights + next-token loss</text>
+<text x="994" y="376" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Track loss; save checkpoints</text>
+<path d="M468 310 L506 310" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M926 310 L964 310" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="56" y="440" width="1328" height="72" rx="12" fill="#eaf0f7" stroke="none" stroke-width="1.5"/>
+<text x="78" y="469" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">DATA TO TRAINING</text>
+<text x="78" y="495" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Count real BPE tokens  &gt;  Apply token budget  &gt;  Split train / validation  &gt;  Pack sequences + write manifest</text>
+<path d="M1178 416 L1178 539" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="972" y="548" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="990" y="566" width="42" height="30" rx="8" fill="#edf8f4" stroke="none" stroke-width="1.5"/>
+<text x="1000" y="587" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">04</text>
+<text x="1045" y="587" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">SCRIPTS / REPORTS</text>
+<text x="994" y="629" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Continue with SFT</text>
+<text x="994" y="665" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Reuse the pretrained checkpoint</text>
+<text x="994" y="692" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Chat template + assistant-only loss</text>
+<text x="994" y="719" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Compare responses before / after</text>
+<rect x="514" y="548" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="532" y="566" width="42" height="30" rx="8" fill="#edf8f4" stroke="none" stroke-width="1.5"/>
+<text x="542" y="587" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">05</text>
+<text x="587" y="587" fill="#177b63" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">SCRIPTS / REPORTS</text>
+<text x="536" y="629" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Evaluate and diagnose</text>
+<text x="536" y="665" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Validation PPL + lm-eval</text>
+<text x="536" y="692" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Generated answers + failure cases</text>
+<text x="536" y="719" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Keep protocol and model size explicit</text>
+<rect x="56" y="548" width="412" height="211" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5"/>
+<rect x="74" y="566" width="42" height="30" rx="8" fill="#edf3ff" stroke="none" stroke-width="1.5"/>
+<text x="84" y="587" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">06</text>
+<text x="129" y="587" fill="#416cb5" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">TUTORIAL / LAB</text>
+<text x="78" y="629" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Study inference systems</text>
+<text x="78" y="665" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">KV cache, quantization, speculation</text>
+<text x="78" y="692" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Batching and memory experiments</text>
+<text x="78" y="719" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Connect implementations to serving</text>
+<path d="M972 653 L934 653" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M514 653 L476 653" fill="none" stroke="#8796aa" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="56" y="806" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="700">EXTEND THE EXPERIMENTS</text>
+<text x="56" y="837" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="400">The course already explains these methods; full training recipes are the next steps.</text>
+<rect x="56" y="863" width="412" height="187" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="74" y="881" width="42" height="30" rx="8" fill="#fff7e9" stroke="none" stroke-width="1.5"/>
+<text x="84" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">A</text>
+<text x="129" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">PLANNED TRAINING</text>
+<text x="78" y="944" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Small MoE pretraining</text>
+<text x="78" y="980" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Publish total + active parameters</text>
+<text x="78" y="1007" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Compare routing and training behavior</text>
+<rect x="514" y="863" width="412" height="187" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="532" y="881" width="42" height="30" rx="8" fill="#fff7e9" stroke="none" stroke-width="1.5"/>
+<text x="542" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">B</text>
+<text x="587" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">PLANNED TRAINING</text>
+<text x="536" y="944" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Tool-calling training</text>
+<text x="536" y="980" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Build tool-use SFT examples</text>
+<text x="536" y="1007" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Measure real calls and recovery</text>
+<rect x="972" y="863" width="412" height="187" rx="16" fill="white" stroke="#dce3ec" stroke-width="1.5" stroke-dasharray="8 6"/>
+<rect x="990" y="881" width="42" height="30" rx="8" fill="#fff7e9" stroke="none" stroke-width="1.5"/>
+<text x="1000" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">C</text>
+<text x="1045" y="902" fill="#ac701c" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="700">PLANNED TRAINING</text>
+<text x="994" y="944" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="23" font-weight="700">Post-training + merging</text>
+<text x="994" y="980" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Preference / distillation experiments</text>
+<text x="994" y="1007" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400">Compare merging recipes + baselines</text>
+<text x="56" y="1100" fill="#58677d" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">The tokenizer lab and the reported Dense run are separate experiments; use the documented tokenizer for reproduction.</text>
+<text x="56" y="1132" fill="#17253c" font-family="DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="700">Detailed examples  &gt;  Hand calculations  &gt;  PyTorch implementations  &gt;  Observable results</text>
+</svg>

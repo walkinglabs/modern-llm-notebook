@@ -1,7 +1,12 @@
 # Modern LLM Notebook
 
 <p align="center">
-  <strong>用 27 篇可运行 Jupyter Notebook，从零实现现代 LLM 系统。</strong>
+  <strong>用细致的例子和可运行实验，从零理解、实现与训练现代 LLM。</strong>
+</p>
+
+<p align="center">
+  从原始文本清洗、BPE Tokenizer 训练，到 64M 级模型预训练与 SFT；
+  继续探索 MoE、工具调用、小模型后训练与现代推理。
 </p>
 
 <p align="center">
@@ -12,6 +17,10 @@
   <a href="https://walkinglabs.github.io/modern-llm-notebook/"><strong>在线阅读</strong></a>
   ·
   <a href="https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb"><strong>Colab 开始</strong></a>
+  ·
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb"><strong>ModelScope</strong></a>
+  ·
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview"><strong>AMD GPU 模板</strong></a>
   ·
   <a href="https://discord.gg/XU7DQmpqk"><strong>加入 Discord</strong></a>
 </p>
@@ -28,124 +37,138 @@
   </a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB">
   <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C">
-  <img alt="Notebooks" src="https://img.shields.io/badge/Notebooks-32-orange">
   <img alt="Languages" src="https://img.shields.io/badge/Languages-English%20%7C%20Chinese-2ea44f">
 </p>
 
 <p align="center">
-  <a href="#项目概览">项目概览</a> ·
-  <a href="#你会亲手做出什么">你会做出什么</a> ·
-  <a href="#为什么做这个项目">为什么做这个项目</a> ·
-  <a href="#包含什么">包含什么</a> ·
+  <a href="#教程特色">教程特色</a> ·
+  <a href="#从零到一个训练好的模型">训练流程</a> ·
+  <a href="#数据清洗与训练数据准备">数据清洗</a> ·
+  <a href="#课程学习地图">学习地图</a> ·
+  <a href="#notebook-目录">Notebook 目录</a> ·
   <a href="#快速开始">快速开始</a> ·
   <a href="#项目状态">项目状态</a> ·
-  <a href="#课程路线">课程路线</a> ·
-  <a href="#质量标准">质量标准</a> ·
   <a href="#贡献">贡献</a>
 </p>
 
----
+## 教程特色
 
-## 更新日志
+从几个词开始，逐次合并 BPE 字符对；用小矩阵算出 Attention 分数；观察第一次梯度更新前后的 loss。教程把这些过程拆成细小步骤，配合中间数值、张量形状和可运行实验，让每一步的结果都能看清。
 
-### 2026-08 · 推理篇（20-26）全面重写
+- **细致的从零教学。** 按「直觉理解 → 手算验证 → 代码实现 → 实验观察」推进，用 PyTorch 从零实现核心组件。有 Python 和基本矩阵运算基础即可开始。
+- **真实的数据与训练。** 提供数据处理管线、64M 级 Dense 模型的预训练与监督微调（SFT）脚本，以及已有的 AMD MI300X 实验报告。
+- **覆盖现代 LLM 的主要环节。** 从基础组件延伸到 RoPE、GQA、MLA、MoE、LoRA、工具调用、偏好对齐、蒸馏、量化与推理系统。
 
-第三部分「推理与部署」按照 Part 1 的叙事风格整体重建：每章开头先建立直觉再给方案，正文用问题链推进，结尾配小结 checklist 和 3 个可自测的作业。主要内容：
+仓库是一套教学型参考实现：Notebook 用小例子解释机制，训练脚本与报告记录较完整的实验。中文是源版本，同时维护英文镜像；[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)支持中英文切换。
 
-- **生成与解码（20）**：从贪心解码到采样策略的完整实现与实验
-- **推理加速（21）**：KV Cache、算子融合、连续批处理等手段的效果观察
-- **量化（22）**：扩展 FP8/FP4 浮点格式（含网格可视化实验）、GGUF 与 K-quant 细节、格式选择对照表；新增端到端实操——用 llm-compressor 产出 GPTQ/FP8、AutoAWQ 产出 AWQ、llama.cpp 转换并量化 GGUF，再逐个部署起来跑
-- **投机解码的验证机制（23）**：可运行的 speculative sampling 循环，亲手验证接受率与加速比
-- **现代推理引擎（24）**：batching 甘特图、paging、prefix caching 的模拟器实验；vLLM / SGLang 部署流程刷新
-- **评测（25）**：评测流水线视角 + 常见 benchmark 的真实例题（MMLU / C-Eval / CMMLU / GSM8K / HumanEval）+ 评测库地图（lm-evaluation-harness / OpenCompass / 阿里 EvalScope）+ 置信区间；新增实战——把一套自制中文题库用 YAML 注册进 lm-eval，用 GPT-2 和 Qwen2.5-0.5B 真跑分，并画出技术报告风格的跑分图
-- **部署（26）**：量化 checkpoint 直接上线（GPTQ/AWQ 离线、FP8 在线、llama-server），与上线前评测清单衔接
+## 从零到一个训练好的模型
 
----
+<p align="center">
+  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="训练流程：数据准备、Tokenizer 训练、Dense 预训练、SFT、评测与推理；MoE 和工具调用训练为后续扩展" width="920"></a>
+</p>
 
-## 项目概览
-
-Modern LLM Notebook 是一套以 Jupyter Notebook 为主线的现代大语言模型课程。它不是把模型当成
-黑盒调用，而是用 PyTorch 亲手实现核心组件：Tokenizer、Embedding、Attention、Transformer Block、
-训练循环、MoE、LoRA、RLHF、解码、KV Cache、长上下文、VLM、评测、蒸馏和 On-Policy Distillation。
-
-仓库现在同时维护中文与英文两套 Notebook。英文版位于 `notebooks-en/`，覆盖完整 26 章；
-网页阅读器在首页和 Notebook 侧边栏都支持语言切换（也可以在 URL 里用 `?lang=en`），课程目录、Notebook 内容和运行输出都按语言展示。
-
-这个项目的定位是**教学型参考实现**。它不是模型权重仓库，不是生产推理框架，也不是托管 API
-的封装。它的目标是帮助工程师真正看懂 LLM 内部发生了什么，并且能从第一性原理解释关键设计。
-
-每个 Notebook 都遵循同一个学习契约：
-
-```text
-直觉理解 -> 手算验证 -> 代码实现 -> 实验观察
-```
-
-这个契约很重要。读者不应该只知道“BPE 会合并高频字符对”或“KV Cache 会加速生成”，而应该能
-追踪中间数字，写出最小代码，并解释为什么会出现这种行为。
-
-## 你会亲手做出什么
-
-学完整条路线后，你会拥有一套“小而全”的现代 LLM 系统实现：
-
-| 阶段 | 你会实现 | 为什么重要 |
+| 阶段 | 现在可以学习与运行什么 | 入口 |
 |:---|:---|:---|
-| 文本到 token | 字符级、词级、BPE Tokenizer | 看清原始文本如何进入模型 |
-| token 到向量 | Token Embedding、Position Encoding | 理解模型到底在计算什么 |
-| Transformer 核心 | Self-Attention、Multi-Head Attention、Transformer Block、Mini-GPT | 亲手还原核心 forward pass |
-| 训练系统 | Cross-Entropy、batch、梯度流动、Scaling Laws 直觉 | 把 loss 曲线和模型行为连接起来 |
-| 适配与对齐 | LoRA、CPT、Reward Model、PPO/DPO 风格目标 | 理解 base model 如何变成 assistant |
-| 现代推理引擎 | Sampling、Beam Search、KV Cache、Speculative Decoding | 明白为什么推理是系统工程问题 |
-| 前沿方向 | 长上下文、CoT 实验、VLM patch embedding 和 cross-attention | 把新论文拆成可运行的小实验 |
-| 生产闭环 | 评测、胜率矩阵、蒸馏、OPD | 学会衡量、压缩和改进模型行为 |
+| 训练 Tokenizer | 从 BPE 合并规则开始，训练词表并保存分词器 | [BPE 教程](notebooks/part1-foundation/02-bpe-tokenizer.ipynb) |
+| 准备真实数据 | 下载中文语料，完成质量筛选、清洗、Token 计数、划分与打包 | [数据管线](llm_train/preprocess_ufw.py) · [数据工程教程](notebooks/part2-training/15-data-engineering.ipynb) |
+| Dense 模型预训练 | 从随机权重训练包含 RoPE、GQA、SwiGLU、QK-Norm 的模型；64M 级，报告中**实测 61.55M 参数** | [训练配置](llm_train/configs/firstllm_64m_exp24.yaml) · [预训练脚本](llm_train/train_pretrain.py) |
+| 继续 SFT | 加载预训练 checkpoint，构造对话格式，只让 assistant 回答部分承担 loss | [SFT 脚本](llm_train/train_sft.py) · [预训练与微调教程](notebooks/part2-training/10-training-loss.ipynb) |
+| 评测与诊断 | 查看验证集困惑度、benchmark、生成样例与失败记录 | [实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md) · [评测教程](notebooks/part3-inference/25-evaluation.ipynb) |
+| 小型 MoE | 已有路由与专家计算的教学实现；完整预训练配方待补齐 | [MoE 教程](notebooks/part2-training/13-moe.ipynb) |
+| 工具调用 | 已有 Tool Call 数据构造与执行循环示例；端到端工具调用 SFT 待补齐 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) |
+| 小模型后训练与合并 | 已有 LoRA、适配器合并、偏好目标与蒸馏讲解；小模型对照训练和更完整的合并配方待补齐 | [LoRA](notebooks/part2-training/16-lora.ipynb) · [偏好对齐](notebooks/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks/part4-frontiers/31-opd.ipynb) |
 
-```text
-raw text -> tokens -> embeddings -> attention -> Transformer -> Mini-GPT
-         -> training -> alignment -> inference -> evaluation -> distillation
-```
+[2026 年 9 月的实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)记录了 mini 档 Dense 模型的预训练 loss **8.93 → 2.74**，随后 SFT loss **约 2.3 → 1.65**，同时列出未完成的评测任务。完整的参数、数据和硬件口径见报告。
 
-## 为什么做这个项目
+Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：报告使用已有的 MiniMind 6,400 词表。复现报告数字时，应采用报告指定的 Tokenizer 与数据口径；数据、中间产物和 checkpoint 需要自行准备。
 
-LLM 学习资料常见两个极端。
+## 数据清洗与训练数据准备
 
-一类资料很严谨，但进入门槛高：公式和论文名先出现，读者还不知道这个概念到底在解决什么问题。
-另一类资料很容易跑起来，但封装太重：关键过程藏在一个函数调用后面，读者很难建立真实的系统感。
+[preprocess_ufw.py](llm_train/preprocess_ufw.py)提供 `download`、`clean`、`truncate`、`pack` 四个命令，串起从原始语料到训练文件的流程。
 
-Modern LLM Notebook 选择中间路线：把现代 LLM 当成一个可以拆解、测试、重建的系统。它不是要
-替代论文或生产级框架，而是帮你建立足够扎实的心智模型，让你之后读论文、看源码、用框架时更有判断力。
-
-这个项目适合你，如果你想：
-
-- 从原始文本一路理解到 logits 的完整数据流。
-- 不把 GPT 架构当黑盒，亲手搭一个小型 Decoder-only 模型。
-- 看懂训练目标、数据质量、Scaling Laws 之间的关系。
-- 理解为什么推理系统需要 KV Cache、批处理、显存规划和 Speculative Decoding。
-- 把 MoE、长上下文、CoT、VLM、RLHF、DPO、蒸馏等新主题还原成可运行的小实验。
-
-## 包含什么
-
-| 领域 | 主题 | 参考实现 |
+| 步骤 | 具体操作 | 应检查的产物 |
 |:---|:---|:---|
-| 基础组件 | Tokenization、BPE、Embedding、Position Encoding | `CharTokenizer`, `WordTokenizer`, `BPETokenizer`, `TokenEmbedding` |
-| Transformer 核心 | Self-Attention、Multi-Head Attention、Transformer Block | `MultiHeadAttention`, `TransformerBlock`, `MiniGPT` |
-| 架构优化 | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA、MoE | `RMSNorm`, `SwiGLU`, `RoPE`, `GroupedQueryAttention`, `MultiHeadLatentAttention`, `MoELayer` |
-| 训练 | Loss、优化、Scaling Laws、数据工程、MTP、FIM | 训练循环、梯度累积、MinHash 去重、Multi-Token Prediction、Fill-in-the-Middle |
-| 适配与对齐 | LoRA、Reward Model、PPO、DPO | `LoraLinear`, Reward Model loss, PPO clip, DPO loss |
-| 推理 | Sampling、Beam Search、KV Cache、Speculative Decoding | Top-k、Top-p、Beam Search、`AttentionWithKVCache` |
-| 前沿能力 | 长上下文、推理链、VLM、Sliding Window Attention | RoPE 外推、Self-Consistency、Cross-Attention、Sliding Window mask |
-| 生产概念 | 评测、蒸馏、On-Policy Distillation | 胜率矩阵、软标签、KL 估计器 |
+| 下载语料 | 从 `openbmb/Ultra-FineWeb` 获取中文分片 | 原始文本、质量分数、来源标签 |
+| 质量筛选 | 将质量分数转成数值，按 mini / full 档阈值过滤 | 保留文档及其分数分布 |
+| 文本清洗 | 用 Data-Juicer 去除 HTML、修复 Unicode、规范空白、过滤长度 | 清洗后的 JSONL 与保留文档数 |
+| 控制 Token 预算 | 用真实 BPE Token 计数，按分数顺序累加到预算 | 来源统计、截断 manifest |
+| 准备训练文件 | 按文档划分训练/验证集，加入 EOS 边界并打包 Token 序列 | `train.bin`、`val.bin`、`val.jsonl` 与打包 manifest |
 
-## 这个项目不是什么
+[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)还会解释去重与数据质量。这条 Ultra-FineWeb 实战管线依赖上游去重，明确跳过额外的 SimHash 去重；代码注释记录了实验中观察到的误删问题。语料规模和最终保留量以运行生成的 manifest 为准。
 
-为了让学习路径保持清晰，这个仓库有意不做几件事：
+## 课程学习地图
 
-- 它不是生产级 LLM 框架。
-- 它不追求最大吞吐量或分布式训练性能。
-- 它不提供预训练模型权重。
-- 它不会用 `transformers` 跳过核心实现。
-- 它不假设读者已经理解所有术语。
+<p align="center">
+  <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="课程学习地图：基础、数据与训练、后训练、推理，以及前沿专题和硬件系统附录" width="920"></a>
+</p>
 
-环境里可能会包含 `transformers`、`datasets` 等依赖，用于对照或辅助实验；但核心教学路径会尽量把
-算法过程显式写出来。
+建议先走共同基础，再选择感兴趣的路线：
+
+- **训练一个模型：** BPE → Mini-GPT → loss 与第一次更新 → 数据准备 → Dense 预训练 → SFT → 评测。
+- **理解现代架构：** 现代模型组件 → GQA / MLA → MoE → 缩放定律与并行训练。
+- **改进并运行模型：** LoRA / 对齐 / 蒸馏 → 解码 → KV Cache → 量化 → 推理系统。
+
+学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。两张图参考了 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的组织方式，按本仓库内容重新绘制。
+
+## Notebook 目录
+
+主体课程按四个部分组织。每个 Notebook 尽量自包含，可以顺序学习，也可以按主题查阅。
+
+### Part 1: Foundation
+
+| # | Notebook | 核心问题 | 实现重点 |
+|:---:|:---|:---|:---|
+| 01 | [文本与 Tokenizer](notebooks/part1-foundation/01-tokenizer-basics.ipynb) | 模型为什么需要 Tokenizer？ | 字符级和词级 Tokenizer |
+| 02 | [BPE：子词词表学习](notebooks/part1-foundation/02-bpe-tokenizer.ipynb) | BPE 如何从语料里学习词表？ | Merge rules、encode、decode |
+| 03 | [Token Embedding 与分布式表示](notebooks/part1-foundation/03-embedding.ipynb) | Token ID 如何变成向量？ | Token Embedding、分布式表示 |
+| 04 | [位置编码](notebooks/part1-foundation/04-position-encoding.ipynb) | 模型如何感知词的顺序？ | 正弦位置编码、输入组装 |
+| 05 | [Self-Attention 与 Transformer Block](notebooks/part1-foundation/05-transformer-block.ipynb) | Attention 如何搬运上下文信息？ | MHA、残差、归一化 |
+| 06 | [从零实现 GPT](notebooks/part1-foundation/06-mini-gpt.ipynb) | GPT 风格模型如何组装起来？ | Decoder-only 模型、LM head |
+| 07 | [BERT 编码器](notebooks/part1-foundation/07-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
+
+### Part 2: Training
+
+| # | Notebook | 核心问题 | 实现重点 |
+|:---:|:---|:---|:---|
+| 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
+| 09 | [读懂大模型的配置文件](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
+| 09a | [Loss 与第一次参数更新](notebooks/part2-training/09a-loss-and-first-update.ipynb) | 模型怎样从第一次错误中学习？ | logits、Cross-Entropy、梯度与参数更新 |
+| 10 | [语言模型的预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | MiniGPT 如何完成训练，并映射到工业训练接口？ | 训练循环、Chat Template、MTP、Trainer、SWIFT、标签偏移 |
+| 11 | [KV Cache 及架构演进](notebooks/part2-training/11-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
+| 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
+| 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
+| 14 | [缩放定律与算力预算](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | 幂律、Kaplan/Chinchilla/过度训练、FLOPs/GPU-hours/显存估算 |
+| 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
+| 16 | [LoRA 低秩微调](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
+| 17 | [知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
+| 18 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
+| 19 | [偏好对齐与 RLHF](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
+
+### Part 3: Inference
+
+| # | Notebook | 核心问题 | 实现重点 |
+|:---:|:---|:---|:---|
+| 20 | [解码策略](notebooks/part3-inference/20-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
+| 21 | [推理加速与优化](notebooks/part3-inference/21-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
+| 22 | [低比特量化](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
+| 23 | [投机解码的验证机制](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
+| 24 | [现代推理引擎](notebooks/part3-inference/24-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
+| 25 | [评测方法论](notebooks/part3-inference/25-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
+| 26 | [模型部署与服务化](notebooks/part3-inference/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
+
+### Part 4: Frontiers
+
+| # | Notebook | 核心问题 | 实现重点 |
+|:---:|:---|:---|:---|
+| 27 | [长上下文](notebooks/part4-frontiers/27-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
+| 28 | [推理模型与推理时计算](notebooks/part4-frontiers/28-cot-thinking.ipynb) | 先想再答为什么更准？推理时多花算力还能提升多少？ | R1-Zero、Test-Time Scaling、思考预算控制 |
+| 29 | [视觉语言模型](notebooks/part4-frontiers/29-vlm.ipynb) | 图像信息如何进入语言模型？ | Patch Embedding、Cross-Attention |
+| 30 | [高效 Attention](notebooks/part4-frontiers/30-efficient-attention.ipynb) | 怎么把 attention 复杂度从 O(N²) 压到 O(N)？ | Linear attention、SSM/Mamba、稀疏注意力、Hybrid 架构 |
+| 31 | [在线策略蒸馏（OPD）](notebooks/part4-frontiers/31-opd.ipynb) | 蒸馏如何减少 exposure bias？ | OPSD、KL 估计器分类 |
+
+### 进阶附录
+
+概率与信息论、FLOPs 与显存、混合精度、FlashAttention、集合通信、并行策略、Kernel、GPU 硬件与 Diffusion LM，见 [进阶附录目录](notebooks/appendix-advanced/)。
 
 ## 快速开始
 
@@ -193,7 +216,7 @@ source .venv/bin/activate
 语言说明：
 
 - 中文版 Notebook：`notebooks/`
-- 英文版 Notebook：`notebooks-en/`（26/26 全量覆盖；编号重排待同步）
+- 英文版 Notebook：`notebooks-en/`
 
 推荐环境：
 
@@ -204,13 +227,15 @@ source .venv/bin/activate
 
 大部分 Notebook 可以在 CPU 上运行。训练实验较重的章节建议使用 GPU。
 
+<details>
+<summary>网页阅读器开发与受限环境执行</summary>
+
 ### 网页阅读器
 
 仓库里也包含一个 React / Vite 阅读器，可以用更接近课程网站的方式浏览 Notebook。
 阅读器直接读取仓库中的 `.ipynb` 原文并在前端渲染，不维护额外的网页内容副本。
 
 ```bash
-cd web
 npm install
 npm run dev
 ```
@@ -218,7 +243,6 @@ npm run dev
 构建并预览静态网站：
 
 ```bash
-cd web
 npm run build
 npm run preview
 ```
@@ -226,145 +250,68 @@ npm run preview
 ### 在受限环境中批量执行 Notebook（英文版）
 
 有些沙箱/CI 环境会禁止打开本地 socket，这会导致标准的 Jupyter kernel 协议（以及 `nbclient`、
-`nbconvert --execute`）执行失败。为这种场景仓库提供了一个“无 kernel 执行器”，用纯 Python 顺序执行
+`nbconvert --execute`）执行失败。为这种场景仓库提供了一个「无 kernel 执行器」，用纯 Python 顺序执行
 code cells，并把输出写回到英文版 notebook 文件：
 
 ```bash
 python scripts/execute_notebooks_en_no_kernel.py
 ```
 
+</details>
+
 ## 项目状态
 
-| 模块 | 状态 |
+| 模块 | 当前状态 |
 |:---|:---|
-| 中文 Notebook | 27/27 完整覆盖 |
-| 英文 Notebook | 26/26 全量覆盖；编号重排待同步 |
-| 网页阅读器 | React / Vite，支持首页和侧边栏语言切换 |
-| 静态站点 | 通过 GitHub Pages 发布 |
-| 质量检查 | 英文覆盖、语法、输出语言、网页构建 |
-| 下一步重点 | 结合 CS336/CME295 深化内容、润色讲解、补齐可复现预训练流程、完善 eval benchmark |
+| 课程 | 中文源 Notebook、英文镜像、四个主体部分与进阶系统附录 |
+| Dense 训练 | `llm_train/` 已有数据处理、预训练、SFT、评测脚本与 64M 级实验记录 |
+| 在线入口 | 双语阅读器、Colab / ModelScope Notebook 链接、AMD 项目模板 |
+| 持续完善 | 细化讲解、同步双语内容、整理实验复现方式 |
 
-### 近期路线图
+### 后续训练实验
 
-1. 结合 CS336 和 CME295 补充内容，尤其是数据、训练、系统和评测部分。
-2. 润色现有 Notebook 的内容流畅度，让讲解从直觉、手算到代码更自然。
-3. 参考 SmolLM 的预训练过程，补一条从 0 到 1 可复现的小模型预训练流程。
-4. 完善 eval benchmark 的细致程度，包括 benchmark 设计、指标、judge prompt、结果聚合和失败案例分析。
+1. 整理 Dense 复现配方，统一 Tokenizer、数据 manifest、checkpoint 导出与完整评测。
+2. 补齐小型 MoE 预训练配方，随配置公布总参数量与激活参数量。
+3. 训练并评测小型工具调用模型，验证真实调用与错误恢复。
+4. 为小模型的偏好训练、蒸馏与模型合并增加明确基线和对照实验。
+5. 继续打磨具体例子、手算过程，以及数据与系统附录。
 
-## 课程路线
+## 阅读器预览
 
-课程分为 5 个部分，共 27 个自包含 Notebook。
+<details>
+<summary>展开查看双语课程阅读器</summary>
 
-```text
-Modern LLM Notebook
-│
-├── Part 1: Foundation
-│   ├── 文本与 Tokenizer
-│   ├── BPE 子词词表
-│   ├── Token Embedding 与分布式表示
-│   ├── 位置编码
-│   ├── Self-Attention 与 Transformer Block
-│   ├── 从零实现 GPT
-│   └── BERT Encoder
-│
-├── Part 2: Training
-│   ├── 现代语言模型架构演进
-│   ├── 读懂大模型的配置文件
-│   ├── 语言模型的预训练与微调
-│   ├── KV Cache 及架构演进
-│   ├── 分布式训练：工业界的标准工具链
-│   ├── 从 dense 到 MoE 架构
-│   ├── 缩放定律与算力预算
-│   ├── 预训练数据工程
-│   ├── LoRA 低秩微调
-│   ├── 知识蒸馏
-│   ├── 函数调用与 Agent
-│   └── 偏好对齐与 RLHF
-│
-├── Part 3: Inference
-│   ├── 自回归生成与解码
-│   ├── 推理加速与优化
-│   ├── 低比特量化
-│   ├── 投机解码的验证机制
-│   ├── 现代推理引擎
-│   ├── 评测方法论
-│   └── 模型部署与服务化
-│
-└── Part 4: Frontiers
-    ├── 长上下文
-    ├── 推理模型与推理时计算
-    ├── 视觉语言模型
-    ├── 高效 Attention
-    └── 在线策略蒸馏（OPD）
-```
+<p align="center">
+  <img src="assets/readme/home-en.png" alt="Modern LLM Notebook course map" width="920">
+</p>
 
-每个 Notebook 都尽量自包含。你可以顺序学习，也可以直接跳到感兴趣的主题，不依赖前面 Notebook
-的运行时状态。
+<p align="center">
+  <em>双语课程地图连接基础、训练、推理、前沿专题与系统内容。</em>
+</p>
 
-## Notebook 目录
+<p align="center">
+  <img src="assets/readme/notebook-reader-en.png" alt="Modern LLM Notebook reader" width="920">
+</p>
 
-### Part 1: Foundation
+<p align="center">
+  <em>阅读器直接展示 Notebook，方便跟随直觉、手算、实现与实验的学习过程。</em>
+</p>
 
-| # | Notebook | 核心问题 | 实现重点 |
-|:---:|:---|:---|:---|
-| 01 | [文本与 Tokenizer](notebooks/part1-foundation/01-tokenizer-basics.ipynb) | 模型为什么需要 Tokenizer？ | 字符级和词级 Tokenizer |
-| 02 | [BPE：子词词表学习](notebooks/part1-foundation/02-bpe-tokenizer.ipynb) | BPE 如何从语料里学习词表？ | Merge rules、encode、decode |
-| 03 | [Token Embedding 与分布式表示](notebooks/part1-foundation/03-embedding.ipynb) | Token ID 如何变成向量？ | Token Embedding、分布式表示 |
-| 04 | [位置编码](notebooks/part1-foundation/04-position-encoding.ipynb) | 模型如何感知词的顺序？ | 正弦位置编码、输入组装 |
-| 05 | [Self-Attention 与 Transformer Block](notebooks/part1-foundation/05-transformer-block.ipynb) | Attention 如何搬运上下文信息？ | MHA、残差、归一化 |
-| 06 | [从零实现 GPT](notebooks/part1-foundation/06-mini-gpt.ipynb) | GPT 风格模型如何组装起来？ | Decoder-only 模型、LM head |
-| 07 | [BERT 编码器](notebooks/part1-foundation/07-bert-encoder.ipynb) | Encoder-only 模型为什么能双向读文本？ | MiniBERT、MLM head |
+</details>
 
-### Part 2: Training
+## 更新日志
 
-| # | Notebook | 核心问题 | 实现重点 |
-|:---:|:---|:---|:---|
-| 08 | [现代语言模型架构演进](notebooks/part2-training/08-gpt2-to-modern-models.ipynb) | GPT-2 之后，现代模型在架构上改了什么？ | RMSNorm、SwiGLU、RoPE、GQA、QK-Norm、MLA |
-| 09 | [读懂大模型的配置文件](notebooks/part2-training/09-model-config.ipynb) | 真实模型的 config.json 里每个字段是什么意思？ | vocab_size、hidden_size、layers、heads |
-| 10 | [语言模型的预训练与微调](notebooks/part2-training/10-training-loss.ipynb) | MiniGPT 如何完成训练，并映射到工业训练接口？ | 训练循环、Chat Template、MTP、Trainer、SWIFT、标签偏移 |
-| 11 | [KV Cache 及架构演进](notebooks/part2-training/11-mla-kv-cache.ipynb) | 长上下文下 KV Cache 怎么压？ | MHA/GQA/MQA 对比、MLA latent 压缩、decoupled RoPE |
-| 12 | [分布式训练：工业界的标准工具链](notebooks/part2-training/12-distributed-training.ipynb) | 模型太大单卡装不下怎么办？ | Accelerate、ZeRO 参数、Megatron-LM 3D 并行、微调标配装备 |
-| 13 | [从 dense 到 MoE 架构](notebooks/part2-training/13-moe.ipynb) | 稀疏专家路由如何工作？ | Router gate、top-k experts、无辅助 loss 负载均衡 |
-| 14 | [缩放定律与算力预算](notebooks/part2-training/14-scaling-laws.ipynb) | 模型大小、数据量和算力如何权衡？ | 幂律、Kaplan/Chinchilla/过度训练、FLOPs/GPU-hours/显存估算 |
-| 15 | [预训练数据工程](notebooks/part2-training/15-data-engineering.ipynb) | 为什么数据质量会主导模型行为？ | 清洗、过滤、MinHash、FIM |
-| 16 | [LoRA 低秩微调](notebooks/part2-training/16-lora.ipynb) | 低秩适配为什么有效？ | `LoraLinear`、merge 推理 |
-| 17 | [知识蒸馏](notebooks/part2-training/17-distillation.ipynb) | 小模型如何学习大模型？ | 软标签、temperature、logit distillation |
-| 18 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) | 模型如何调用外部工具？ | 结构化输出、Tool 调用、训练数据构造 |
-| 19 | [偏好对齐与 RLHF](notebooks/part2-training/19-rlhf-alignment.ipynb) | 偏好信号如何变成优化目标？ | Reward Model、PPO、DPO |
+### 2026-08 · 推理篇（20-26）全面重写
 
-### Part 3: Inference
+第三部分「推理与部署」按照 Part 1 的叙事风格整体重建：每章开头先建立直觉再给方案，正文用问题链推进，结尾配小结 checklist 和 3 个可自测的作业。主要内容：
 
-| # | Notebook | 核心问题 | 实现重点 |
-|:---:|:---|:---|:---|
-| 20 | [解码策略](notebooks/part3-inference/20-generation.ipynb) | 解码策略如何改变模型行为？ | Greedy、top-k、top-p、Beam Search |
-| 21 | [推理加速与优化](notebooks/part3-inference/21-inference-acceleration.ipynb) | 生成为什么常常受显存访问限制？ | KV Cache、FlashAttention、PagedAttention |
-| 22 | [低比特量化](notebooks/part3-inference/22-quantization.ipynb) | 4-bit 量化为什么能保持精度？ | 对称/非对称、per-channel/group、GPTQ、AWQ |
-| 23 | [投机解码的验证机制](notebooks/part3-inference/23-speculative-decoding.ipynb) | 小模型如何加速大模型？ | Draft-then-verify 接受率 |
-| 24 | [现代现代推理引擎](notebooks/part3-inference/24-inference-systems.ipynb) | 多并发请求时吞吐和延迟怎么权衡？ | PagedAttention、Continuous batching、Prefix caching、Prefill/Decode 分离 |
-| 25 | [评测方法论](notebooks/part3-inference/25-evaluation.ipynb) | 如何判断一个模型真的更好？ | 胜率矩阵、RAGAS、Judge 指标 |
-| 26 | [模型部署与服务化](notebooks/part3-inference/26-llm-deployment.ipynb) | 训练好的模型如何变成可调用的服务？ | vLLM、SGLang、自定义架构注册 |
-
-### Part 4: Frontiers
-
-| # | Notebook | 核心问题 | 实现重点 |
-|:---:|:---|:---|:---|
-| 27 | [长上下文](notebooks/part4-frontiers/27-long-context.ipynb) | 模型如何扩展到训练长度之外？ | RoPE 外推、YaRN、Sliding Window Attention |
-| 28 | [推理模型与推理时计算](notebooks/part4-frontiers/28-cot-thinking.ipynb) | 先想再答为什么更准？推理时多花算力还能提升多少？ | R1-Zero、Test-Time Scaling、思考预算控制 |
-| 29 | [视觉语言模型](notebooks/part4-frontiers/29-vlm.ipynb) | 图像信息如何进入语言模型？ | Patch Embedding、Cross-Attention |
-| 30 | [高效 Attention](notebooks/part4-frontiers/30-efficient-attention.ipynb) | 怎么把 attention 复杂度从 O(N²) 压到 O(N)？ | Linear attention、SSM/Mamba、稀疏注意力、Hybrid 架构 |
-| 31 | [在线策略蒸馏（OPD）](notebooks/part4-frontiers/31-opd.ipynb) | 蒸馏如何减少 exposure bias？ | OPSD、KL 估计器分类 |
-
-## 质量标准
-
-这个仓库遵循一组简单标准，确保 Notebook 真正适合作为学习材料：
-
-- 概念先讲动机，再进入符号和公式。
-- 新术语先定义，再大量使用。
-- 核心算法至少包含一个具体手算例子或 toy example。
-- 代码 cell 尽量短小，运行后能看到关键观察。
-- 随机实验在合适位置固定 seed。
-- 每个 Notebook 自包含，不依赖其他 Notebook 的变量状态。
-- Markdown 面向有耐心的初学者，代码仍然贴近真实算法结构。
+- **生成与解码（20）**：从贪心解码到采样策略的完整实现与实验
+- **推理加速（21）**：KV Cache、算子融合、连续批处理等手段的效果观察
+- **量化（22）**：扩展 FP8/FP4 浮点格式（含网格可视化实验）、GGUF 与 K-quant 细节、格式选择对照表；新增端到端实操——用 llm-compressor 产出 GPTQ/FP8、AutoAWQ 产出 AWQ、llama.cpp 转换并量化 GGUF，再逐个部署起来跑
+- **投机解码的验证机制（23）**：可运行的 speculative sampling 循环，亲手验证接受率与加速比
+- **现代推理引擎（24）**：batching 甘特图、paging、prefix caching 的模拟器实验；vLLM / SGLang 部署流程刷新
+- **评测（25）**：评测流水线视角 + 常见 benchmark 的真实例题（MMLU / C-Eval / CMMLU / GSM8K / HumanEval）+ 评测库地图（lm-evaluation-harness / OpenCompass / 阿里 EvalScope）+ 置信区间；新增实战——把一套自制中文题库用 YAML 注册进 lm-eval，用 GPT-2 和 Qwen2.5-0.5B 真跑分，并画出技术报告风格的跑分图
+- **部署（26）**：量化 checkpoint 直接上线（GPTQ/AWQ 离线、FP8 在线、llama-server），与上线前评测清单衔接
 
 ## 论文与系统
 
@@ -396,12 +343,16 @@ modern-llm-notebook/
 │   ├── part1-foundation/
 │   ├── part2-training/
 │   ├── part3-inference/
-│   └── part4-frontiers/
+│   ├── part4-frontiers/
+│   └── appendix-advanced/
 ├── notebooks-en/        # 英文镜像 Notebook
 │   ├── part1-foundation/
 │   ├── part2-training/
 │   ├── part3-inference/
-│   └── part4-frontiers/
+│   ├── part4-frontiers/
+│   └── appendix-advanced/
+├── llm_train/           # 数据处理、训练、评测与实验报告
+├── assets/              # README 路线图与课程图片
 ├── web/                 # React / Vite 网页阅读器
 ├── docs/                # 静态网站构建产物
 ├── scripts/             # Notebook 转换脚本
