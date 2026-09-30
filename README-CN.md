@@ -64,13 +64,15 @@
 ## 从零到一个训练好的模型
 
 <p align="center">
-  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="训练流程：数据准备、Tokenizer 训练、Dense 预训练、SFT、评测与推理；MoE 和工具调用训练为后续扩展" width="920"></a>
+  <a href="assets/readme/training-workflow-cn.svg"><img src="assets/readme/training-workflow-cn.png" alt="Modern LLM Notebook 总览：原始文本、数据准备、BPE Tokenizer 训练、64M 级 Dense 预训练、SFT、评测与推理。学习扩展包括 MoE、工具调用、LoRA 与合并、偏好对齐和蒸馏。" width="920"></a>
 </p>
+
+沿主线可以学习从原始文本到模型训练的各个环节。底部展示 Dense 基线之外的扩展主题；下表分别说明可运行的训练脚本、Notebook 教学实现，以及待补齐的训练配方。
 
 | 阶段 | 现在可以学习与运行什么 | 入口 |
 |:---|:---|:---|
-| 训练 Tokenizer | 从 BPE 合并规则开始，训练词表并保存分词器 | [BPE 教程](notebooks/part1-foundation/02-bpe-tokenizer.ipynb) |
 | 准备真实数据 | 下载中文语料，完成质量筛选、清洗、Token 计数、划分与打包 | [数据管线](llm_train/preprocess_ufw.py) · [数据工程教程](notebooks/part2-training/15-data-engineering.ipynb) |
+| 训练 Tokenizer | 从 BPE 合并规则开始，训练词表并保存分词器 | [BPE 教程](notebooks/part1-foundation/02-bpe-tokenizer.ipynb) |
 | Dense 模型预训练 | 从随机权重训练包含 RoPE、GQA、SwiGLU、QK-Norm 的模型；64M 级，报告中**实测 61.55M 参数** | [训练配置](llm_train/configs/firstllm_64m_exp24.yaml) · [预训练脚本](llm_train/train_pretrain.py) |
 | 继续 SFT | 加载预训练 checkpoint，构造对话格式，只让 assistant 回答部分承担 loss | [SFT 脚本](llm_train/train_sft.py) · [预训练与微调教程](notebooks/part2-training/10-training-loss.ipynb) |
 | 评测与诊断 | 查看验证集困惑度、benchmark、生成样例与失败记录 | [实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md) · [评测教程](notebooks/part3-inference/25-evaluation.ipynb) |
@@ -108,7 +110,7 @@ Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：
 - **理解现代架构：** 现代模型组件 → GQA / MLA → MoE → 缩放定律与并行训练。
 - **改进并运行模型：** LoRA / 对齐 / 蒸馏 → 解码 → KV Cache → 量化 → 推理系统。
 
-学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。两张图参考了 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的组织方式，按本仓库内容重新绘制。
+学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。训练总览图参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html) 的横向组织方式；学习地图参考 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的组织方式。两张图均按本仓库内容绘制。
 
 ## Notebook 目录
 

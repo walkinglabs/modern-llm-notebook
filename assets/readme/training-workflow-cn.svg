@@ -1,50 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="660" viewBox="0 0 1600 660" role="img" aria-labelledby="title desc">
-<title id="title">Modern LLM Notebook — From text to a trained model</title>
+<title id="title">Modern LLM Notebook — 从原始文本到训练好的模型</title>
 <desc id="desc">Course overview: data preparation, BPE tokenizer training, 64M-class Dense pretraining, supervised fine-tuning, and evaluation and inference. Learning extensions cover MoE, tool calling, LoRA and merging, alignment and distillation. This is a learning path; implementation status and the reported run using an existing tokenizer are documented in the README.</desc>
 <!-- Original vector artwork. Layout reference: NVIDIA NeMo Framework overview. Palette: Modern LLM Notebook web/src/styles/index.css. -->
 <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#667085"/></marker></defs>
 <rect width="1600" height="660" fill="#fff"/>
 <text x="800" y="61" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="38" font-weight="700" fill="#172033">Modern LLM Notebook</text>
-<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">From text to a trained model</text>
+<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">从原始文本到训练好的模型</text>
 <rect x="220" y="160" width="1160" height="245" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
 <g transform="translate(94 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-26-39H12L30-21V35H-26Z"/><path d="M12-39V-21H30M-14-12H16M-14 0H16M-14 12H8"/><path d="M-35-29H-40V44H19V40"/></g>
-<text x="94" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Raw text</text>
+<text x="94" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">原始文本</text>
 <path d="M152 252H207" fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
 <g transform="translate(365 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="-24" cy="-35" rx="20" ry="8"/><path d="M-44-35V1C-44 12-4 12-4 1V-35M-44-18C-44-7-4-7-4-18"/><path d="M6-7H32L44 5V44H6ZM32-7V5H44M16 17H34M16 27H34"/><path d="M4-35H28V-17M22-23L28-17L34-23M-24 43V24M-30 30L-24 24L-18 30"/></g>
-<text x="365" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">Data preparation</text>
+<text x="365" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">数据准备</text>
 <path d="M424 252H548" fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
 <g transform="translate(655 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-45" y="-33" width="24" height="25" rx="2"/><rect x="-12" y="-33" width="24" height="25" rx="2"/><rect x="21" y="-33" width="24" height="25" rx="2"/><path d="M-33 0V13H0M33 0V13H0M0 0V26M-6 20L0 26L6 20"/><rect x="-37" y="32" width="74" height="25" rx="2"/></g>
 <text x="622" y="239" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#1d6bf3">a</text>
 <text x="655" y="239" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#1d6bf3">b</text>
 <text x="688" y="239" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#1d6bf3">c</text>
 <text x="655" y="303" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#1d6bf3">ab · c</text>
-<text x="655" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">BPE tokenizer</text>
+<text x="655" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">Tokenizer 训练</text>
 <path d="M713 252H838" fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
 <g transform="translate(945 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-38 -33L0 -33M0 -33L38 -33" stroke-width="1.35"/><path d="M-38 -33L0 0M0 -33L38 0" stroke-width="1.35"/><path d="M-38 -33L0 33M0 -33L38 33" stroke-width="1.35"/><path d="M-38 0L0 -33M0 0L38 -33" stroke-width="1.35"/><path d="M-38 0L0 0M0 0L38 0" stroke-width="1.35"/><path d="M-38 0L0 33M0 0L38 33" stroke-width="1.35"/><path d="M-38 33L0 -33M0 33L38 -33" stroke-width="1.35"/><path d="M-38 33L0 0M0 33L38 0" stroke-width="1.35"/><path d="M-38 33L0 33M0 33L38 33" stroke-width="1.35"/><circle cx="-38" cy="-33" r="6" fill="white"/><circle cx="-38" cy="0" r="6" fill="white"/><circle cx="-38" cy="33" r="6" fill="white"/><circle cx="0" cy="-33" r="6" fill="white"/><circle cx="0" cy="0" r="6" fill="white"/><circle cx="0" cy="33" r="6" fill="white"/><circle cx="38" cy="-33" r="6" fill="white"/><circle cx="38" cy="0" r="6" fill="white"/><circle cx="38" cy="33" r="6" fill="white"/></g>
-<text x="945" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">Dense pretraining</text>
-<text x="945" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">64M class</text>
+<text x="945" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">Dense 预训练</text>
+<text x="945" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">64M 级</text>
 <path d="M1003 252H1128" fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
 <g transform="translate(1235 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-42-36H22V8H-19L-33 20V8H-42Z"/><path d="M-23-22H6M-23-10H12"/><path d="M-12 18V39H23L38 50V39H46V-6H34"/><path d="M2 26L11 34L29 15"/></g>
-<text x="1235" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">Supervised fine-tuning</text>
+<text x="1235" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="400" fill="#172033">SFT 微调</text>
 <path d="M1394 252H1447" fill="none" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
 <g transform="translate(1510 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-39" y="-32" width="78" height="54" rx="2"/><path d="M-39-17H39M-27-24H-25M-18-24H-16M-9-24H-7"/><path d="M-19-4L-10 3L-19 10M-1 10H13M0 22V39M-21 39H21"/></g>
-<text x="1507" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Evaluate &amp; infer</text>
+<text x="1507" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">评测与推理</text>
 <rect x="220" y="377" width="1160" height="38" fill="#1d6bf3"/>
 <text x="800" y="403" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700" fill="#fff">Modern LLM Notebook</text>
 <path d="M800 417V441" fill="none" stroke="#667085" stroke-width="1.8" marker-end="url(#arrow)"/>
-<g transform="translate(491 475) scale(0.8)" fill="none" stroke="#14b8a6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-20-14H-3L0-10L3-14H20V14H3L0 18L-3 14H-20Z"/><path d="M0-10V12M-13-5H-7M-13 2H-7M7-5H13M7 2H13"/></g>
-<text x="823" y="483" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#667085">PyTorch · Runnable notebooks · Training scripts</text>
-<text x="800" y="538" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Learning extensions</text>
+<g transform="translate(525 475) scale(0.8)" fill="none" stroke="#14b8a6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-20-14H-3L0-10L3-14H20V14H3L0 18L-3 14H-20Z"/><path d="M0-10V12M-13-5H-7M-13 2H-7M7-5H13M7 2H13"/></g>
+<text x="823" y="483" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#667085">PyTorch · 可运行 Notebook · 训练脚本</text>
+<text x="800" y="538" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">学习扩展</text>
 <rect x="60" y="558" width="1480" height="78" fill="#f5f7fa"/>
 <text x="245" y="590" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">MoE</text>
-<text x="245" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Routing &amp; experts</text>
+<text x="245" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">路由与专家</text>
 <path d="M430 574V620" stroke="#dce3ec" stroke-width="1"/>
 <text x="615" y="590" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Tool calling</text>
-<text x="615" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Structured outputs</text>
+<text x="615" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">结构化输出</text>
 <path d="M800 574V620" stroke="#dce3ec" stroke-width="1"/>
 <text x="985" y="590" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">LoRA &amp; merging</text>
-<text x="985" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Adapters &amp; merging</text>
+<text x="985" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">适配器与合并</text>
 <path d="M1170 574V620" stroke="#dce3ec" stroke-width="1"/>
 <text x="1355" y="590" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Alignment &amp; distillation</text>
-<text x="1355" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Preference objectives &amp; distillation</text>
+<text x="1355" y="619" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">偏好优化与蒸馏</text>
 </svg>

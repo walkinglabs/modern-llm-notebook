@@ -70,13 +70,15 @@ This is an educational reference: notebooks explain each mechanism, while the tr
 ## From Zero to a Trained Model
 
 <p align="center">
-  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="Training workflow: prepare data, train a tokenizer, pretrain a Dense model, continue with SFT, evaluate, and study inference; planned extensions include MoE and tool-use training" width="920"></a>
+  <a href="assets/readme/training-workflow.svg"><img src="assets/readme/training-workflow.png" alt="Modern LLM Notebook overview: raw text, data preparation, BPE tokenizer training, 64M-class Dense pretraining, SFT, and evaluation and inference. Learning extensions cover MoE, tool calling, LoRA and merging, alignment, and distillation." width="920"></a>
 </p>
+
+Follow the main path from raw text to a trained model. The lower strip shows the topics to explore beyond the Dense baseline; the table distinguishes runnable training scripts from notebook implementations and planned training recipes.
 
 | Stage | What is available | Start here |
 |:---|:---|:---|
-| Train a tokenizer | Learn BPE merge rules, train a vocabulary, and save a tokenizer | [BPE notebook](notebooks-en/part1-foundation/02-bpe-tokenizer.ipynb) |
 | Prepare real data | Download, quality-filter, clean, count tokens, split, and pack a Chinese corpus | [Data pipeline](llm_train/preprocess_ufw.py) · [Data engineering](notebooks-en/part2-training/15-data-engineering.ipynb) |
+| Train a tokenizer | Learn BPE merge rules, train a vocabulary, and save a tokenizer | [BPE notebook](notebooks-en/part1-foundation/02-bpe-tokenizer.ipynb) |
 | Pretrain a Dense model | Train from random weights with RoPE, GQA, SwiGLU, and QK-Norm; 64M class, **61.55M measured parameters** in the reported run | [Configuration](llm_train/configs/firstllm_64m_exp24.yaml) · [Pretraining script](llm_train/train_pretrain.py) |
 | Continue with SFT | Load the pretrained checkpoint, format conversations, and compute loss on assistant answers | [SFT script](llm_train/train_sft.py) · [Training notebook](notebooks-en/part2-training/10-training-loss.ipynb) |
 | Evaluate and diagnose | Validation perplexity, benchmark results, generated examples, and documented failures | [Experiment report](llm_train/reports/exp24_repro_mini_seed42_report.md) · [Evaluation notebook](notebooks-en/part3-inference/25-evaluation.ipynb) |
@@ -114,7 +116,7 @@ Follow the foundations first, then choose a route:
 - **Understand modern architectures:** modern blocks → GQA / MLA → MoE → scaling and parallelism.
 - **Improve and serve a model:** LoRA / alignment / distillation → generation → KV Cache → quantization → inference systems.
 
-The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. The original diagrams take structural inspiration from [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course), and map this repository's own content.
+The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. The training overview follows the horizontal organization of [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); the learning roadmap takes structural inspiration from [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course). Both are original diagrams of this repository's own content.
 
 ## Curriculum
 
