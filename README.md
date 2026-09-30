@@ -1,4 +1,10 @@
-# Modern LLM Notebook
+<p align="center">
+  <a href="https://walkinglabs.github.io/modern-llm-notebook/">
+    <img src="assets/brand/modern-llm-notebook.png" alt="Modern LLM Notebook logo: an open notebook with connected model nodes" width="128" height="128">
+  </a>
+</p>
+
+<h1 align="center">Modern LLM Notebook</h1>
 
 <p align="center">
   <strong>Learn modern LLMs from scratch, one detailed example and experiment at a time.</strong>
@@ -48,6 +54,7 @@
   <a href="#learning-roadmap">Roadmap</a> ·
   <a href="#curriculum">Curriculum</a> ·
   <a href="#quick-start">Quick Start</a> ·
+  <a href="#run-online-through-partner-platforms">Partners</a> ·
   <a href="#project-status">Status</a> ·
   <a href="#contributing">Contributing</a>
 </p>
@@ -153,6 +160,22 @@ You can also open the first English notebook directly in
 [Google Colab](https://colab.research.google.com/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb).
 
 ### Run Online through Partner Platforms
+
+<p align="center">
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks-en/part1-foundation/01-tokenizer-basics.ipynb">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
+      <img src="assets/partners/modelscope.svg" alt="ModelScope — open a notebook" height="32">
+    </picture>
+  </a>
+  &emsp;&emsp;
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
+      <img src="assets/partners/amd.png" alt="AMD — open the GPU project template" height="32">
+    </picture>
+  </a>
+</p>
 
 Everyone is welcome to open this project at any time, run the notebooks, change the code, and test the experiments. The [online reader](https://walkinglabs.github.io/modern-llm-notebook/) provides partner launch buttons at the top of each chapter, so you can get started without setting up a local environment:
 

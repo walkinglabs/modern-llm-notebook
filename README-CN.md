@@ -1,4 +1,10 @@
-# Modern LLM Notebook
+<p align="center">
+  <a href="https://walkinglabs.github.io/modern-llm-notebook/">
+    <img src="assets/brand/modern-llm-notebook.png" alt="Modern LLM Notebook 标识：打开的 Notebook 与相连的模型节点" width="128" height="128">
+  </a>
+</p>
+
+<h1 align="center">Modern LLM Notebook</h1>
 
 <p align="center">
   <strong>用细致的例子和可运行实验，从零理解、实现与训练现代 LLM。</strong>
@@ -47,6 +53,7 @@
   <a href="#课程学习地图">学习地图</a> ·
   <a href="#notebook-目录">Notebook 目录</a> ·
   <a href="#快速开始">快速开始</a> ·
+  <a href="#通过合作伙伴入口在线运行">合作伙伴</a> ·
   <a href="#项目状态">项目状态</a> ·
   <a href="#贡献">贡献</a>
 </p>
@@ -175,6 +182,22 @@ Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：
 ## 快速开始
 
 ### 通过合作伙伴入口在线运行
+
+<p align="center">
+  <a href="https://modelscope.cn/notebook/share/github/walkinglabs/modern-llm-notebook/blob/main/notebooks/part1-foundation/01-tokenizer-basics.ipynb">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/modelscope-dark.svg">
+      <img src="assets/partners/modelscope.svg" alt="ModelScope — 在线打开 Notebook" height="32">
+    </picture>
+  </a>
+  &emsp;&emsp;
+  <a href="https://developer.amd.com.cn/radeon/templates/4015/preview">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/partners/amd-dark.svg">
+      <img src="assets/partners/amd.png" alt="AMD — 打开 GPU 项目模板" height="32">
+    </picture>
+  </a>
+</p>
 
 欢迎随时打开这个项目，运行 Notebook、修改代码并测试实验结果。进入[在线阅读器](https://walkinglabs.github.io/modern-llm-notebook/)后，可以使用章节顶部的合作伙伴运行入口，无需先配置本地环境：
 
