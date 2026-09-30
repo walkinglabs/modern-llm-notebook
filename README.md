@@ -227,33 +227,13 @@ nanoGPT's total includes 4,096 position-embedding parameters; the notebook's def
 
 ## Data Preparation
 
-### Data Sources and Cleaning
+<p align="center">
+  <a href="assets/readme/data-pipeline.svg"><img src="assets/readme/data-pipeline.png" alt="Data pipeline: Ultra-FineWeb, Data-Juicer cleaning and filtering, token budgeting, document splits, and sequence packing for pretraining. The lower strip shows a synthesis extension reference: documents to QA, filtering and mixing, and SFT examples." width="920"></a>
+</p>
 
-DotLM's recorded run uses the Chinese shards of **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)** for pretraining and **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** for SFT. The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) introduces web, encyclopedic, book, code, and domain-specific corpora, then explains selection, cleaning, synthesis, and mixing.
+Corpus download, Data-Juicer cleaning, token budgeting, and sequence packing, with synthesis and data-mixing examples in the notebook.
 
-The executable path in [preprocess_ufw.py](llm_train/preprocess_ufw.py) has four commands: `download`, `clean`, `truncate`, and `pack`.
-
-| Step | Operation | Result to inspect |
-|:---|:---|:---|
-| Download | Fetch Chinese shards from `openbmb/Ultra-FineWeb` | Raw text, quality scores, and source labels |
-| Quality filtering | Parse quality scores; keep `score ≥ 0.8` for mini or `≥ 0.7` for full | Retained documents and their score distribution |
-| Cleaning | Use Data-Juicer for HTML removal, Unicode repair, whitespace normalization, and length filtering | Cleaned JSONL and retained document counts |
-| Token budget | Count actual BPE tokens and retain documents in score order up to the tier budget | Per-source statistics and a truncation manifest |
-| Training preparation | Split documents into training/validation sets, add EOS boundaries, and pack token sequences | `train.bin`, `val.bin`, `val.jsonl`, and a packing manifest |
-
-The script writes a Data-Juicer YAML recipe with `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter` (100–8,000 characters). It relies on upstream deduplication and skips an additional SimHash pass. Dataset scale and retained counts come from the generated manifests.
-
-### Synthetic Data and Data Mixtures
-
-The notebook explains **Self-Instruct, Evol-Instruct, teacher distillation, and STaR**, with small examples of generation and filtering. To extend this into a Data-Juicer synthesis pipeline, use the following reference route:
-
-| Step | What to do | Reference |
-|:---|:---|:---|
-| Generate QA pairs | Start from cleaned documents; configure a teacher model to generate questions and answers | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
-| Filter and format | Deduplicate, check length and answer quality, inspect samples, and convert retained pairs into the SFT conversation format | [Data engineering](notebooks-en/part2-training/15-data-engineering.ipynb) · [SFT data loader](llm_train/train_sft.py) |
-| Mix and validate | Mix retained synthetic examples with real data, record the proportions, and compare a small training run on held-out tasks | [Data recipes and sampling](notebooks-en/part2-training/15-data-engineering.ipynb) |
-
-**Current status:** the notebook contains synthesis demonstrations; the training pipeline implements corpus cleaning. Data-Juicer synthesis is an extension reference, and DotLM's reported SFT results use Belle data. Consult the official [Data-Juicer quick start](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md) for generation dependencies and YAML execution.
+[Data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) · [Processing script](llm_train/preprocess_ufw.py) · [Pipeline details](#data-pipeline-details)
 
 ## Learning Roadmap
 
@@ -352,6 +332,41 @@ Build and preview the static site:
 npm run build
 npm run preview
 ```
+
+</details>
+
+## Data Pipeline Details
+
+<details>
+<summary>Data sources, cleaning steps, and synthesis references</summary>
+
+### Data Sources and Cleaning
+
+DotLM's recorded run uses the Chinese shards of **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)** for pretraining and **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** for SFT. The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) introduces web, encyclopedic, book, code, and domain-specific corpora, then explains selection, cleaning, synthesis, and mixing.
+
+The executable path in [preprocess_ufw.py](llm_train/preprocess_ufw.py) has four commands: `download`, `clean`, `truncate`, and `pack`.
+
+| Step | Operation | Result to inspect |
+|:---|:---|:---|
+| Download | Fetch Chinese shards from `openbmb/Ultra-FineWeb` | Raw text, quality scores, and source labels |
+| Quality filtering | Parse quality scores; keep `score ≥ 0.8` for mini or `≥ 0.7` for full | Retained documents and their score distribution |
+| Cleaning | Use Data-Juicer for HTML removal, Unicode repair, whitespace normalization, and length filtering | Cleaned JSONL and retained document counts |
+| Token budget | Count actual BPE tokens and retain documents in score order up to the tier budget | Per-source statistics and a truncation manifest |
+| Training preparation | Split documents into training/validation sets, add EOS boundaries, and pack token sequences | `train.bin`, `val.bin`, `val.jsonl`, and a packing manifest |
+
+The script writes a Data-Juicer YAML recipe with `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter` (100–8,000 characters). It relies on upstream deduplication and skips an additional SimHash pass. Dataset scale and retained counts come from the generated manifests.
+
+### Synthetic Data and Data Mixtures
+
+The notebook explains **Self-Instruct, Evol-Instruct, teacher distillation, and STaR**, with small examples of generation and filtering. To extend this into a Data-Juicer synthesis pipeline, use the following reference route:
+
+| Step | What to do | Reference |
+|:---|:---|:---|
+| Generate QA pairs | Start from cleaned documents; configure a teacher model to generate questions and answers | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
+| Filter and format | Deduplicate, check length and answer quality, inspect samples, and convert retained pairs into the SFT conversation format | [Data engineering](notebooks-en/part2-training/15-data-engineering.ipynb) · [SFT data loader](llm_train/train_sft.py) |
+| Mix and validate | Mix retained synthetic examples with real data, record the proportions, and compare a small training run on held-out tasks | [Data recipes and sampling](notebooks-en/part2-training/15-data-engineering.ipynb) |
+
+**Current status:** the notebook contains synthesis demonstrations; the training pipeline implements corpus cleaning. Data-Juicer synthesis is an extension reference, and DotLM's reported SFT results use Belle data. Consult the official [Data-Juicer quick start](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md) for generation dependencies and YAML execution.
 
 </details>
 

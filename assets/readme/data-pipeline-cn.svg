@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" role="img" aria-labelledby="title desc">
+<title id="title">Modern LLM Notebook — 数据工程</title>
+<desc id="desc">Ultra-FineWeb to cleaned, budgeted, split and packed pretraining data. The lower strip is a synthesis extension reference, not a completed DotLM run.</desc>
+<!-- Original artwork. Shared with the training overview: brand blue/teal, outline icons, horizontal framework and platform strip. -->
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#667085"/></marker></defs>
+<rect width="1600" height="620" fill="white"/>
+<text x="800" y="61" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="38" font-weight="700" fill="#172033">Modern LLM Notebook</text>
+<text x="800" y="102" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">数据工程</text>
+<rect x="220" y="160" width="1160" height="217" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
+<rect x="220" y="377" width="1160" height="38" fill="#1d6bf3"/>
+<text x="800.0" y="403" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700" fill="#fff">Modern LLM Notebook</text>
+<g transform="translate(94 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-24 6H-29C-44 6-44-18-29-19C-27-41 3-44 13-25C34-33 48-5 32 6H24M0-11V28M-11 17L0 28L11 17M-35 24V40H35V24"/></g>
+<text x="94" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">语料来源</text>
+<text x="94" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Ultra-FineWeb</text>
+<path d="M153 252H207" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(365 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-29-40H13L30-23V38H-29ZM13-40V-23H30M-16-12H16M-16 0H16M-14 18L-5 27L13 9"/></g>
+<text x="365" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">清洗与筛选</text>
+<text x="365" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Data-Juicer</text>
+<path d="M425 252H595" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(655 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-39" y="-34" width="78" height="68" rx="2"/><path d="M-39-15H39M-21-25H-16M-6-25H-1M9-25H14M-23-1H-13M-23 12H-13M2-1H12M2 12H12M22-1V22M17 17L22 22L27 17"/></g>
+<text x="655" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Token 预算</text>
+<text x="655" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">BPE</text>
+<path d="M715 252H885" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(945 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0-40V-15H-29V5M0-15H29V5M-35-1L-29 5L-23-1M23-1L29 5L35-1"/><rect x="-43" y="12" width="28" height="30"/><rect x="15" y="12" width="28" height="30"/><path d="M-35 23H-23M-35 31H-23M23 23H35M23 31H35"/></g>
+<text x="945" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">文档划分</text>
+<text x="945" y="360" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">训练 / 验证</text>
+<path d="M1005 252H1175" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(1235 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-40-14L0-34L40-14V26L0 46L-40 26ZM-40-14L0 6L40-14M0 6V46M-21-24L20-4V10"/></g>
+<text x="1235" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">序列打包</text>
+<text x="1235" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">EOS</text>
+<path d="M1394 252H1447" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(1510 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-31-33H6L25-14V34H-31ZM6-33V-14H25M-15 1L-7-6L1 1L-7 8ZM10 2H15M-15 21H15"/><path d="M-22-42H35V25"/></g>
+<text x="1507" y="331" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#172033">预训练数据</text>
+<text x="800" y="490" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">合成数据 · 扩展参考</text>
+<rect x="60" y="510" width="1480" height="83" fill="#f5f7fa"/>
+<text x="245.0" y="543" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">文档与种子</text>
+<text x="245.0" y="573" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">真实文本</text>
+<path d="M430.0 525V575" stroke="#dce3ec"/>
+<text x="615.0" y="543" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">问答生成</text>
+<text x="615.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Teacher · Data-Juicer</text>
+<path d="M800.0 525V575" stroke="#dce3ec"/>
+<text x="985.0" y="543" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">过滤与配比</text>
+<text x="985.0" y="573" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">质量检查 · 数据混合</text>
+<path d="M1170.0 525V575" stroke="#dce3ec"/>
+<text x="1355.0" y="543" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">SFT 样本</text>
+<text x="1355.0" y="573" text-anchor="middle" font-family="Heiti SC, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">指令 · 回复</text>
+</svg>

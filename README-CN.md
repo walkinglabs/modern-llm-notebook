@@ -216,33 +216,13 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 
 ## 数据清洗与训练数据准备
 
-### 数据来源与清洗
+<p align="center">
+  <a href="assets/readme/data-pipeline-cn.svg"><img src="assets/readme/data-pipeline-cn.png" alt="数据流程：Ultra-FineWeb 语料经 Data-Juicer 清洗筛选、Token 预算控制、文档划分和序列打包，得到预训练数据。下方为文档到问答、过滤配比和 SFT 样本的合成扩展参考。" width="920"></a>
+</p>
 
-DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) 的中文分片**做预训练，使用 **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** 做 SFT。[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)先介绍网页、百科、书籍、代码和领域语料，再讲数据筛选、清洗、合成与配比。
+提供语料获取、Data-Juicer 清洗、Token 预算与序列打包，教程另含合成数据和配比示例。
 
-[preprocess_ufw.py](llm_train/preprocess_ufw.py)提供 `download`、`clean`、`truncate`、`pack` 四个命令，串起从原始语料到训练文件的流程。
-
-| 步骤 | 具体操作 | 应检查的产物 |
-|:---|:---|:---|
-| 下载语料 | 从 `openbmb/Ultra-FineWeb` 获取中文分片 | 原始文本、质量分数、来源标签 |
-| 质量筛选 | 将质量分数转成数值；mini 保留 `score ≥ 0.8`，full 保留 `≥ 0.7` | 保留文档及其分数分布 |
-| 文本清洗 | 用 Data-Juicer 去除 HTML、修复 Unicode、规范空白、过滤长度 | 清洗后的 JSONL 与保留文档数 |
-| 控制 Token 预算 | 用真实 BPE Token 计数，按分数顺序累加到预算 | 来源统计、截断 manifest |
-| 准备训练文件 | 按文档划分训练/验证集，加入 EOS 边界并打包 Token 序列 | `train.bin`、`val.bin`、`val.jsonl` 与打包 manifest |
-
-脚本生成 Data-Juicer YAML 配方，依次运行 `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter`（100–8,000 字符）。这条管线依赖上游去重，跳过额外的 SimHash 去重。语料规模和最终保留量以生成的 manifest 为准。
-
-### 合成数据与数据配比
-
-教程讲解 **Self-Instruct、Evol-Instruct、教师蒸馏和 STaR**，用小例子展示生成与过滤。将这些方法接到 Data-Juicer 上，可以参考下面的路线：
-
-| 步骤 | 具体做法 | 参考入口 |
-|:---|:---|:---|
-| 生成问答 | 从清洗后的文档出发，配置教师模型生成问题与答案 | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
-| 过滤与整理 | 去重、检查长度和答案质量、抽样复核，再将保留问答转成 SFT 对话格式 | [数据工程](notebooks/part2-training/15-data-engineering.ipynb) · [SFT 数据加载](llm_train/train_sft.py) |
-| 配比与验证 | 将合成样本与真实数据混合，记录比例，用小规模训练和独立评测集检查效果 | [数据配方与采样](notebooks/part2-training/15-data-engineering.ipynb) |
-
-**当前进度：**教程已有合成流程演示，训练管线已实现语料清洗。Data-Juicer 合成部分是扩展参考路线；DotLM 已发布的 SFT 成绩来自 Belle 数据。生成依赖和 YAML 执行方式可参考 [Data-Juicer 官方入门文档](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md)。
+[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb) · [处理脚本](llm_train/preprocess_ufw.py) · [流程详解](#数据流程详解)
 
 ## 课程学习地图
 
@@ -395,6 +375,41 @@ code cells，并把输出写回到英文版 notebook 文件：
 ```bash
 python scripts/execute_notebooks_en_no_kernel.py
 ```
+
+</details>
+
+## 数据流程详解
+
+<details>
+<summary>数据来源、清洗步骤与合成参考</summary>
+
+### 数据来源与清洗
+
+DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) 的中文分片**做预训练，使用 **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** 做 SFT。[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)先介绍网页、百科、书籍、代码和领域语料，再讲数据筛选、清洗、合成与配比。
+
+[preprocess_ufw.py](llm_train/preprocess_ufw.py)提供 `download`、`clean`、`truncate`、`pack` 四个命令，串起从原始语料到训练文件的流程。
+
+| 步骤 | 具体操作 | 应检查的产物 |
+|:---|:---|:---|
+| 下载语料 | 从 `openbmb/Ultra-FineWeb` 获取中文分片 | 原始文本、质量分数、来源标签 |
+| 质量筛选 | 将质量分数转成数值；mini 保留 `score ≥ 0.8`，full 保留 `≥ 0.7` | 保留文档及其分数分布 |
+| 文本清洗 | 用 Data-Juicer 去除 HTML、修复 Unicode、规范空白、过滤长度 | 清洗后的 JSONL 与保留文档数 |
+| 控制 Token 预算 | 用真实 BPE Token 计数，按分数顺序累加到预算 | 来源统计、截断 manifest |
+| 准备训练文件 | 按文档划分训练/验证集，加入 EOS 边界并打包 Token 序列 | `train.bin`、`val.bin`、`val.jsonl` 与打包 manifest |
+
+脚本生成 Data-Juicer YAML 配方，依次运行 `clean_html_mapper` → `fix_unicode_mapper` → `whitespace_normalization_mapper` → `text_length_filter`（100–8,000 字符）。这条管线依赖上游去重，跳过额外的 SimHash 去重。语料规模和最终保留量以生成的 manifest 为准。
+
+### 合成数据与数据配比
+
+教程讲解 **Self-Instruct、Evol-Instruct、教师蒸馏和 STaR**，用小例子展示生成与过滤。将这些方法接到 Data-Juicer 上，可以参考下面的路线：
+
+| 步骤 | 具体做法 | 参考入口 |
+|:---|:---|:---|
+| 生成问答 | 从清洗后的文档出发，配置教师模型生成问题与答案 | Data-Juicer [generate_qa_from_text_mapper](https://github.com/datajuicer/data-juicer/blob/main/docs/operators/mapper/generate_qa_from_text_mapper.md) |
+| 过滤与整理 | 去重、检查长度和答案质量、抽样复核，再将保留问答转成 SFT 对话格式 | [数据工程](notebooks/part2-training/15-data-engineering.ipynb) · [SFT 数据加载](llm_train/train_sft.py) |
+| 配比与验证 | 将合成样本与真实数据混合，记录比例，用小规模训练和独立评测集检查效果 | [数据配方与采样](notebooks/part2-training/15-data-engineering.ipynb) |
+
+**当前进度：**教程已有合成流程演示，训练管线已实现语料清洗。Data-Juicer 合成部分是扩展参考路线；DotLM 已发布的 SFT 成绩来自 Belle 数据。生成依赖和 YAML 执行方式可参考 [Data-Juicer 官方入门文档](https://github.com/datajuicer/data-juicer/blob/main/docs/tutorial/QuickStart.md)。
 
 </details>
 
