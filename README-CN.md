@@ -53,7 +53,7 @@
   <a href="#教程特色">教程特色</a> ·
   <a href="#从零到一个训练好的模型">训练流程</a> ·
   <a href="#模型与评测">模型与评测</a> ·
-  <a href="#数据清洗与训练数据准备">数据清洗</a> ·
+  <a href="#数据来源与处理流程">数据流程</a> ·
   <a href="#课程学习地图">学习地图</a> ·
   <a href="#notebook-目录">Notebook 目录</a> ·
   <a href="#快速开始">快速开始</a> ·
@@ -224,13 +224,13 @@ nanoGPT 总参数包含 4,096 个位置 Embedding 参数；Notebook 默认打印
 
 </details>
 
-## 数据清洗与训练数据准备
+## 数据来源与处理流程
 
 <p align="center">
-  <a href="assets/readme/data-pipeline-cn.svg"><img src="assets/readme/data-pipeline-cn.png" alt="数据流程：Ultra-FineWeb 语料经 Data-Juicer 清洗筛选、Token 预算控制、文档划分和序列打包，得到预训练数据。下方为文档到问答、过滤配比和 SFT 样本的合成扩展参考。" width="920"></a>
+  <a href="assets/readme/data-pipeline-cn.svg"><img src="assets/readme/data-pipeline-cn.png" alt="课程数据流程：Common Crawl、Wikipedia、Gutenberg、The Stack、arXiv 与 OpenWebMath；Data-Juicer 文本清洗、质量筛选、隐私清理和 MinHash 去重算子示例；清洗后的语料再进行配比、分词与打包。" width="920"></a>
 </p>
 
-提供语料获取、Data-Juicer 清洗、Token 预算与序列打包，教程另含合成数据和配比示例。
+从网页、百科、书籍、代码、论文与数学语料开始，讲解 Data-Juicer 的清洗、筛选、脱敏和去重算子。图中列出可组合的算子示例；DotLM 实验使用 Ultra-FineWeb 做预训练、Belle 做 SFT，实际配方见[数据流程详解](#数据流程详解)。
 
 [数据工程教程](notebooks/part2-training/15-data-engineering.ipynb) · [处理脚本](llm_train/preprocess_ufw.py) · [流程详解](#数据流程详解)
 
@@ -394,7 +394,7 @@ python scripts/execute_notebooks_en_no_kernel.py
 ### 数据来源与清洗
 
 <p align="center">
-  <a href="assets/readme/data-cleaning-cn.svg"><img src="assets/readme/data-cleaning-cn.png" alt="数据清洗详解：质量筛选后，Data-Juicer 依次移除 HTML、修复 Unicode、规范空白和过滤长度；再按质量排序、控制 BPE Token 预算、划分文档并加入 EOS 打包，生成训练文件与 manifest。" width="920"></a>
+  <a href="assets/readme/data-cleaning-cn.svg"><img src="assets/readme/data-cleaning-cn.png" alt="DotLM 实际配方：Ultra-FineWeb 中文分片的 content、score、source 字段，经分数筛选后依次执行 clean_html_mapper、fix_unicode_mapper、whitespace_normalization_mapper、text_length_filter；随后控制 BPE 预算、按文档划分并加入 EOS 打包，生成训练文件与 manifest。" width="920"></a>
 </p>
 
 DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb) 的中文分片**做预训练，使用 **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** 做 SFT。[数据工程教程](notebooks/part2-training/15-data-engineering.ipynb)先介绍网页、百科、书籍、代码和领域语料，再讲数据筛选、清洗、合成与配比。

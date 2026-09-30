@@ -1,50 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="690" viewBox="0 0 1600 690" role="img" aria-labelledby="title desc">
-<title id="title">Modern LLM Notebook — Data-Juicer cleaning pipeline</title>
-<desc id="desc">The implemented Ultra-FineWeb pipeline: quality threshold, HTML removal, Unicode repair, whitespace normalization, character-length filtering, score ordering, actual BPE token budgeting, document splitting and EOS packing.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="770" viewBox="0 0 1600 770" role="img" aria-labelledby="title desc">
+<title id="title">Modern LLM Notebook — DotLM data source &amp; implemented cleaning recipe</title>
+<desc id="desc">The recorded pretraining pipeline reads Chinese Ultra-FineWeb shards with content, score and source fields. Score values are parsed and filtered outside Data-Juicer, followed in order by clean_html_mapper, fix_unicode_mapper, whitespace_normalization_mapper, and text_length_filter. The cleaned JSONL is score-ordered, BPE-budgeted, split by document and packed as uint16 tokens with EOS boundaries.</desc>
 <!-- Original artwork. Shared with the training overview: brand blue/teal, outline icons, horizontal framework and platform strip. -->
 <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#667085"/></marker></defs>
-<rect width="1600" height="690" fill="white"/>
+<rect width="1600" height="770" fill="white"/>
 <text x="800" y="61" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="38" font-weight="700" fill="#172033">Modern LLM Notebook</text>
-<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">Data-Juicer cleaning pipeline</text>
-<rect x="220" y="160" width="1160" height="217" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
-<rect x="220" y="377" width="1160" height="38" fill="#1d6bf3"/>
-<text x="800.0" y="403" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700" fill="#fff">Data-Juicer</text>
-<g transform="translate(94 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-43-31H43L12 6V37L-12 26V6ZM-31-17H31"/></g>
-<text x="94" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#172033">Quality filter</text>
-<text x="94" y="358" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">mini ≥ 0.8</text>
-<text x="94" y="384" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">full ≥ 0.7</text>
-<path d="M153 252H207" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(365 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-41" y="-32" width="82" height="64" rx="2"/><path d="M-22-12L-34 0L-22 12M22-12L34 0L22 12M9-20L-9 20"/></g>
-<text x="365" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Strip HTML</text>
-<text x="365" y="358" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Tags → text</text>
-<path d="M425 252H595" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(655 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-34 28L-12-30L10 28M-25 6H1M17-21H40M29-32V-9M9 33L19 43L39 19"/></g>
-<text x="655" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Repair Unicode</text>
-<text x="655" y="358" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Fix text encoding</text>
-<path d="M715 252H885" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(945 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-39-28H-7M9-28H39M-39-6H-17M-3-6H12M27-6H39M-39 30H39M-10 7L0 18L10 7M0 0V18"/></g>
-<text x="945" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Normalize spaces</text>
-<text x="945" y="358" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Standardize whitespace</text>
-<path d="M1005 252H1175" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(1235 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-43-31H43L12 6V37L-12 26V6ZM-31-17H31"/></g>
-<text x="1235" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Filter by length</text>
-<text x="1235" y="358" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">100–8,000 characters</text>
-<path d="M1394 252H1447" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(1510 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-31-33H6L25-14V34H-31ZM6-33V-14H25M-15 1L-7-6L1 1L-7 8ZM10 2H15M-15 21H15"/><path d="M-22-42H35V25"/></g>
-<text x="1507" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#172033">Cleaned JSONL</text>
-<path d="M800 417V459" fill="none" stroke="#667085" stroke-width="1.8" marker-end="url(#arrow)"/>
-<text x="800" y="490" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Training data preparation</text>
-<rect x="60" y="510" width="1480" height="83" fill="#f5f7fa"/>
-<text x="245.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Score ordering</text>
-<text x="245.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Highest scores first</text>
-<text x="615.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">BPE budget</text>
-<text x="615.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Actual token counts</text>
-<text x="985.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Document split</text>
-<text x="985.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Train / validation</text>
-<text x="1355.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">EOS &amp; packing</text>
-<text x="1355.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Token sequences</text>
-<path d="M405 535H455" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<path d="M775 535H825" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<path d="M1145 535H1195" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<text x="800" y="651" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#667085">Outputs: train.bin · val.bin · val.jsonl · manifest</text>
+<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">DotLM data source &amp; implemented cleaning recipe</text>
+<rect x="55" y="170" width="300" height="335" fill="#f5f8ff" stroke="none" stroke-width="1.6"/>
+<text x="205" y="211" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Pretraining source</text>
+<text x="205" y="254" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="28" font-weight="600" fill="#1d6bf3">Ultra-FineWeb</text>
+<text x="205" y="287" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#667085">Chinese shards · Parquet</text>
+<text x="205" y="329" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">content · score · source</text>
+<text x="205" y="377" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="600" fill="#172033">Quality-score threshold</text>
+<text x="205" y="416" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">mini: score ≥ 0.8</text>
+<text x="205" y="447" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">full: score ≥ 0.7</text>
+<text x="205" y="482" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">score: string → float</text>
+<path d="M359 288H398" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="410" y="170" width="1135" height="335" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
+<g transform="translate(551.875 259) scale(0.76)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-41" y="-32" width="82" height="64" rx="2"/><path d="M-22-12L-34 0L-22 12M22-12L34 0L22 12M9-20L-9 20"/></g>
+<text x="551.875" y="325" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="600" fill="#172033">Strip HTML</text>
+<text x="551.875" y="370" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">clean_html_mapper</text>
+<path d="M605.875 259H775.875" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(835.625 259) scale(0.76)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-34 28L-12-30L10 28M-25 6H1M17-21H40M29-32V-9M9 33L19 43L39 19"/></g>
+<text x="835.625" y="325" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="600" fill="#172033">Repair Unicode</text>
+<text x="835.625" y="370" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">fix_unicode_mapper</text>
+<path d="M889.625 259H1059.625" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(1119.375 259) scale(0.76)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-39-28H-7M9-28H39M-39-6H-17M-3-6H12M27-6H39M-39 30H39M-10 7L0 18L10 7M0 0V18"/></g>
+<text x="1119.375" y="325" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="600" fill="#172033">Normalize whitespace</text>
+<text x="1119.375" y="370" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">whitespace_</text>
+<text x="1119.375" y="396" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">normalization_mapper</text>
+<path d="M1173.375 259H1343.375" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(1403.125 259) scale(0.76)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-43-31H43L12 6V37L-12 26V6ZM-31-17H31"/></g>
+<text x="1403.125" y="325" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="24" font-weight="600" fill="#172033">Length filter</text>
+<text x="1403.125" y="370" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">text_length_filter</text>
+<text x="1403.125" y="432" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#667085">100–8,000 characters</text>
+<rect x="410" y="505" width="1135" height="39" fill="#1d6bf3" stroke="none" stroke-width="1.6"/>
+<text x="977.5" y="532" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#fff">Data-Juicer → Cleaned JSONL</text>
+<path d="M977.5 544V580" stroke="#667085" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+<text x="800" y="604" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Then prepare training data</text>
+<rect x="55" y="623" width="1490" height="88" fill="#f5f7fa" stroke="none" stroke-width="1.6"/>
+<text x="241.25" y="657" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Score ordering</text>
+<text x="241.25" y="691" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Descending scores</text>
+<path d="M371.25 661H484.25" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="613.75" y="657" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Actual BPE budget</text>
+<text x="613.75" y="691" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">mini 270M · full 2.21B</text>
+<path d="M743.75 661H856.75" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="986.25" y="657" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Split by document</text>
+<text x="986.25" y="691" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Train / validation</text>
+<path d="M1116.25 661H1229.25" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="1358.75" y="657" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Add EOS &amp; pack</text>
+<text x="1358.75" y="691" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">uint16 token stream</text>
+<text x="800" y="750" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#667085">Outputs: train.bin · val.bin · val.jsonl · manifest</text>
 </svg>

@@ -54,7 +54,7 @@
   <a href="#what-makes-this-course-different">Approach</a> ·
   <a href="#from-zero-to-a-trained-model">Training Path</a> ·
   <a href="#models--benchmarks">Models &amp; Benchmarks</a> ·
-  <a href="#data-preparation">Data Pipeline</a> ·
+  <a href="#data-sources-and-processing">Data Pipeline</a> ·
   <a href="#learning-roadmap">Roadmap</a> ·
   <a href="#curriculum">Curriculum</a> ·
   <a href="#quick-start">Quick Start</a> ·
@@ -235,13 +235,13 @@ nanoGPT's total includes 4,096 position-embedding parameters; the notebook's def
 
 </details>
 
-## Data Preparation
+## Data Sources and Processing
 
 <p align="center">
-  <a href="assets/readme/data-pipeline.svg"><img src="assets/readme/data-pipeline.png" alt="Data pipeline: Ultra-FineWeb, Data-Juicer cleaning and filtering, token budgeting, document splits, and sequence packing for pretraining. The lower strip shows a synthesis extension reference: documents to QA, filtering and mixing, and SFT examples." width="920"></a>
+  <a href="assets/readme/data-pipeline.svg"><img src="assets/readme/data-pipeline.png" alt="Course data workflow: Common Crawl, Wikipedia, Gutenberg, The Stack, arXiv, and OpenWebMath; example Data-Juicer operators for text cleaning, quality filtering, privacy cleaning, and MinHash deduplication; followed by mixing, tokenization, and packing." width="920"></a>
 </p>
 
-Corpus download, Data-Juicer cleaning, token budgeting, and sequence packing, with synthesis and data-mixing examples in the notebook.
+The course covers web, encyclopedic, book, code, paper, and mathematical corpora, with composable Data-Juicer operators for cleaning, filtering, privacy protection, and deduplication. The diagram shows example operator chains; DotLM's implemented recipe uses Ultra-FineWeb for pretraining and Belle for SFT, as described in [Data Pipeline Details](#data-pipeline-details).
 
 [Data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) · [Processing script](llm_train/preprocess_ufw.py) · [Pipeline details](#data-pipeline-details)
 
@@ -402,7 +402,7 @@ python scripts/execute_notebooks_en_no_kernel.py
 ### Data Sources and Cleaning
 
 <p align="center">
-  <a href="assets/readme/data-cleaning.svg"><img src="assets/readme/data-cleaning.png" alt="Data cleaning details: quality filtering, then Data-Juicer HTML removal, Unicode repair, whitespace normalization, and length filtering; followed by score ordering, an actual BPE token budget, document splitting, and EOS packing into training files and manifests." width="920"></a>
+  <a href="assets/readme/data-cleaning.svg"><img src="assets/readme/data-cleaning.png" alt="DotLM's implemented recipe: Chinese Ultra-FineWeb shards with content, score, and source fields; score filtering; clean_html_mapper, fix_unicode_mapper, whitespace_normalization_mapper, and text_length_filter in order; then BPE budgeting, document splitting, and EOS packing into training files and manifests." width="920"></a>
 </p>
 
 DotLM's recorded run uses the Chinese shards of **[Ultra-FineWeb](https://huggingface.co/datasets/openbmb/Ultra-FineWeb)** for pretraining and **[BelleGroup/train_1M_CN](https://huggingface.co/datasets/BelleGroup/train_1M_CN)** for SFT. The [data engineering notebook](notebooks-en/part2-training/15-data-engineering.ipynb) introduces web, encyclopedic, book, code, and domain-specific corpora, then explains selection, cleaning, synthesis, and mixing.

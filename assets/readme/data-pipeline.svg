@@ -1,47 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" role="img" aria-labelledby="title desc">
-<title id="title">Modern LLM Notebook — Data engineering</title>
-<desc id="desc">Ultra-FineWeb to cleaned, budgeted, split and packed pretraining data. The lower strip is a synthesis extension reference, not a completed DotLM run.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="840" viewBox="0 0 1600 840" role="img" aria-labelledby="title desc">
+<title id="title">Modern LLM Notebook — Data sources &amp; processing operators</title>
+<desc id="desc">Course workflow: web, encyclopedia, books, code, papers and math corpora; example Data-Juicer operators for text cleaning, quality filtering, privacy cleaning and deduplication; then mixing and tokenization. This is the teaching workflow, not the complete operator recipe used in the recorded DotLM run.</desc>
 <!-- Original artwork. Shared with the training overview: brand blue/teal, outline icons, horizontal framework and platform strip. -->
 <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#667085"/></marker></defs>
-<rect width="1600" height="620" fill="white"/>
+<rect width="1600" height="840" fill="white"/>
 <text x="800" y="61" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="38" font-weight="700" fill="#172033">Modern LLM Notebook</text>
-<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">Data engineering</text>
-<rect x="220" y="160" width="1160" height="217" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
-<rect x="220" y="377" width="1160" height="38" fill="#1d6bf3"/>
-<text x="800.0" y="403" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="700" fill="#fff">Modern LLM Notebook</text>
-<g transform="translate(94 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-24 6H-29C-44 6-44-18-29-19C-27-41 3-44 13-25C34-33 48-5 32 6H24M0-11V28M-11 17L0 28L11 17M-35 24V40H35V24"/></g>
-<text x="94" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Corpus source</text>
-<text x="94" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Ultra-FineWeb</text>
-<path d="M153 252H207" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(365 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-29-40H13L30-23V38H-29ZM13-40V-23H30M-16-12H16M-16 0H16M-14 18L-5 27L13 9"/></g>
-<text x="365" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Clean &amp; filter</text>
-<text x="365" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Data-Juicer</text>
-<path d="M425 252H595" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(655 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-39" y="-34" width="78" height="68" rx="2"/><path d="M-39-15H39M-21-25H-16M-6-25H-1M9-25H14M-23-1H-13M-23 12H-13M2-1H12M2 12H12M22-1V22M17 17L22 22L27 17"/></g>
-<text x="655" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Token budget</text>
-<text x="655" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">BPE</text>
-<path d="M715 252H885" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(945 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0-40V-15H-29V5M0-15H29V5M-35-1L-29 5L-23-1M23-1L29 5L35-1"/><rect x="-43" y="12" width="28" height="30"/><rect x="15" y="12" width="28" height="30"/><path d="M-35 23H-23M-35 31H-23M23 23H35M23 31H35"/></g>
-<text x="945" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Document split</text>
-<text x="945" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">Train / validation</text>
-<path d="M1005 252H1175" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(1235 252) scale(1)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-40-14L0-34L40-14V26L0 46L-40 26ZM-40-14L0 6L40-14M0 6V46M-21-24L20-4V10"/></g>
-<text x="1235" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" fill="#172033">Sequence packing</text>
-<text x="1235" y="360" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="19" font-weight="400" fill="#667085">EOS</text>
-<path d="M1394 252H1447" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-<g transform="translate(1510 252) scale(1)" fill="none" stroke="#172033" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-31-33H6L25-14V34H-31ZM6-33V-14H25M-15 1L-7-6L1 1L-7 8ZM10 2H15M-15 21H15"/><path d="M-22-42H35V25"/></g>
-<text x="1507" y="331" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="400" fill="#172033">Pretraining data</text>
-<text x="800" y="490" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="17" font-weight="400" fill="#667085">Synthetic data · Extension reference</text>
-<rect x="60" y="510" width="1480" height="83" fill="#f5f7fa"/>
-<text x="245.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Documents &amp; seeds</text>
-<text x="245.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Source text</text>
-<path d="M430.0 525V575" stroke="#dce3ec"/>
-<text x="615.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">QA generation</text>
-<text x="615.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Teacher · Data-Juicer</text>
-<path d="M800.0 525V575" stroke="#dce3ec"/>
-<text x="985.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">Filter &amp; mix</text>
-<text x="985.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Quality checks · Data mixtures</text>
-<path d="M1170.0 525V575" stroke="#dce3ec"/>
-<text x="1355.0" y="543" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#172033">SFT examples</text>
-<text x="1355.0" y="573" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">Instructions · Responses</text>
+<text x="800" y="102" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="26" font-weight="400" fill="#1d6bf3">Data sources &amp; processing operators</text>
+<text x="800" y="146" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="22" font-weight="600" fill="#172033">Corpus sources</text>
+<rect x="70" y="166" width="1460" height="108" fill="#f5f8ff" stroke="none" stroke-width="1.6"/>
+<text x="191.66666666666669" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Web</text>
+<text x="191.66666666666669" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Common Crawl</text>
+<text x="435.0" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Encyclopedia</text>
+<text x="435.0" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Wikipedia</text>
+<path d="M313.33333333333337 186V254" stroke="#dce3ec"/>
+<text x="678.3333333333334" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Books</text>
+<text x="678.3333333333334" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Gutenberg</text>
+<path d="M556.6666666666667 186V254" stroke="#dce3ec"/>
+<text x="921.6666666666667" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Code</text>
+<text x="921.6666666666667" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">The Stack</text>
+<path d="M800.0 186V254" stroke="#dce3ec"/>
+<text x="1165.0" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Papers</text>
+<text x="1165.0" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">arXiv</text>
+<path d="M1043.3333333333335 186V254" stroke="#dce3ec"/>
+<text x="1408.3333333333335" y="208" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Math</text>
+<text x="1408.3333333333335" y="245" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">OpenWebMath</text>
+<path d="M1286.6666666666667 186V254" stroke="#dce3ec"/>
+<path d="M800 276V286" stroke="#667085" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+<text x="800" y="313" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="400" fill="#667085">Normalize input format: text + source metadata</text>
+<path d="M800 324V342" stroke="#667085" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+<rect x="70" y="357" width="1460" height="270" fill="white" stroke="#1d6bf3" stroke-width="1.6"/>
+<g transform="translate(252.5 414) scale(0.73)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-29-40H13L30-23V38H-29ZM13-40V-23H30M-16-12H16M-16 0H16M-14 18L-5 27L13 9"/></g>
+<text x="252.5" y="472" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Clean text</text>
+<text x="252.5" y="508" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">clean_html_mapper</text>
+<text x="252.5" y="535" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">fix_unicode_mapper</text>
+<text x="252.5" y="562" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">whitespace_normalization_mapper</text>
+<path d="M319.5 414H550.5" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(617.5 414) scale(0.73)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-43-31H43L12 6V37L-12 26V6ZM-31-17H31"/></g>
+<text x="617.5" y="472" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Quality filters</text>
+<text x="617.5" y="508" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">text_length_filter</text>
+<text x="617.5" y="535" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">language_id_score_filter</text>
+<text x="617.5" y="562" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">word_repetition_filter</text>
+<text x="617.5" y="589" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">perplexity_filter</text>
+<path d="M684.5 414H915.5" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(982.5 414) scale(0.73)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0-40L33-26V3C33 22 17 35 0 44C-17 35-33 22-33 3V-26ZM-14 1L-3 12L17-10"/></g>
+<text x="982.5" y="472" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Privacy cleaning</text>
+<text x="982.5" y="508" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">clean_email_mapper</text>
+<text x="982.5" y="535" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">clean_ip_mapper</text>
+<path d="M1049.5 414H1280.5" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<g transform="translate(1347.5 414) scale(0.73)" fill="none" stroke="#1d6bf3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-36" y="-35" width="55" height="66" rx="2"/><path d="M-22-23H33V43H-22M-24-17H7M-24-5H7M-24 7H1"/></g>
+<text x="1347.5" y="472" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Deduplicate</text>
+<text x="1347.5" y="508" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="400" fill="#667085">document_minhash_deduplicator</text>
+<rect x="70" y="627" width="1460" height="38" fill="#1d6bf3" stroke="none" stroke-width="1.6"/>
+<text x="800" y="653" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#fff">Data-Juicer · Example composable operator chain</text>
+<path d="M800 665V700" stroke="#667085" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+<rect x="70" y="714" width="1460" height="91" fill="#f5f7fa" stroke="none" stroke-width="1.6"/>
+<text x="290" y="751" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Clean corpus</text>
+<text x="290" y="785" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">JSONL · text + metadata</text>
+<path d="M447 753H636" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="800" y="751" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Mixture recipe</text>
+<text x="800" y="785" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Sampling weights &amp; ratios</text>
+<path d="M957 753H1146" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="1310" y="751" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="25" font-weight="600" fill="#172033">Training data</text>
+<text x="1310" y="785" text-anchor="middle" font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="400" fill="#667085">Tokenization · Packing</text>
 </svg>
