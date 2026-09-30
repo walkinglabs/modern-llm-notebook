@@ -49,6 +49,7 @@
 <p align="center">
   <a href="#教程特色">教程特色</a> ·
   <a href="#从零到一个训练好的模型">训练流程</a> ·
+  <a href="#小参数模型卡">模型卡</a> ·
   <a href="#数据清洗与训练数据准备">数据清洗</a> ·
   <a href="#课程学习地图">学习地图</a> ·
   <a href="#notebook-目录">Notebook 目录</a> ·
@@ -87,7 +88,15 @@
 | 工具调用 | 已有 Tool Call 数据构造与执行循环示例；端到端工具调用 SFT 待补齐 | [函数调用与 Agent](notebooks/part2-training/18-function-calling.ipynb) |
 | 小模型后训练与合并 | 已有 LoRA、适配器合并、偏好目标与蒸馏讲解；小模型对照训练和更完整的合并配方待补齐 | [LoRA](notebooks/part2-training/16-lora.ipynb) · [偏好对齐](notebooks/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks/part4-frontiers/31-opd.ipynb) |
 
-[2026 年 9 月的实验报告](llm_train/reports/exp24_repro_mini_seed42_report.md)记录了 mini 档 Dense 模型的预训练 loss **8.93 → 2.74**，随后 SFT loss **约 2.3 → 1.65**，同时列出未完成的评测任务。完整的参数、数据和硬件口径见报告。
+## 小参数模型卡
+
+| 模型 | 架构 / 参数量 | 已有结果 |
+|:---|:---|:---|
+| nanoGPT 字符级基线 | 2 层、64 hidden、2 heads；总参数 **108,352** | Tiny Shakespeare，500 步；val loss **2.2906** |
+| FirstLLM 64M 级 Dense | 8 层、768 hidden、GQA 8Q / 4KV、RoPE、SwiGLU；**约 61.55M** | mini 档 PT loss **8.93 → 2.74**；PPL **18.30（打包）/ 18.03（单文档）**；SFT loss **约 2.3 → 1.65** |
+| MoE 教学实现 | Top-k 路由 + 专家 FFN；完整模型参数量待补齐 | 已有组件教学，完整预训练配方与结果待补齐 |
+
+[查看完整模型卡 →](MODEL_CARD-CN.md)：架构配置、数据与训练预算、8 项 SFT 后评测、参数统计口径、复现命令，以及 **9.34M 历史短程实验**。64M 级结果来自 mini 档 seed 42 报告；full 档目前只有训练配置。nanoGPT 总参数包含位置 Embedding，Notebook 默认打印的 104,256 不含该部分。
 
 Tokenizer 从零训练实验与这次 Dense 复现实验是两条独立记录：报告使用已有的 MiniMind 6,400 词表。复现报告数字时，应采用报告指定的 Tokenizer 与数据口径；数据、中间产物和 checkpoint 需要自行准备。
 

@@ -50,6 +50,7 @@
   <a href="#course-preview">Preview</a> ·
   <a href="#what-makes-this-course-different">Approach</a> ·
   <a href="#from-zero-to-a-trained-model">Training Path</a> ·
+  <a href="#small-model-cards">Model Cards</a> ·
   <a href="#data-preparation">Data Pipeline</a> ·
   <a href="#learning-roadmap">Roadmap</a> ·
   <a href="#curriculum">Curriculum</a> ·
@@ -93,9 +94,17 @@ Follow the main path from raw text to a trained model. The lower strip shows the
 | Explore tool calling | Construct tool-use examples and study the execution loop; end-to-end tool-use SFT is planned | [Function calling](notebooks-en/part2-training/18-function-calling.ipynb) |
 | Extend post-training | Learn LoRA and adapter merging, preference objectives, and distillation; comparative small-model training and merging recipes are planned | [LoRA](notebooks-en/part2-training/16-lora.ipynb) · [Alignment](notebooks-en/part2-training/19-rlhf-alignment.ipynb) · [OPD](notebooks-en/part4-frontiers/31-opd.ipynb) |
 
-The [September 2026 report](llm_train/reports/exp24_repro_mini_seed42_report.md) records a mini-tier Dense run with pretraining loss **8.93 → 2.74**, followed by SFT loss **about 2.3 → 1.65**. It also records incomplete benchmark tasks. Follow the report for the exact model, data, and hardware protocol.
+## Small-Model Cards
 
-The tokenizer training lab and this reported Dense run are separate experiments: the report uses an existing MiniMind 6,400-token vocabulary. Follow its tokenizer and data protocol when reproducing the reported numbers. Data files, intermediate artifacts, and checkpoints must be prepared locally.
+| Model | Architecture / parameters | Recorded results |
+|:---|:---|:---|
+| Character-level nanoGPT | 2 layers, hidden size 64, 2 heads; **108,352 total parameters** | Tiny Shakespeare, 500 steps; validation loss **2.2906** |
+| FirstLLM 64M-class Dense | 8 layers, hidden size 768, GQA 8Q / 4KV, RoPE, SwiGLU; **about 61.55M** | mini-tier PT loss **8.93 → 2.74**; PPL **18.30 (packed) / 18.03 (document-independent)**; SFT loss **about 2.3 → 1.65** |
+| MoE teaching implementation | Top-k routing + expert FFNs; full model parameter count pending | Component demonstrations available; complete pretraining recipe and results pending |
+
+[Read the complete model card →](MODEL_CARD.md): architecture, data and training budgets, 8 post-SFT evaluation tasks, parameter-count conventions, reproduction commands, and the **historical 9.34M short run**. The 64M-class results are from the mini-tier seed 42 report; full-tier training has a configuration but no completed report. nanoGPT's total includes position embeddings; the notebook's default printed count of 104,256 excludes them.
+
+The from-scratch tokenizer lab and this reported Dense run are separate experiments: the report uses an existing MiniMind 6,400-token vocabulary. Follow its tokenizer and data protocol when reproducing the reported numbers. Data files, intermediate artifacts, and checkpoints must be prepared locally.
 
 ## Data Preparation
 
