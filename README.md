@@ -261,16 +261,14 @@ The notebook explains **Self-Instruct, Evol-Instruct, teacher distillation, and 
   <a href="assets/readme/learning-roadmap.svg"><img src="assets/readme/learning-roadmap.png" alt="Learning roadmap: foundations; data sources, Data-Juicer, cleaning, synthesis and mixing; architecture and training; post-training; inference and evaluation; frontier and hardware extensions." width="920"></a>
 </p>
 
-The five stages connect the shared foundations to data engineering, architecture and training, post-training, and inference and evaluation. Frontier topics and hardware appendices extend this path.
+Topics covered:
 
-Follow the foundations first, then choose a route:
+- **Model training**: BPE tokenizers, Mini-GPT, data preparation, DotLM pretraining, SFT, and evaluation.
+- **Data engineering**: corpus collection, Data-Juicer cleaning, synthetic data, data mixtures, and packing.
+- **Model architectures**: RoPE, GQA, MLA, MoE, scaling laws, and parallel training.
+- **Post-training and inference**: LoRA, model merging, alignment, distillation, decoding, KV cache, quantization, and inference systems.
 
-- **Train a model:** BPE → Mini-GPT → loss and first update → data preparation → Dense pretraining → SFT → evaluation.
-- **Build training data:** corpus sources → Data-Juicer cleaning → synthesis and filtering → data mixtures → training validation.
-- **Understand modern architectures:** modern blocks → GQA / MLA → MoE → scaling and parallelism.
-- **Improve and serve a model:** LoRA / alignment / distillation → generation → KV Cache → quantization → inference systems.
-
-The map shows the learning scope. The table above distinguishes available experiments from planned full training recipes. Both diagrams use a shared visual layout inspired by [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); the learning roadmap also draws on the course organization of [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course). Both are original diagrams of this repository's own content.
+Diagram design references [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html); course organization references [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) and [LLM Course](https://github.com/mlabonne/llm-course).
 
 ## Curriculum
 

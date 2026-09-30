@@ -250,16 +250,14 @@ DotLM 已有实验使用 **[Ultra-FineWeb](https://huggingface.co/datasets/openb
   <a href="assets/readme/learning-roadmap-cn.svg"><img src="assets/readme/learning-roadmap-cn.png" alt="课程学习地图：共同基础；数据来源、Data-Juicer、清洗、合成与配比；架构与训练；后训练；推理与评测；前沿与硬件系统扩展。" width="920"></a>
 </p>
 
-五个阶段从共同基础连接到数据工程、架构与训练、后训练、推理与评测。前沿专题和硬件系统附录在这条主线之外继续展开。
+主要内容：
 
-建议先走共同基础，再选择感兴趣的路线：
+- **模型训练**：BPE Tokenizer、Mini-GPT、数据准备、DotLM 预训练、SFT 与评测。
+- **数据工程**：语料获取、Data-Juicer 清洗、合成数据、数据配比与 Packing。
+- **模型架构**：RoPE、GQA、MLA、MoE、缩放定律与并行训练。
+- **后训练与推理**：LoRA、模型合并、对齐、蒸馏、解码、KV Cache、量化与推理系统。
 
-- **训练一个模型：** BPE → Mini-GPT → loss 与第一次更新 → 数据准备 → Dense 预训练 → SFT → 评测。
-- **制作训练数据：** 语料来源 → Data-Juicer 清洗 → 合成与过滤 → 数据配比 → 训练验证。
-- **理解现代架构：** 现代模型组件 → GQA / MLA → MoE → 缩放定律与并行训练。
-- **改进并运行模型：** LoRA / 对齐 / 蒸馏 → 解码 → KV Cache → 量化 → 推理系统。
-
-学习地图展示课程覆盖范围；上方训练表区分已有实验与后续完整训练配方。两张图采用统一的横向视觉布局，参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html)；学习地图也参考了 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course) 的课程组织方式。两张图均按本仓库内容绘制。
+图示设计参考 [NVIDIA NeMo Framework](https://docs.nvidia.com/nemo-framework/index.html)，课程组织参考 [LLMs from Scratch](https://github.com/rasbt/LLMs-from-scratch) 和 [LLM Course](https://github.com/mlabonne/llm-course)。
 
 ## Notebook 目录
 
